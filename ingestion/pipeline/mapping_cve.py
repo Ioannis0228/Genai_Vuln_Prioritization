@@ -28,7 +28,7 @@ def mapping_cve(SBOM_PATH, OUTPUT_PATH):
             if not v.get("VulnerabilityID", "").startswith("CVE-"):
                 continue
 
-            cvss_score, cvss_version = extract_cvss(v.get("CVSS", {}))
+            cvss_score, cvss_version, cvss_source = extract_cvss(v.get("CVSS", {}))
 
             component_cve.append({
                 "purl": v["PkgIdentifier"]["PURL"],
@@ -36,6 +36,7 @@ def mapping_cve(SBOM_PATH, OUTPUT_PATH):
                 "description": v["Description"],
                 "cvss_score": cvss_score,
                 "cvss_version": cvss_version,
+                "cvss_source": cvss_source,
                 "published_date": v.get("PublishedDate")
             })    
 
@@ -44,19 +45,26 @@ def mapping_cve(SBOM_PATH, OUTPUT_PATH):
 
 def extract_cvss(cvss_dict):
     if not cvss_dict:
-        return None, None
+        return None, None, None
 
-    nvd = cvss_dict.get("nvd")
-    if not nvd:
-        return None, None
+    for name in ["nvd", "redhat", "ghsa"]:
+        source_dict = cvss_dict.get(name)
+        if source_dict:
+            break
+    else:
+        return None, None, None
 
-    if "V4Score" in nvd:
-        return nvd["V4Score"], "4.0"
+    if "V40Score" in source_dict:
+        return source_dict["V40Score"], "4.0", name
 
-    if "V3Score" in nvd:
-        return nvd["V3Score"], "3.x"
+    if "V3Score" in source_dict:
+        if source_dict.get("V3Vector").startswith("CVSS:3.1"):
+            version = "3.1"
+        elif source_dict.get("V3Vector").startswith("CVSS:3.0"):
+            version = "3.0"
+        return source_dict["V3Score"], version, name
 
-    if "V2Score" in nvd:
-        return nvd["V2Score"], "2.0"
+    if "V2Score" in source_dict:
+        return source_dict["V2Score"], "2.0", name
 
-    return None, None
+    return None, None, None

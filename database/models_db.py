@@ -54,6 +54,7 @@ class Vulnerabilities(Base):
     description: Mapped[str] = mapped_column(String)
     cvss_score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     cvss_version: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    cvss_source: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     published_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
 
     components: Mapped[List["Components"]] = relationship(
