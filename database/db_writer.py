@@ -1,4 +1,4 @@
-from database import SessionLocal, Components, Vulnerabilities, KEVsnapshot, EPSSsnapshot, component_dependency, component_vulnerability 
+from database import SessionLocal, Components, Vulnerabilities, KEVsnapshot, EPSSsnapshot, CSAFadvisories, component_dependency, component_vulnerability, csaf_vulnerability
 from sqlalchemy.dialects.postgresql import insert
 
 
@@ -132,3 +132,66 @@ def save_EPSS_snapshot(epss_data):
         session.commit()
 
     
+def save_CSAF_advisory(csaf_data,csaf_id):
+    with SessionLocal() as session:
+        stmt = insert(CSAFadvisories).values(csaf_id=csaf_id, data=csaf_data, description="Red Hat CSAF advisory")
+        stmt = stmt.on_conflict_do_nothing(index_elements=["csaf_id"])
+        session.execute(stmt)
+        session.commit()
+    
+def save_CVE_CSAF_mapping(csaf_vuln):
+    with SessionLocal() as session:
+        if not csaf_vuln:
+            return
+
+        # Get all unique CVEs and RHSA IDs
+        cve_ids = {item["cve_id"] for item in csaf_vuln}
+        csaf_ids = {item["csaf_id"] for item in csaf_vuln}
+
+        # Bulk query vulnerabilities
+        vulns = session.query(Vulnerabilities).filter(
+            Vulnerabilities.cve_id.in_(cve_ids)
+        ).all()
+
+        # Bulk query advisories
+        advisories = session.query(CSAFadvisories).filter(
+            CSAFadvisories.csaf_id.in_(csaf_ids)
+        ).all()
+
+        # Create maps
+        vuln_map = {
+            v.cve_id: v.id
+            for v in vulns
+        }
+
+        csaf_map = {
+            a.csaf_id: a.id
+            for a in advisories
+        }
+
+        # Prepare insert pairs
+        pairs = []
+
+        for item in csaf_vuln:
+            vuln_id = vuln_map.get(item["cve_id"])
+            csaf_id = csaf_map.get(item["csaf_id"])
+
+            if vuln_id and csaf_id:
+                pairs.append({
+                    "vulnerability_id": vuln_id,
+                    "csaf_id": csaf_id
+                })
+
+        # Bulk insert
+        if pairs:
+            stmt = insert(csaf_vulnerability).values(pairs)
+
+            stmt = stmt.on_conflict_do_nothing(
+                index_elements=[
+                    "vulnerability_id",
+                    "csaf_id"
+                ]
+            )
+
+            session.execute(stmt)
+            session.commit()

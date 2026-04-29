@@ -11,6 +11,13 @@ component_dependency = Table(
     Column("child_id", ForeignKey("components.id"), primary_key=True),
 )
 
+csaf_vulnerability = Table(
+    "csaf_vulnerability",
+    Base.metadata,
+    Column("csaf_id", ForeignKey("csaf_advisories.id"), primary_key=True),
+    Column("vulnerability_id", ForeignKey("vulnerabilities.id"), primary_key=True),
+)
+
 component_vulnerability = Table(
     "component_vulnerability",
     Base.metadata,
@@ -61,6 +68,13 @@ class Vulnerabilities(Base):
         "Components",
         secondary=component_vulnerability,
         back_populates="vulnerabilities")
+    
+    csaf_advisories: Mapped[List["CSAFadvisories"]] = relationship(
+        "CSAFadvisories",
+        secondary=csaf_vulnerability,
+        back_populates="vulnerabilities"
+    )
+
     # Add other relevant fields as needed
     # e.g., CVSS vector, references, etc.
 
@@ -91,9 +105,16 @@ class VEX(Base):
 
 class CSAFadvisories(Base):
     __tablename__ = 'csaf_advisories'
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
+    csaf_id: Mapped[str] = mapped_column(String, unique=True, index=True)  # e.g., RHSA ID
     description: Mapped[str] = mapped_column(String)
     data: Mapped[JSON] = mapped_column(JSON)  # Store the entire CSAF advisory as JSON
+
+    vulnerabilities: Mapped[List["Vulnerabilities"]] = relationship(
+        "Vulnerabilities",
+        secondary=csaf_vulnerability,
+        back_populates="csaf_advisories"
+    )
 
 class Evidence(Base):
     __tablename__ = 'evidence'

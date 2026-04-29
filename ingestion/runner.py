@@ -1,10 +1,11 @@
-from database import save_components, save_CVEs, save_KEV_snapshot, save_EPSS_snapshot, get_CVEs_id
+from database import save_components, save_CVEs, save_KEV_snapshot, save_EPSS_snapshot, get_CVEs_id, save_CSAF_advisory, check_existence,save_CVE_CSAF_mapping, CSAFadvisories
 
 from .pipeline.sbom import normalize_component, parse_sbom
 from .pipeline.mapping_cve import mapping_cve
 from .pipeline.cve import fetch_nvd_cvss
 from .pipeline.kev import fetch_KEV
 from .pipeline.epss import fetch_EPSS
+from .pipeline.csaf import find_RHSA_id,fetch_RedHat_advisory
 
 def run_pipeline(SBOM_PATH, OUTPUT_PATH):
 
@@ -24,6 +25,26 @@ def run_pipeline(SBOM_PATH, OUTPUT_PATH):
     CVEs_id = get_CVEs_id()
 
     save_EPSS_snapshot(fetch_EPSS(CVEs_id))
+
+    print("Fetching CSAF advisories...", flush=True)
+    csaf_vuln = []
+
+    for cve in CVEs_id:
+        RHSA_ids = find_RHSA_id(cve)
+        if RHSA_ids:
+            for rhsa in RHSA_ids:
+                if not check_existence(CSAFadvisories, CSAFadvisories.csaf_id, rhsa):
+                    save_CSAF_advisory(fetch_RedHat_advisory(rhsa), rhsa)
+                    # print(f"Saved CSAF advisory for {cve} (RHSA: {rhsa})")
+                else:
+                    print(f"CSAF advisory for {cve} (RHSA: {rhsa}) already exists in the database.")       
+
+                csaf_vuln.append({
+                    "cve_id": cve,
+                    "csaf_id": rhsa
+                })
+
+    save_CVE_CSAF_mapping(csaf_vuln)
 
     print("Pipeline execution completed successfully.", flush=True)
 
