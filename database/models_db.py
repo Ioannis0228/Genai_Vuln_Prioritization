@@ -45,6 +45,7 @@ class SBOM(Base):
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     components: Mapped[List["Components"]] = relationship("Components", secondary=sbom_component, back_populates="sbom")
+    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="sbom")
 
 class Components(Base):
     __tablename__ = 'components'
@@ -56,8 +57,6 @@ class Components(Base):
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     purl: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True, index=True)
     cpe: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    vulnerabilities: Mapped[List["Vulnerabilities"]] = relationship(
-        "Vulnerabilities", secondary=component_vulnerability, back_populates="components")
 
     # Components this depends on
     dependencies: Mapped[List["Components"]] = relationship(
@@ -76,6 +75,7 @@ class Components(Base):
         back_populates="dependencies")
     
     sbom: Mapped[List["SBOM"]] = relationship("SBOM", secondary=sbom_component, back_populates="components")
+    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="component")
 
 class Vulnerabilities(Base):
     __tablename__ = 'vulnerabilities'
