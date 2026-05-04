@@ -3,4 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 test/
-/data/scan_results.json
+/data/juice_scan_results.json
+/data/grafana_scan_results.json
+/data/spring_scan_results.json
+/data/webgoat_scan_results.json
