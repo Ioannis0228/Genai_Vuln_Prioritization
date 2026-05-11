@@ -20,7 +20,7 @@ def find_RHSA_id(CVE):
         if data:
             return [r["RHSA"] for r in data]
         else:
-            print(f"No RHSA found for {CVE}")
+            # print(f"No RHSA found for {CVE}")
             return []
     except Exception:
         print(f"Error searching for RHSA ID for {CVE}")

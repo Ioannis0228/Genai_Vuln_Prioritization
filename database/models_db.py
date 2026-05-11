@@ -34,10 +34,18 @@ sbom_component = Table(
     Column("component_id", ForeignKey("components.id"), primary_key=True),
 )
 
+vex_statement_component = Table(
+    "vex_statement_component",
+    Base.metadata,
+    Column("statement_id", ForeignKey("vex_statements.id"), primary_key=True),
+    Column("component_id", ForeignKey("components.id"), primary_key=True),
+)
+
 class SBOM(Base):
     __tablename__ = 'sbom'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     sbom_version: Mapped[str] = mapped_column(String)
+    bom_ref: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True)
     timestamp: Mapped[date] = mapped_column(Date)
     serial_number: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True)
     product_name: Mapped[str] = mapped_column(String)
@@ -77,6 +85,12 @@ class Components(Base):
     sbom: Mapped[List["SBOM"]] = relationship("SBOM", secondary=sbom_component, back_populates="components")
     findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="component")
 
+    vex_statements: Mapped[List["VEXstatements"]] = relationship(
+        "VEXstatements",
+        secondary="vex_statement_component",
+        back_populates="components"
+    )
+
 class Vulnerabilities(Base):
     __tablename__ = 'vulnerabilities'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
@@ -115,13 +129,36 @@ class EPSSsnapshot(Base):
     date: Mapped[Date] = mapped_column(Date)
 
 
-class VEX(Base):
-    __tablename__ = 'vex'
+class VEXdocuments(Base):
+    __tablename__ = 'vex_documents'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    status: Mapped[str] = mapped_column(String)
-    justification: Mapped[str] = mapped_column(String)
-    # Add other relevant fields as needed
+    document_id: Mapped[str] = mapped_column(String, unique=True, index=True)
 
+    author: Mapped[str] = mapped_column(String)
+    timestamp: Mapped[DateTime] = mapped_column(DateTime)
+
+    version: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+
+    statements: Mapped[List["VEXstatements"]] = relationship("VEXstatements", back_populates="document", cascade="all, delete-orphan")  
+
+class VEXstatements(Base):
+    __tablename__ = 'vex_statements'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    sbom_id: Mapped[Optional[int]] = mapped_column(ForeignKey("sbom.id"), nullable=True)
+    document_id: Mapped[int] = mapped_column(ForeignKey("vex_documents.id"))
+
+    status: Mapped[str] = mapped_column(String)
+    justification: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+
+    vulnerability: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"))
+
+    document: Mapped["VEXdocuments"] = relationship("VEXdocuments", back_populates="statements")
+
+    components: Mapped[List["Components"]]= relationship(
+        "Components",
+        secondary="vex_statement_component",
+        back_populates="vex_statements"
+    )
 
 class CSAFadvisories(Base):
     __tablename__ = 'csaf_advisories'
@@ -173,6 +210,7 @@ class Evidence(Base):
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     evidence_type: Mapped[str] = mapped_column(String)
     source: Mapped[str] = mapped_column(String)
+    cve_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     timestamp: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
     text_snippet: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     url_or_ref: Mapped[Optional[str]] = mapped_column(String, nullable=True)

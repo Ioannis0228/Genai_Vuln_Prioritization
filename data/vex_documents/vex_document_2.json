@@ -1,0 +1,26 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-e5392ef4bfd2a28223b134904eeb1922f918a1ded11703dc7d6e57f26101d22d",
+  "author": "Unknown Author",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "cve-2021-3918"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/juice-shop@11.1.2",
+          "subcomponents": [
+            {
+              "@id": "pkg:npm/json-schema@0.2.3"
+            }
+          ]
+        }
+      ],
+      "status": "fixed",
+      "timestamp": "2026-05-10T14:00:54.427607028Z"
+    }
+  ],
+  "timestamp": "2026-05-10T14:00:54Z"
+}

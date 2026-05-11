@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import insert
 def save_sbom(sbom):
     sbom_dict = {
         "sbom_version": str(sbom.version),
+        "bom_ref": str(sbom.metadata.component.bom_ref) if sbom.metadata.component.bom_ref else None,
         "timestamp": sbom.metadata.timestamp,
         "serial_number": str(sbom.serial_number),
         "product_name": sbom.metadata.component.name,
@@ -163,8 +164,13 @@ def save_CVEs(sbom_id, component_cve):
 
         if vulnerabilities:
             stmt = insert(Vulnerabilities).values(vulnerabilities)
-            stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"])
-            session.execute(stmt)
+            stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"]
+                ).returning(Vulnerabilities.cve_id,
+                            Vulnerabilities.cvss_score, 
+                            Vulnerabilities.cvss_version,
+                            Vulnerabilities.cvss_source)
+
+            inserted_row = session.execute(stmt).fetchall()
 
         cve_ids = {item["cve_id"] for item in component_cve}
 
@@ -196,28 +202,92 @@ def save_CVEs(sbom_id, component_cve):
             )
             session.execute(stmt)
 
+        evidence_items = []
+        for item in inserted_row:
+            if item[0]:  # cve_id is at index 0
+                evidence_items.append({
+                    "evidence_type": "CVSS score",
+                    "source": item[3],
+                    "cve_id": item[0],
+                    "text_snippet": f"CVSS {item[2]}: {item[1]} from {item[3]}",
+                    "url_or_ref": f"https://nvd.nist.gov/vuln/detail/{item[0]}"
+                })
+                
+        if evidence_items:
+            stmt = insert(Evidence).values(evidence_items)
+            session.execute(stmt)
+
         session.commit()
 
 def save_KEV_snapshot(kev_data):
     with SessionLocal() as session:
         stmt = insert(KEVsnapshot).values(kev_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"])
-        session.execute(stmt)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"]).returning(KEVsnapshot.cve_id, KEVsnapshot.dateAdded)
+        inserted_rows = session.execute(stmt).fetchall()
+
+
+        evidence_items = []
+        for item in inserted_rows:
+            if item[0]:
+                evidence_items.append({
+                    "evidence_type": "KEV",
+                    "source": "CISA KEV catalog",
+                    "cve_id": item[0],
+                    "text_snippet": f"Added to KEV catalog on {item[1]}",
+                    "url_or_ref": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+                })
+
+        if evidence_items:
+            stmt = insert(Evidence).values(evidence_items)
+            session.execute(stmt)
+
         session.commit()
 
 def save_EPSS_snapshot(epss_data):
     with SessionLocal() as session:
         stmt = insert(EPSSsnapshot).values(epss_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"])
-        session.execute(stmt)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"]).returning(EPSSsnapshot.cve_id, EPSSsnapshot.epss_score, EPSSsnapshot.date)
+        inserted_row = session.execute(stmt).fetchall()
+
+        evidence_items = []
+        for item in inserted_row:
+            if item[0]:  # cve_id is at index 0
+                evidence_items.append({
+                    "evidence_type": "EPSS",
+                    "source": "First.org EPSS API",
+                    "cve_id": item[0],
+                    "text_snippet": f"EPSS score: {item[1]} for {item[0]} on {item[2]}",
+                    "url_or_ref": f"https://api.first.org/data/v1/epss?cve={item[0]}"
+                })
+        
+        if evidence_items:
+            stmt = insert(Evidence).values(evidence_items)
+            session.execute(stmt)
+
         session.commit()
 
     
-def save_CSAF_advisory(csaf_data,csaf_id):
+def save_CSAF_advisory(cve_id, csaf_data,csaf_id):
     with SessionLocal() as session:
         stmt = insert(CSAFadvisories).values(csaf_id=csaf_id, data=csaf_data, description="Red Hat CSAF advisory")
-        stmt = stmt.on_conflict_do_nothing(index_elements=["csaf_id"])
-        session.execute(stmt)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["csaf_id"]).returning(CSAFadvisories.csaf_id)
+        inserted_row = session.execute(stmt).fetchall()
+
+        evidence_items = []
+        for item in inserted_row:
+            if item[0]:  # csaf_id is at index 0
+                evidence_items.append({
+                    "evidence_type": "CSAF Advisory",
+                    "source": "Red Hat CSAF Advisory API",
+                    "cve_id": cve_id,
+                    "text_snippet": f"Red Hat CSAF advisory with ID {item[0]} for {cve_id}.",
+                    "url_or_ref": f"https://access.redhat.com/hydra/rest/securitydata/csaf/{item[0]}.json",
+                })
+
+        if evidence_items:
+            stmt = insert(Evidence).values(evidence_items)
+            session.execute(stmt)
+
         session.commit()
     
 def save_CVE_CSAF_mapping(csaf_vuln):
@@ -277,38 +347,103 @@ def save_CVE_CSAF_mapping(csaf_vuln):
             session.execute(stmt)
             session.commit()
 
-def save_Evidence(new_evidence_items, existing_evidence_items):
+
+def save_finding_evidence_links(CVEs_id):
     with SessionLocal() as session:
-        
-        if existing_evidence_items:
-            stmt = insert(finding_evidence).values(existing_evidence_items)
-            session.execute(stmt)
+        results = (
+            session.query(Finding, Evidence)
+            .join(Vulnerabilities, Finding.vulnerability_id == Vulnerabilities.id)
+            .join(Evidence, Vulnerabilities.cve_id == Evidence.cve_id)
+            .filter(Evidence.cve_id.in_(CVEs_id))
+            .all()
+        )
 
-        if new_evidence_items:
-            for item in new_evidence_items:
-                # Extract finding_id (used for junction table only)
-                finding_id = item.pop("finding_id")
+        for finding, evidence in results:
+            if evidence not in finding.evidence_items:
+                finding.evidence_items.append(evidence)
 
-                # Create Evidence row
-                new_evidence = Evidence(
-                    evidence_type=item["evidence_type"],
-                    source=item["source"],
-                    text_snippet=item["text_snippet"],
-                    url_or_ref=item["url_or_ref"]
+        session.commit()
+
+
+def save_VEX_document(vex_data):
+    with SessionLocal() as session:
+        stmt = insert(VEXdocuments).values(
+            document_id=vex_data["document_id"],
+            author=vex_data["author"],
+            timestamp=vex_data["timestamp"],
+            version=vex_data["version"]
+        ).returning(VEXdocuments.id)
+
+        stmt = stmt.on_conflict_do_nothing(index_elements=["document_id"])
+        result = session.execute(stmt)
+        inserted_id = result.scalar()
+
+        if inserted_id is not None:
+            session.commit()
+            return inserted_id
+
+        existing_id = session.query(VEXdocuments.id).filter(
+            VEXdocuments.document_id == vex_data["document_id"]
+        ).scalar()
+
+        return existing_id
+    
+def save_VEX_statements(document_id, statements):
+    with SessionLocal() as session:
+
+        for statement in statements:
+
+            if not statement.get("subcomponents"): 
+                components_ids = session.query(Components.id).filter(
+                    Components.purl.in_(statement.get("products", []))
+                ).all()
+                sbom_id = None
+
+            else:
+                components_ids = session.query(Components.id).filter(
+                    Components.purl.in_(statement.get("subcomponents", []))
+                ).all()
+
+                sbom_id = session.query(SBOM.id).filter(
+                    SBOM.bom_ref.in_(statement.get("products", []))
+                ).scalar()
+
+
+            
+
+            vulnerability_id = session.query(Vulnerabilities.id).filter(
+                Vulnerabilities.cve_id == statement.get("vulnerability", "")
+            ).scalar()
+
+            new_statement = VEXstatements(
+                document_id=document_id,
+                sbom_id = sbom_id,
+                status=statement.get("status", ""),
+                justification=statement.get("justification", ""),
+                vulnerability=vulnerability_id,
+            )
+
+            session.add(new_statement)
+            session.flush()  
+            
+            for (component_id,) in components_ids:
+                session.execute(
+                    vex_statement_component.insert().values(
+                        statement_id=new_statement.id,
+                        component_id=component_id
+                    )
                 )
 
-                session.add(new_evidence)
-                session.flush()  
-                # flush() sends INSERT to DB immediately
-                # so new_evidence.id becomes available
-                # without full commit yet
-
-                # Insert into junction table
-                stmt = insert(finding_evidence).values({
-                    "finding_id": finding_id,
-                    "evidence_id": new_evidence.id
+            evidence_items = []
+            for component_id in components_ids:
+                evidence_items.append({
+                    "evidence_type": "VEX Statement",
+                    "source": "VEX document",
+                    "cve_id": statement.get("vulnerability", ""),
+                    "text_snippet": f"VEX statement with status '{statement.get('status', '')}' and justification '{statement.get('justification', '')}' for component ID {component_id}.",
+                    "url_or_ref": f"VEX document ID: {document_id}"
                 })
+                stmt = insert(Evidence).values(evidence_items)
+            session.execute(stmt)
 
-                session.execute(stmt)
-                
         session.commit()

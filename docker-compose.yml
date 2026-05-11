@@ -12,6 +12,7 @@ services:
       DATABASE_URL: postgresql://postgres:password@postgres-db:5432/vuln_intel_db
     volumes:
       - ./ingestion/:/app/ingestion
+      - ./services/:/app/services
       - ./database/:/app/database
       - ./data/:/app/data
       - ./main.py:/app/main.py

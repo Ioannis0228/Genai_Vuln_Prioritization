@@ -1,0 +1,22 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-d79828689adba26edf2dcfd42273fd7e235164ad62ee373eac6e951ab1924a0a",
+  "author": "Unknown Author",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2023-25813"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/sequelize@5.22.3"
+        }
+      ],
+      "status": "not_affected",
+      "justification": "inline_mitigations_already_exist",
+      "timestamp": "2026-05-04T16:33:34.744251532Z"
+    }
+  ],
+  "timestamp": "2026-05-04T16:33:34Z"
+}
