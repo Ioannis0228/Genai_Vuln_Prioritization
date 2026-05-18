@@ -4,3 +4,4 @@ from .pipeline.csaf import fetch_RedHat_advisory, find_RHSA_id
 from .pipeline.epss import fetch_EPSS
 from .pipeline.kev import fetch_KEV
 from .pipeline.mapping_cve import mapping_cve
+from .pipeline.vuln_lookup import fetch_vulnerability_links

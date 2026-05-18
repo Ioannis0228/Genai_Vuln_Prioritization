@@ -204,7 +204,7 @@ def save_CVEs(sbom_id, component_cve):
 
         evidence_items = []
         for item in inserted_row:
-            if item[0]:  # cve_id is at index 0
+            if item[0] and item[1]:  # cve_id is at index 0
                 evidence_items.append({
                     "evidence_type": "CVSS score",
                     "source": item[3],
@@ -222,7 +222,7 @@ def save_CVEs(sbom_id, component_cve):
 def save_KEV_snapshot(kev_data):
     with SessionLocal() as session:
         stmt = insert(KEVsnapshot).values(kev_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"]).returning(KEVsnapshot.cve_id, KEVsnapshot.dateAdded)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id","created_on"]).returning(KEVsnapshot.cve_id, KEVsnapshot.catalog_added_date)
         inserted_rows = session.execute(stmt).fetchall()
 
 
@@ -246,12 +246,12 @@ def save_KEV_snapshot(kev_data):
 def save_EPSS_snapshot(epss_data):
     with SessionLocal() as session:
         stmt = insert(EPSSsnapshot).values(epss_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"]).returning(EPSSsnapshot.cve_id, EPSSsnapshot.epss_score, EPSSsnapshot.date)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id", "score_date"]).returning(EPSSsnapshot.cve_id, EPSSsnapshot.epss_score, EPSSsnapshot.score_date)
         inserted_row = session.execute(stmt).fetchall()
 
         evidence_items = []
         for item in inserted_row:
-            if item[0]:  # cve_id is at index 0
+            if item[0] and item[1]:  # cve_id is at index 0
                 evidence_items.append({
                     "evidence_type": "EPSS",
                     "source": "First.org EPSS API",
@@ -446,4 +446,21 @@ def save_VEX_statements(document_id, statements):
                 stmt = insert(Evidence).values(evidence_items)
             session.execute(stmt)
 
+        session.commit()
+
+def save_vuln_enrichment(enrichment_list):
+    rows = [
+        {
+            "cve_id": data["cve_id"],
+            "data_type": link.get("data_type", ""),
+            "source_provider": link.get("source_provider", ""),
+            "entity_id": link.get("entity_id", ""),
+            "url": link.get("url")
+        } for data in enrichment_list
+        for link in data.get("links",[])
+    ]
+
+    with SessionLocal() as session:
+        stmt = insert(VulnerabilityEnrichment).values(rows)
+        session.execute(stmt)
         session.commit()

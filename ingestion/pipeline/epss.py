@@ -30,7 +30,7 @@ def fetch_EPSS(cve_list, date=None):
                         "cve_id": item["cve"],
                         "epss_score": item["epss"],
                         "percentile": item["percentile"],
-                        "date": item["date"]
+                        "score_date": item["date"]
                     }
                 )
             

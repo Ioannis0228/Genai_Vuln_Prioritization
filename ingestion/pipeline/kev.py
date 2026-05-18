@@ -10,7 +10,7 @@ def fetch_KEV():
         for vuln in vulnerabilities:
             KEV_data.append({
                 "cve_id": vuln.get("cveID"),
-                "dateAdded": vuln.get("dateAdded"),
+                "catalog_added_date": vuln.get("dateAdded"),
                 "shortDescription": vuln.get("shortDescription"),
             })
 

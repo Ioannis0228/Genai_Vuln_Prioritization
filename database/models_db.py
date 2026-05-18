@@ -112,21 +112,44 @@ class Vulnerabilities(Base):
     # Add other relevant fields as needed
     # e.g., CVSS vector, references, etc.
 
+class VulnerabilityEnrichment(Base):
+    __tablename__ = "vulnerability_enrichment"
+
+    id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
+    cve_id: Mapped[int] = mapped_column(
+        ForeignKey("vulnerabilities.cve_id")
+    )
+    data_type: Mapped[str] = mapped_column(String) # e.g., 'cwe', 'references', 'linked_advisories'
+    source_provider: Mapped[str] = mapped_column(String) # e.g., 'cna', 'github', etc
+    entity_id: Mapped[Optional[str]] = mapped_column(String, nullable=True) # e.g., CWE-79, GHSA-xxxx, etc
+    url: Mapped[Optional[List[str]]] = mapped_column(JSON, nullable=True)
+
 class KEVsnapshot(Base):
     __tablename__ = 'kev_snapshot'
+
+    __table_args__ = (
+        UniqueConstraint("cve_id", "created_on", name="uq_kev_snapshot"),
+    )
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    cve_id: Mapped[str] = mapped_column(String, unique=True, index=True)
+    cve_id: Mapped[str] = mapped_column(String, index=True)
     shortDescription: Mapped[str] = mapped_column(String)
-    dateAdded: Mapped[Date] = mapped_column(Date)
+    catalog_added_date: Mapped[Date] = mapped_column(Date)
+    created_on: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC).date())
 
 
 class EPSSsnapshot(Base):
     __tablename__ = 'epss_snapshot'
+
+    __table_args__ = (
+        UniqueConstraint("cve_id", "score_date", name="uq_epss_snapshot"),
+    )
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    cve_id: Mapped[str] = mapped_column(ForeignKey("vulnerabilities.cve_id"), unique=True, index=True)
+    cve_id: Mapped[str] = mapped_column(ForeignKey("vulnerabilities.cve_id"), index=True)
     epss_score: Mapped[float] = mapped_column(Float)
     percentile: Mapped[float] = mapped_column(Float)
-    date: Mapped[Date] = mapped_column(Date)
+    score_date: Mapped[Date] = mapped_column(Date)
+    created_on: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC).date())
 
 
 class VEXdocuments(Base):
@@ -211,7 +234,7 @@ class Evidence(Base):
     evidence_type: Mapped[str] = mapped_column(String)
     source: Mapped[str] = mapped_column(String)
     cve_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    timestamp: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+    created_at: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
     text_snippet: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     url_or_ref: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 

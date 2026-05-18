@@ -1,4 +1,5 @@
 from database import create_tables, save_finding_evidence_links
+from services.enrichment_service import vuln_enrichment
 from services.intelligence_service import process_intelligence
 from services.sbom_service import process_sbom
 from services.vex_service import process_vex
@@ -32,3 +33,4 @@ if __name__ == "__main__":
     if cve_id:
         process_intelligence(cve_id)
         save_finding_evidence_links(cve_id)
+        vuln_enrichment(cve_id)
