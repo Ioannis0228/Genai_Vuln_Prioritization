@@ -13,6 +13,8 @@ services:
     volumes:
       - ./ingestion/:/app/ingestion
       - ./services/:/app/services
+      - ./scoring/:/app/scoring
+      - ./prioritization/:/app/prioritization
       - ./database/:/app/database
       - ./data/:/app/data
       - ./main.py:/app/main.py

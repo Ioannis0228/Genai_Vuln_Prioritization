@@ -40,3 +40,14 @@ def execute_select(session, selected_columns, where_conditions=None, joins=None)
         query = query.where(*where_conditions)
 
     return session.execute(query).all()
+
+def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns):
+
+    stmt = (
+        select(*selected_columns)
+        .where(table.cve_id.in_(cve_ids))
+        .distinct(table.cve_id)
+        .order_by(table.cve_id, date_column.desc())
+    )
+
+    return session.execute(stmt).all()
