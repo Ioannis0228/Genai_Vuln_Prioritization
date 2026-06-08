@@ -31,26 +31,26 @@ def cvss_epss_rank(CVSS_map, EPSS_map):
     return ranked_scores
     
 
-def fusion_rank(scores, vex_statements=None):
+def fusion_rank(risk_assessment, vex_statements=None):
 
-    for score_items in scores:
-        cve_id = score_items['cve_id']
+    for items in risk_assessment:
+        cve_id = items['cve_id']
 
-        if cve_id in vex_statements:
-            status, justification = vex_statements[cve_id]
+        if cve_id in vex_statements and vex_statements[cve_id][0] == items['component_purl']:
+            status, justification = vex_statements[cve_id][1:]
             if status.lower() == 'not_affected':
-                score_items['priority'] = 'Informational'
-                score_items['priority_rank'] = 4
+                items['priority'] = 'Informational'
+                items['priority_rank'] = 4
             elif status.lower() == 'fixed':
-                score_items['priority'] = 'Low'
-                score_items['priority_rank'] = 3
+                items['priority'] = 'Low'
+                items['priority_rank'] = 3
             elif status.lower() == 'under_investigation':
-                score_items['priority'] = 'Medium'
-                score_items['priority_rank'] = 2
+                items['priority'] = 'Medium'
+                items['priority_rank'] = 2
 
-    ranked_scores = sorted(scores, key=lambda x: (x['priority_rank'], -x['fusion_score']))
+    ranked_scores = sorted(risk_assessment, key=lambda x: (x['priority_rank'], -x['fusion_score']))
 
 
     for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank}. {item['cve_id']} - Fusion Score: {item['fusion_score']} - Priority: {item['priority']}")
+        print(f"{rank}. {item['cve_id']} - Fusion Score: {item['fusion_score']} - Priority: {item['priority']} - Component: {item['component_purl']}")
     return ranked_scores

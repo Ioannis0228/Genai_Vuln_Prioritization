@@ -8,9 +8,9 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Identity, JSON, Floa
 component_dependency = Table(
     "component_dependency",
     Base.metadata,
-    Column("parent_id", ForeignKey("components.id"), primary_key=True),
-    Column("child_id", ForeignKey("components.id"), primary_key=True),
-    Column("sbom_id", ForeignKey("sbom.id"), primary_key=True)
+    Column("parent_id", ForeignKey("sbom_component.id"), primary_key=True),
+    Column("child_id", ForeignKey("sbom_component.id"), primary_key=True),
+    Column("sbom_id", ForeignKey("sbom.id"),primary_key=True)
 )
 
 csaf_vulnerability = Table(
@@ -30,8 +30,13 @@ finding_evidence = Table(
 sbom_component = Table(
     "sbom_component",
     Base.metadata,
-    Column("sbom_id", ForeignKey("sbom.id"), primary_key=True),
-    Column("component_id", ForeignKey("components.id"), primary_key=True),
+    Column("id", Integer, Identity(), primary_key=True),
+
+    Column("sbom_id", ForeignKey("sbom.id")),
+    Column("component_id", ForeignKey("components.id")),
+    Column("bom_ref", String, nullable=False),
+
+    UniqueConstraint("sbom_id", "bom_ref", name="uq_sbom_bomref")
 )
 
 vex_statement_component = Table(
@@ -59,28 +64,11 @@ class Components(Base):
     __tablename__ = 'components'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     type: Mapped[str] = mapped_column(String)
-    bom_ref: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True)
     name: Mapped[str] = mapped_column(String)
     version: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     purl: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True, index=True)
     cpe: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-
-    # Components this depends on
-    dependencies: Mapped[List["Components"]] = relationship(
-        "Components",
-        secondary=component_dependency,
-        primaryjoin=id==component_dependency.c.parent_id,
-        secondaryjoin=id==component_dependency.c.child_id,
-        back_populates="dependents")
-    
-    # Components that depend on this
-    dependents: Mapped[List["Components"]] = relationship(
-        "Components",
-        secondary=component_dependency,
-        primaryjoin=id==component_dependency.c.child_id,
-        secondaryjoin=id==component_dependency.c.parent_id,
-        back_populates="dependencies")
     
     sbom: Mapped[List["SBOM"]] = relationship("SBOM", secondary=sbom_component, back_populates="components")
     findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="component")
@@ -116,7 +104,7 @@ class VulnerabilityEnrichment(Base):
     __tablename__ = "vulnerability_enrichment"
 
     id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
-    cve_id: Mapped[int] = mapped_column(
+    cve_id: Mapped[str] = mapped_column(
         ForeignKey("vulnerabilities.cve_id")
     )
     data_type: Mapped[str] = mapped_column(String) # e.g., 'cwe', 'references', 'linked_advisories'
@@ -215,11 +203,16 @@ class Finding(Base):
     component_id: Mapped[int] = mapped_column(ForeignKey("components.id"))
     vulnerability_id: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"))
 
-    sbom: Mapped["SBOM"] = relationship("SBOM")
-    component: Mapped["Components"] = relationship("Components")
-    vulnerability: Mapped["Vulnerabilities"] = relationship("Vulnerabilities")
+    sbom: Mapped["SBOM"] = relationship("SBOM", back_populates="findings")
+    component: Mapped["Components"] = relationship("Components", back_populates="findings")
+    vulnerability: Mapped["Vulnerabilities"] = relationship("Vulnerabilities", back_populates="findings")
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+
+    fusion_score: Mapped[float] = mapped_column(Float, index=True, nullable=False, default=0.0)
+    priority: Mapped[str] = mapped_column(String, nullable=False, default="Not yet evaluated.")
+    why_ranked: Mapped[str] = mapped_column(String, nullable=False, default="Not yet evaluated.")
+    last_updated: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC))
 
     evidence_items: Mapped[List["Evidence"]] = relationship(
         "Evidence", 

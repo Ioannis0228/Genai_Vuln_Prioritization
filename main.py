@@ -5,8 +5,6 @@ from services.intelligence_service import process_intelligence
 from services.sbom_service import process_sbom
 from services.vex_service import process_vex
 from services.prioritization_service import ranking_sbom
-from services.dependency_depth import get_component_depths
-from prioritization.rank import fusion_rank
 
 SBOM_PATH = ['data/juice_bom.json',
              'data/spring_petclinic_sbom.json',

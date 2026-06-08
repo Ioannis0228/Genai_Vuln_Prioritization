@@ -1,6 +1,7 @@
 from .models_db import *
 from .session import SessionLocal
 from sqlalchemy.dialects.postgresql import insert
+from datetime import datetime, UTC
 
 
 def save_sbom(sbom):
@@ -35,33 +36,32 @@ def save_sbom(sbom):
 
 
 def save_components(sbom_id, normalized_components, dependencies=None):
+
+    purls = []
+    components_rows = []
+    for comp in normalized_components:
+        if comp.get("purl"):
+            purls.append(comp["purl"])
+            components_rows.append({k: v for k, v in comp.items() if k != "bom_ref"})
+
     with SessionLocal() as session:
 
         # 1. Insert components
-        stmt = insert(Components).values(normalized_components)
+        stmt = insert(Components).values(components_rows)
         stmt = stmt.on_conflict_do_nothing(
             index_elements=["purl"]
         )
         session.execute(stmt)
         session.commit()
-
-        # 2. Fetch all components we care about
-        purls = [
-            comp["purl"]
-            for comp in normalized_components
-            if comp.get("purl")
-        ]
-
+        
+        # 2. Fetch DB IDs for all components
         db_components = session.query(Components).filter(
             Components.purl.in_(purls)
         ).all()
 
         # Map for later use
         comp_map = {
-            c.purl: {
-                "id": c.id,
-                "bom_ref": c.bom_ref
-            }
+            c.purl: {"id": c.id}
             for c in db_components
         }
 
@@ -80,13 +80,14 @@ def save_components(sbom_id, normalized_components, dependencies=None):
 
             sbom_links.append({
                 "sbom_id": sbom_id,
-                "component_id": db_comp["id"]
+                "component_id": db_comp["id"],
+                "bom_ref": comp["bom_ref"],
             })
 
         if sbom_links:
             stmt = insert(sbom_component).values(sbom_links)
             stmt = stmt.on_conflict_do_nothing(
-                index_elements=["sbom_id", "component_id"]
+                index_elements=["sbom_id", "bom_ref"]
             )
             session.execute(stmt)
 
@@ -109,8 +110,8 @@ def save_components(sbom_id, normalized_components, dependencies=None):
                     refs.add(str(child.ref))
 
         # 5. Fetch matching components using bom_ref
-        db_components = session.query(Components).filter(
-            Components.bom_ref.in_(refs)
+        db_components = session.query(sbom_component).filter(
+            sbom_component.c.bom_ref.in_(refs)
         ).all()
 
         # Map: bom_ref -> id
@@ -463,4 +464,19 @@ def save_vuln_enrichment(enrichment_list):
     with SessionLocal() as session:
         stmt = insert(VulnerabilityEnrichment).values(rows)
         session.execute(stmt)
+        session.commit()
+
+def save_fusion_results(risk_assessment):
+    rows = [{
+            "id": item["finding_id"],
+            "fusion_score": item["fusion_score"],
+            "priority": item["priority"],
+            "why_ranked": item["why-ranked"],  # Store reasons as a space-separated string
+            "last_updated": datetime.now(UTC)
+        } for item in risk_assessment
+    ]
+
+    with SessionLocal() as session: 
+
+        session.bulk_update_mappings(Finding, rows)
         session.commit()
