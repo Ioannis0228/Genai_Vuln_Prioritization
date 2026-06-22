@@ -1,10 +1,33 @@
+"""Persistence helpers that write parsed SBOM, CVE, VEX, and intelligence data.
+
+This module handles the upsert logic for all ingested data types, managing:
+- SBOM records and their component relationships
+- Vulnerability records and finding joins
+- VEX documents and statements
+- KEV and EPSS snapshots with evidence tracking
+- CSAF advisory linkages
+"""
+
 from .models_db import *
 from .session import SessionLocal
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import update
 from datetime import datetime, UTC
 
 
-def save_sbom(sbom):
+def save_sbom(sbom) -> int:
+    """Insert a Software Bill of Materials (SBOM) record into the database.
+
+    If a record with the same serial number already exists, the insertion is
+    ignored, and the identifier of the existing record is retrieved and returned.
+
+    Args:
+        sbom: An SBOM object containing metadata, component details, and a serial number.
+
+    Returns:
+        int: The database identifier (ID) of the newly inserted or existing SBOM record.
+    """
+
     sbom_dict = {
         "sbom_version": str(sbom.version),
         "bom_ref": str(sbom.metadata.component.bom_ref) if sbom.metadata.component.bom_ref else None,
@@ -27,7 +50,7 @@ def save_sbom(sbom):
             session.commit()
             return inserted_id
 
-        # already exists → fetch existing ID
+        # already exists, fetch existing ID
         existing_id = session.query(SBOM.id).filter(
             SBOM.serial_number == sbom_dict["serial_number"]
         ).scalar()
@@ -35,7 +58,29 @@ def save_sbom(sbom):
         return existing_id
 
 
-def save_components(sbom_id, normalized_components, dependencies=None):
+def save_components(sbom_id: int, normalized_components: list, dependencies: list = None) -> None:
+    """Persist normalized components, link them to an SBOM, and build dependency edges.
+
+    This function processes the ingredients of an SBOM using a 4-step pipeline:
+    1. Bulk upserts components to the global `Components` table using PURLs 
+       to handle duplicates.
+    2. Maps the components to the specific SBOM instance via the `sbom_component` 
+       association table (recording local `bom_ref` contexts).
+    3. Scans and resolves graph nodes (`bom_ref` strings) to their database IDs.
+    4. Constructs and bulk-inserts directional dependency edges into the 
+       `component_dependency` table.
+
+    Args:
+        sbom_id (int): The database identifier of the target SBOM record.
+        normalized_components (list[dict]): A list of dicts representing parsed components.
+            Each dictionary must contain 'purl' and 'bom_ref' keys.
+        dependencies (list[Object], optional): A list of dependency objects (e.g., CycloneDX 
+            Dependency structures) containing a `.ref` attribute and an optional 
+            list of sub-dependencies under `.dependencies`. Defaults to None.
+
+    Returns:
+        None
+    """
 
     purls = []
     components_rows = []
@@ -111,6 +156,7 @@ def save_components(sbom_id, normalized_components, dependencies=None):
 
         # 5. Fetch matching components using bom_ref
         db_components = session.query(sbom_component).filter(
+            sbom_component.c.sbom_id == sbom_id,
             sbom_component.c.bom_ref.in_(refs)
         ).all()
 
@@ -149,7 +195,27 @@ def save_components(sbom_id, normalized_components, dependencies=None):
         session.commit()
 
 
-def save_CVEs(sbom_id, component_cve):
+def save_CVEs(sbom_id: int, component_cve: list) -> None:
+    """Persist vulnerabilities, map them to components via findings, and log CVSS metadata.
+
+    This function performs a 4-step relational persistence pipeline:
+    1. Resolves input Package URLs (PURLs) to existing global database `Components` IDs.
+    2. Bulk upserts distinct CVE records into the `Vulnerabilities` table.
+    3. Links identified vulnerabilities to specific SBOM components inside the 
+       `Finding` junction table, ignoring duplicate combinations.
+    4. Records auditing metadata into the `Evidence` table for newly introduced 
+       vulnerability metrics (CVSS score, source, version).
+
+    Args:
+        sbom_id (int): The primary key of the parent SBOM file context.
+        component_cve (list[dict]): A list of dicts representing parsed scanner definitions.
+            Each dict requires the following keys: 'purl', 'cve_id', 'description', 
+            'cvss_score', 'cvss_version', and 'cvss_source'.
+
+    Returns:
+        None
+    """
+
     with SessionLocal() as session:
 
         # 1 Build mapping: purl -> Component.id
@@ -163,6 +229,7 @@ def save_CVEs(sbom_id, component_cve):
             for item in component_cve
         ]
 
+        inserted_row = []
         if vulnerabilities:
             stmt = insert(Vulnerabilities).values(vulnerabilities)
             stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id"]
@@ -220,7 +287,24 @@ def save_CVEs(sbom_id, component_cve):
 
         session.commit()
 
-def save_KEV_snapshot(kev_data):
+def save_KEV_snapshot(kev_data: list[dict]) -> None:
+    """Persist CISA Known Exploited Vulnerabilities (KEV) data and generate audit evidence.
+
+    This function bulk-inserts incoming KEV records into the `KEVsnapshot` table.
+    To prevent data duplication on recurring catalog scans, it ignores records matching 
+    an existing combination of 'cve_id' and 'created_on'. For any newly inserted 
+    vulnerabilities, a corresponding entry is created in the global `Evidence` 
+    table referencing the CISA KEV catalog feed source.
+
+    Args:
+        kev_data (list[dict]): A list of dictionaries, where each dict represents a KEV 
+            catalog entry containing keys like 'cve_id', 'created_on', and 'catalog_added_date'.
+
+    Returns:
+        None
+    """
+
+    inserted_rows = []
     with SessionLocal() as session:
         stmt = insert(KEVsnapshot).values(kev_data)
         stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id","created_on"]).returning(KEVsnapshot.cve_id, KEVsnapshot.catalog_added_date)
@@ -244,7 +328,23 @@ def save_KEV_snapshot(kev_data):
 
         session.commit()
 
-def save_EPSS_snapshot(epss_data):
+def save_EPSS_snapshot(epss_data: list[dict]) -> None:
+    """Persist Exploit Prediction Scoring System (EPSS) data and generate matching evidence entries.
+
+    This function updates the database by bulk-inserting daily EPSS snapshot records 
+    into the `EPSSsnapshot` table. To manage repetitive data ingestion from daily feeds,
+    it ignores entries matching an existing combination of 'cve_id' and 'score_date'.
+    For newly logged vulnerabilities, it generates a corresponding entry in the global
+    `Evidence` table capturing the exact score and score date.
+
+    Args:
+        epss_data (list[dict]): A list of dictionaries representing daily EPSS metrics.
+            Each dictionary must include keys like 'cve_id', 'epss_score', and 'score_date'.
+
+    Returns:
+        None
+    """
+
     with SessionLocal() as session:
         stmt = insert(EPSSsnapshot).values(epss_data)
         stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id", "score_date"]).returning(EPSSsnapshot.cve_id, EPSSsnapshot.epss_score, EPSSsnapshot.score_date)
@@ -268,7 +368,28 @@ def save_EPSS_snapshot(epss_data):
         session.commit()
 
     
-def save_CSAF_advisory(cve_id, csaf_data,csaf_id):
+def save_CSAF_advisory(cve_id: str, csaf_data: dict | str, csaf_id: str):
+    """Persist a Common Security Advisory Framework (CSAF) advisory and log audit evidence.
+
+    This function attempts to bulk-insert a parsed vendor security advisory into the 
+    `CSAFadvisories` database table. If an advisory with the identical 'csaf_id' 
+    already exists, the insert statement will execute without error but make no changes.
+    For a newly inserted advisory, a matching record is populated in the global 
+    `Evidence` table to establish a trace back to the vendor's data feed.
+
+    Args:
+        cve_id (str): The unique identifier of the security flaw (e.g., 'CVE-2026-1234') 
+            linked to this vendor warning.
+        csaf_data (dict | str): The raw or JSON-structured content payload representing 
+            the body of the security advisory document.
+        csaf_id (str): The unique tracking ID issued by the advisory authority 
+            (e.g., 'RHSA-2026:5678').
+
+    Returns:
+        None
+    """
+
+    inserted_row = []
     with SessionLocal() as session:
         stmt = insert(CSAFadvisories).values(csaf_id=csaf_id, data=csaf_data, description="Red Hat CSAF advisory")
         stmt = stmt.on_conflict_do_nothing(index_elements=["csaf_id"]).returning(CSAFadvisories.csaf_id)
@@ -291,7 +412,26 @@ def save_CSAF_advisory(cve_id, csaf_data,csaf_id):
 
         session.commit()
     
-def save_CVE_CSAF_mapping(csaf_vuln):
+def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
+    """Populate the many-to-many junction table linking CVEs to CSAF advisories.
+
+    This function resolves relationship mappings using a 3-step pipeline:
+    1. Collects unique vulnerability and advisory keys from the input data feed 
+       to perform highly optimized bulk database lookups.
+    2. Builds in-memory cross-reference dictionaries mapping string IDs (`cve_id`, 
+       `csaf_id`) directly to their primary database integer IDs.
+    3. Bundles verified relationship pairs and bulk-inserts them into the 
+       `csaf_vulnerability` association table, ignoring rows that have 
+       already been linked on previous executions.
+
+    Args:
+        csaf_vuln (list[dict]): A list of dictionaries representing mapping records.
+            Each dictionary must contain 'cve_id' (str) and 'csaf_id' (str) keys.
+
+    Returns:
+        None
+    """
+
     with SessionLocal() as session:
         if not csaf_vuln:
             return
@@ -349,7 +489,25 @@ def save_CVE_CSAF_mapping(csaf_vuln):
             session.commit()
 
 
-def save_finding_evidence_links(CVEs_id):
+def save_finding_evidence_links(CVEs_id: set[str]) -> None:
+    """Attach existing evidence rows to findings that reference the same CVEs.
+
+    This function builds relationships in a many-to-many junction table by:
+    1. Executing a relational join across `Finding`, `Vulnerabilities`, and `Evidence` 
+       tables to find matching data points scoped to a target set of CVE identifiers.
+    2. Iterating through the joined results to check if the specific `Evidence` record 
+       is already linked to the `Finding` instance via the ORM relationship collection.
+    3. Appending unlinked `Evidence` objects directly into the `finding.evidence_items` 
+       relationship collection and committing the changes.
+
+    Args:
+        CVEs_id (set[str]): A collection of unique CVE alphanumeric string identifiers 
+            (e.g., ['CVE-2026-1234', 'CVE-2026-5678']) used to isolate the linking operation.
+
+    Returns:
+        None
+    """
+
     with SessionLocal() as session:
         results = (
             session.query(Finding, Evidence)
@@ -366,7 +524,23 @@ def save_finding_evidence_links(CVEs_id):
         session.commit()
 
 
-def save_VEX_document(vex_data):
+def save_VEX_document(vex_data: dict) -> int:
+    """Insert a Vulnerability Exploit Exchange (VEX) document header or return the existing ID.
+
+    This function attempts to store the foundational metadata of a VEX advisory.
+    If a document with the same 'document_id' has already been persisted, the 
+    database ignore-constraint is triggered, and a fallback query retrieves the 
+    existing record's primary key identifier.
+
+    Args:
+        vex_data (dict): A dictionary containing parsed VEX header metadata. 
+            Must include 'document_id' (str), 'author' (str), 'timestamp' (datetime), 
+            and 'version' (str) keys.
+
+    Returns:
+        int: The database primary key identifier (ID) of the new or existing VEX document.
+    """
+
     with SessionLocal() as session:
         stmt = insert(VEXdocuments).values(
             document_id=vex_data["document_id"],
@@ -389,7 +563,30 @@ def save_VEX_document(vex_data):
 
         return existing_id
     
-def save_VEX_statements(document_id, statements):
+def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
+    """Persist VEX statements, establish component mappings, and create audit evidence.
+
+    This function processes a collection of Vulnerability Exploit Exchange (VEX) 
+    statements. For each statement, it applies conditional logic to resolve targets:
+    - If 'subcomponents' are absent, it maps the vulnerability directly to the main 
+      products matching the provided PURLs.
+    - If 'subcomponents' are present, it links the vulnerability to those targeted 
+      subcomponents, and maps the parent product to its corresponding `sbom_id` via `bom_ref`.
+
+    Once foreign keys are evaluated, the individual VEX statement is recorded, its 
+    many-to-many relationships are written to the `vex_statement_component` junction 
+    table, and matching entries are generated in the global `Evidence` database.
+
+    Args:
+        document_id (int): Primary key identifier of the parent VEX header document.
+        statements (list[dict]): A list of dictionaries parsed from a VEX JSON file, 
+            containing keys such as 'vulnerability', 'status', 'justification', 
+            'products', and optionally 'subcomponents'.
+
+    Returns:
+        None
+    """
+
     with SessionLocal() as session:
 
         for statement in statements:
@@ -436,7 +633,7 @@ def save_VEX_statements(document_id, statements):
                 )
 
             evidence_items = []
-            for component_id in components_ids:
+            for (component_id,) in components_ids:
                 evidence_items.append({
                     "evidence_type": "VEX Statement",
                     "source": "VEX document",
@@ -444,12 +641,32 @@ def save_VEX_statements(document_id, statements):
                     "text_snippet": f"VEX statement with status '{statement.get('status', '')}' and justification '{statement.get('justification', '')}' for component ID {component_id}.",
                     "url_or_ref": f"VEX document ID: {document_id}"
                 })
+            
+            if evidence_items:
                 stmt = insert(Evidence).values(evidence_items)
-            session.execute(stmt)
+                session.execute(stmt)
 
         session.commit()
 
-def save_vuln_enrichment(enrichment_list):
+def save_vuln_enrichment(enrichment_list: list[dict]) -> None:
+    """Persist enrichment rows derived from Vulnerability Lookup.
+
+    This function flattens a nested data structure into single database rows:
+    1. It iterates through an input payload list where each entry holds a 'cve_id' 
+       and an internal array of associated threat metadata references ('links').
+    2. It transforms and normalizes these values into a single array of dictionary payloads.
+    3. It performs a high-efficiency batch insertion into the `VulnerabilityEnrichment` 
+       table inside a localized transaction.
+
+    Args:
+        enrichment_list (list[dict]): A list of dictionaries representing enrichment contexts.
+            Each dictionary must contain a 'cve_id' (str) key and a 'links' (list[dict]) key
+            containing target references (e.g., 'data_type', 'source_provider', 'url').
+
+    Returns:
+        None
+    """
+
     rows = [
         {
             "cve_id": data["cve_id"],
@@ -467,6 +684,22 @@ def save_vuln_enrichment(enrichment_list):
         session.commit()
 
 def save_fusion_results(risk_assessment):
+    """Update existing finding rows with compiled risk fusion scores and rank justifications.
+
+    This function processes final analytical metrics output by a risk scoring engine.
+    It loops through evaluated assessments, normalizes the keys (including mapping the 
+    space-separated 'why-ranked' string), and executes a bulk update on the `Finding` 
+    table to store localized prioritization metrics and update timestamps.
+
+    Args:
+        risk_assessment (list[dict]): A list of processed risk assessment dicts. Each dict 
+            must contain 'finding_id' (int), 'fusion_score' (float), 'priority' (str), 
+            and 'why-ranked' (str) keys.
+
+    Returns:
+        None
+    """
+
     rows = [{
             "id": item["finding_id"],
             "fusion_score": item["fusion_score"],
@@ -477,6 +710,9 @@ def save_fusion_results(risk_assessment):
     ]
 
     with SessionLocal() as session: 
-
-        session.bulk_update_mappings(Finding, rows)
+        if rows:
+            session.execute(
+                update(Finding),
+                rows
+            )
         session.commit()

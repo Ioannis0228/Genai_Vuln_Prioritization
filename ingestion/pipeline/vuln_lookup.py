@@ -1,7 +1,35 @@
+"""Vulnerability lookup helpers that expand CVEs into enrichment links and related data.
+
+This module queries the vulnerability-lookup.org API to fetch rich contextual data about CVEs:
+- CNA and ADP problem type definitions (including CWEs)
+- References and documentation URLs
+- Linked advisories from multiple platforms (GitHub, NVD, vendor advisories, etc.)
+
+This enrichment data provides multiple perspectives on a vulnerability beyond the base CVSS score.
+"""
+
 from pyvulnerabilitylookup import PyVulnerabilityLookup
+
+# Initialize the vulnerability lookup API client
 client = PyVulnerabilityLookup()
 
 def fetch_vulnerability_links(cve_id: str) -> dict:
+    """Fetch linked references, CWEs, and advisory metadata for a CVE.
+    
+    Queries the vulnerability-lookup API with linked=true to retrieve:
+    - CNA (CVE Numbering Authority) metadata: references, CWEs, vendor info
+    - ADP (Authorized Data Publishers) metadata from multiple sources
+    - Linked advisories from GitHub, vendors, and other platforms
+    
+    Args:
+        cve_id (str): CVE identifier (e.g., 'CVE-2021-1234').
+    
+    Returns:
+        dict: Enrichment payload with keys: cve_id, links, error (if any).
+              links is a list of dicts with keys: data_type (references/CWE/linked_advisory),
+              source_provider, entity_id (optional), url (optional).
+              On error, includes 'error' key with exception message.
+    """
 
     extracted_links = []
 

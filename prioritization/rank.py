@@ -1,4 +1,19 @@
+"""Ranking helpers for sorting vulnerabilities by CVSS, EPSS, and fusion score.
+
+These functions print and return ranked CVE lists for different scoring models,
+enabling side-by-side comparison of different prioritization strategies.
+"""
+
 def cvss_rank(scores):
+    """Print and return CVSS scores sorted from highest to lowest.
+    
+    Args:
+        scores (dict): Mapping of CVE ID to CVSS score.
+    
+    Returns:
+        list: Sorted list of tuples (CVE_ID, CVSS_score) in descending order.
+    """
+
     ranked_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
     for rank, item in enumerate(ranked_scores, start=1):
@@ -6,6 +21,14 @@ def cvss_rank(scores):
     return ranked_scores
 
 def epss_rank(scores):
+    """Print and return EPSS scores sorted by probability in descending order.
+    
+    Args:
+        scores (dict): Mapping of CVE ID to tuple (EPSS_probability, EPSS_percentile).
+    
+    Returns:
+        list: Sorted list of tuples (CVE_ID, (probability, percentile)) in descending order by probability.
+    """
     ranked_scores = sorted(scores.items(), key=lambda x: x[1][0], reverse=True)
 
     for rank, item in enumerate(ranked_scores, start=1):
@@ -13,6 +36,17 @@ def epss_rank(scores):
     return ranked_scores         
 
 def cvss_epss_rank(CVSS_map, EPSS_map):
+    """Combine CVSS and EPSS into a single ordered list for comparison output.
+    
+    Computes a hybrid score: min(8, CVSS * 0.35 + EPSS_avg * 0.45) and sorts by this combined value.
+    
+    Args:
+        CVSS_map (dict): Mapping of CVE ID to CVSS score.
+        EPSS_map (dict): Mapping of CVE ID to tuple (EPSS_probability, EPSS_percentile).
+    
+    Returns:
+        list: Sorted list of tuples (CVE_ID, combined_score, CVSS, EPSS_avg) in descending order by combined_score.
+    """
     combined_scores = []
 
     for cve, cvss_score in CVSS_map.items():
@@ -32,6 +66,7 @@ def cvss_epss_rank(CVSS_map, EPSS_map):
     
 
 def fusion_rank(risk_assessment, vex_statements=None):
+    """Adjust priorities using VEX context and print the final ordered risk list."""
 
     for items in risk_assessment:
         cve_id = items['cve_id']

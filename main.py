@@ -20,6 +20,7 @@ VEX_PATH = ['data/vex_documents/vex_document.json',
             'data/vex_documents/vex_document_2.json']
 
 if __name__ == "__main__":
+    # Initialize database schema on first run
     create_tables()
 
 

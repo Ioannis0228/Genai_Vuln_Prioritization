@@ -1,3 +1,5 @@
+"""ORM models for SBOM data, vulnerability intelligence, and prioritization results."""
+
 from datetime import date, datetime, UTC
 
 from .base import Base
@@ -47,6 +49,8 @@ vex_statement_component = Table(
 )
 
 class SBOM(Base):
+    """Stored SBOM metadata and its linked components and findings."""
+
     __tablename__ = 'sbom'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     sbom_version: Mapped[str] = mapped_column(String)
@@ -61,6 +65,8 @@ class SBOM(Base):
     findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="sbom")
 
 class Components(Base):
+    """Normalized software component records linked back to SBOMs and findings."""
+
     __tablename__ = 'components'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     type: Mapped[str] = mapped_column(String)
@@ -80,6 +86,8 @@ class Components(Base):
     )
 
 class Vulnerabilities(Base):
+    """Canonical vulnerability records keyed by CVE identifier."""
+
     __tablename__ = 'vulnerabilities'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     cve_id: Mapped[str] = mapped_column(String, unique=True, index=True)
@@ -101,6 +109,8 @@ class Vulnerabilities(Base):
     # e.g., CVSS vector, references, etc.
 
 class VulnerabilityEnrichment(Base):
+    """Enrichment records that store linked references, CWEs, and advisories."""
+
     __tablename__ = "vulnerability_enrichment"
 
     id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
@@ -113,6 +123,8 @@ class VulnerabilityEnrichment(Base):
     url: Mapped[Optional[List[str]]] = mapped_column(JSON, nullable=True)
 
 class KEVsnapshot(Base):
+    """Historical snapshot of CVEs appearing in the CISA KEV catalog."""
+
     __tablename__ = 'kev_snapshot'
 
     __table_args__ = (
@@ -126,6 +138,8 @@ class KEVsnapshot(Base):
 
 
 class EPSSsnapshot(Base):
+    """Historical EPSS score snapshot for a CVE on a given date."""
+
     __tablename__ = 'epss_snapshot'
 
     __table_args__ = (
@@ -141,6 +155,8 @@ class EPSSsnapshot(Base):
 
 
 class VEXdocuments(Base):
+    """VEX document headers and their parsed statement collections."""
+
     __tablename__ = 'vex_documents'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     document_id: Mapped[str] = mapped_column(String, unique=True, index=True)
@@ -153,6 +169,8 @@ class VEXdocuments(Base):
     statements: Mapped[List["VEXstatements"]] = relationship("VEXstatements", back_populates="document", cascade="all, delete-orphan")  
 
 class VEXstatements(Base):
+    """Individual VEX statements tied to a document, SBOM, and vulnerability."""
+
     __tablename__ = 'vex_statements'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     sbom_id: Mapped[Optional[int]] = mapped_column(ForeignKey("sbom.id"), nullable=True)
@@ -172,6 +190,8 @@ class VEXstatements(Base):
     )
 
 class CSAFadvisories(Base):
+    """Stored CSAF advisories and the vulnerabilities they cover."""
+
     __tablename__ = 'csaf_advisories'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     csaf_id: Mapped[str] = mapped_column(String, unique=True, index=True)  # e.g., RHSA ID
@@ -186,6 +206,8 @@ class CSAFadvisories(Base):
 
 
 class Finding(Base):
+    """Join table for a vulnerable component finding and its ranking output."""
+
     __tablename__ = 'findings'
 
     __table_args__ = (
@@ -222,6 +244,8 @@ class Finding(Base):
 
 
 class Evidence(Base):
+    """Evidence items used to explain why a finding was created or ranked."""
+
     __tablename__ = 'evidence'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     evidence_type: Mapped[str] = mapped_column(String)

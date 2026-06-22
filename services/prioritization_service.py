@@ -1,8 +1,26 @@
+"""Service layer for assembling ranking inputs and persisting fusion results."""
+
 from database import SessionLocal, Components, Vulnerabilities, EPSSsnapshot, KEVsnapshot, VEXstatements, Finding, vex_statement_component, get_rows_by_column_in, execute_select, get_latest_snapshots, save_fusion_results
 from prioritization import compute_fusion_score, cvss_rank, epss_rank, cvss_epss_rank, fusion_rank, explain_fusion
 from sqlalchemy import or_
 
 def ranking_sbom(sbom_id, cvss_ranking=False, epss_ranking=False, cvss_epss_ranking=False, fusion_ranking=True):
+    """Build ranking inputs for a single SBOM and persist the resulting fusion scores.
+    
+    Retrieves all findings for an SBOM, fetches their associated CVSS/EPSS/KEV/VEX data,
+    computes fusion scores, applies VEX status downgrades, and stores results back to the database.
+    
+    Args:
+        sbom_id (int): Primary key of the SBOM to rank.
+        cvss_ranking (bool): If True, print and return CVSS-only rankings.
+        epss_ranking (bool): If True, print and return EPSS-only rankings.
+        cvss_epss_ranking (bool): If True, print and return combined CVSS+EPSS rankings.
+        fusion_ranking (bool): If True (default), compute fusion scores and persist results.
+    
+    Returns:
+        list: Risk assessment list with dicts containing: cve_id, finding_id, component_purl, 
+              fusion_score, priority, priority_rank, why_ranked.
+    """
     with SessionLocal() as session:
         
         Findings = execute_select(
