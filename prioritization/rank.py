@@ -17,7 +17,7 @@ def cvss_rank(scores):
     ranked_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
     for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank}. {item[0]} - CVSS Score: {item[1]}")
+        print(f"{rank:<4}| {item[0]:<20} - CVSS Score: {item[1]}")
     return ranked_scores
 
 def epss_rank(scores):
@@ -32,7 +32,7 @@ def epss_rank(scores):
     ranked_scores = sorted(scores.items(), key=lambda x: x[1][0], reverse=True)
 
     for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank}. {item[0]} - EPSS Score: {item[1][0]} with Percentile: {item[1][1]}")
+        print(f"{rank:<4}| {item[0]:<20} - EPSS Score: {item[1][0]} with Percentile: {item[1][1]}")
     return ranked_scores         
 
 def cvss_epss_rank(CVSS_map, EPSS_map):
@@ -61,7 +61,7 @@ def cvss_epss_rank(CVSS_map, EPSS_map):
     ranked_scores = sorted(combined_scores, key=lambda x: x[1], reverse=True)
 
     for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank}. {item[0]} - CVSS: {item[2]:.2f}, EPSS Avg: {item[3]:.2f}, Combined: {item[1]}")
+        print(f"{rank:<4}| {item[0]:<20} - CVSS: {item[2]:.2f}, EPSS Avg: {item[3]:.2f}, Combined: {item[1]}")
     return ranked_scores
     
 
@@ -87,5 +87,6 @@ def fusion_rank(risk_assessment, vex_statements=None):
 
 
     for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank}. {item['cve_id']} - Fusion Score: {item['fusion_score']} - Priority: {item['priority']} - Component: {item['component_purl']}")
+        print(f"{rank:<4}| {item['cve_id']:<20} - Fusion Score: {item['fusion_score']} - Priority: {item['priority']} - Component: {item['component_purl']}")
+        item["rank"] = rank
     return ranked_scores

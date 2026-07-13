@@ -10,23 +10,23 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Identity, JSON, Floa
 component_dependency = Table(
     "component_dependency",
     Base.metadata,
-    Column("parent_id", ForeignKey("sbom_component.id"), primary_key=True),
-    Column("child_id", ForeignKey("sbom_component.id"), primary_key=True),
-    Column("sbom_id", ForeignKey("sbom.id"),primary_key=True)
+    Column("parent_id", ForeignKey("sbom_component.id", ondelete="CASCADE"), primary_key=True),
+    Column("child_id", ForeignKey("sbom_component.id", ondelete="CASCADE"), primary_key=True),
+    Column("sbom_id", ForeignKey("sbom.id", ondelete="CASCADE"),primary_key=True)
 )
 
 csaf_vulnerability = Table(
     "csaf_vulnerability",
     Base.metadata,
-    Column("csaf_id", ForeignKey("csaf_advisories.id"), primary_key=True),
-    Column("vulnerability_id", ForeignKey("vulnerabilities.id"), primary_key=True),
+    Column("csaf_id", ForeignKey("csaf_advisories.id", ondelete="CASCADE"), primary_key=True),
+    Column("vulnerability_id", ForeignKey("vulnerabilities.id", ondelete="CASCADE"), primary_key=True),
 )
 
 finding_evidence = Table(
     "finding_evidence",
     Base.metadata,
-    Column("finding_id", ForeignKey("findings.id"), primary_key=True),
-    Column("evidence_id", ForeignKey("evidence.id"), primary_key=True),
+    Column("finding_id", ForeignKey("findings.id", ondelete="CASCADE"), primary_key=True),
+    Column("evidence_id", ForeignKey("evidence.id", ondelete="CASCADE"), primary_key=True),
 )
 
 sbom_component = Table(
@@ -34,8 +34,8 @@ sbom_component = Table(
     Base.metadata,
     Column("id", Integer, Identity(), primary_key=True),
 
-    Column("sbom_id", ForeignKey("sbom.id")),
-    Column("component_id", ForeignKey("components.id")),
+    Column("sbom_id", ForeignKey("sbom.id", ondelete="CASCADE")),
+    Column("component_id", ForeignKey("components.id", ondelete="CASCADE")),
     Column("bom_ref", String, nullable=False),
 
     UniqueConstraint("sbom_id", "bom_ref", name="uq_sbom_bomref")
@@ -44,8 +44,8 @@ sbom_component = Table(
 vex_statement_component = Table(
     "vex_statement_component",
     Base.metadata,
-    Column("statement_id", ForeignKey("vex_statements.id"), primary_key=True),
-    Column("component_id", ForeignKey("components.id"), primary_key=True),
+    Column("statement_id", ForeignKey("vex_statements.id", ondelete="CASCADE"), primary_key=True),
+    Column("component_id", ForeignKey("components.id", ondelete="CASCADE"), primary_key=True),
 )
 
 class SBOM(Base):
@@ -62,7 +62,7 @@ class SBOM(Base):
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     components: Mapped[List["Components"]] = relationship("Components", secondary=sbom_component, back_populates="sbom")
-    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="sbom")
+    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="sbom", cascade="all, delete-orphan")
 
 class Components(Base):
     """Normalized software component records linked back to SBOMs and findings."""
@@ -77,7 +77,7 @@ class Components(Base):
     cpe: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     
     sbom: Mapped[List["SBOM"]] = relationship("SBOM", secondary=sbom_component, back_populates="components")
-    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="component")
+    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="component", cascade="all, delete-orphan")
 
     vex_statements: Mapped[List["VEXstatements"]] = relationship(
         "VEXstatements",
@@ -103,10 +103,7 @@ class Vulnerabilities(Base):
         back_populates="vulnerabilities"
     )
 
-    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="vulnerability")
-
-    # Add other relevant fields as needed
-    # e.g., CVSS vector, references, etc.
+    findings: Mapped[List["Finding"]] = relationship("Finding", back_populates="vulnerability", cascade="all, delete-orphan")
 
 class VulnerabilityEnrichment(Base):
     """Enrichment records that store linked references, CWEs, and advisories."""
@@ -115,7 +112,7 @@ class VulnerabilityEnrichment(Base):
 
     id: Mapped[int] = mapped_column(Integer, Identity(), primary_key=True)
     cve_id: Mapped[str] = mapped_column(
-        ForeignKey("vulnerabilities.cve_id")
+        ForeignKey("vulnerabilities.cve_id", ondelete="CASCADE")
     )
     data_type: Mapped[str] = mapped_column(String) # e.g., 'cwe', 'references', 'linked_advisories'
     source_provider: Mapped[str] = mapped_column(String) # e.g., 'cna', 'github', etc
@@ -131,10 +128,10 @@ class KEVsnapshot(Base):
         UniqueConstraint("cve_id", "created_on", name="uq_kev_snapshot"),
     )
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    cve_id: Mapped[str] = mapped_column(String, index=True)
+    cve_id: Mapped[str] = mapped_column(String, index=True) 
     shortDescription: Mapped[str] = mapped_column(String)
-    catalog_added_date: Mapped[Date] = mapped_column(Date)
-    created_on: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC).date())
+    catalog_added_date: Mapped[date] = mapped_column(Date)
+    created_on: Mapped[date] = mapped_column(Date, default=lambda: date.today())
 
 
 class EPSSsnapshot(Base):
@@ -150,8 +147,8 @@ class EPSSsnapshot(Base):
     cve_id: Mapped[str] = mapped_column(ForeignKey("vulnerabilities.cve_id"), index=True)
     epss_score: Mapped[float] = mapped_column(Float)
     percentile: Mapped[float] = mapped_column(Float)
-    score_date: Mapped[Date] = mapped_column(Date)
-    created_on: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC).date())
+    score_date: Mapped[date] = mapped_column(Date)
+    created_on: Mapped[date] = mapped_column(Date, default=lambda: date.today())
 
 
 class VEXdocuments(Base):
@@ -162,7 +159,7 @@ class VEXdocuments(Base):
     document_id: Mapped[str] = mapped_column(String, unique=True, index=True)
 
     author: Mapped[str] = mapped_column(String)
-    timestamp: Mapped[DateTime] = mapped_column(DateTime)
+    timestamp: Mapped[datetime] = mapped_column(DateTime)
 
     version: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
@@ -174,18 +171,18 @@ class VEXstatements(Base):
     __tablename__ = 'vex_statements'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     sbom_id: Mapped[Optional[int]] = mapped_column(ForeignKey("sbom.id"), nullable=True)
-    document_id: Mapped[int] = mapped_column(ForeignKey("vex_documents.id"))
+    document_id: Mapped[int] = mapped_column(ForeignKey("vex_documents.id"), index=True)
 
     status: Mapped[str] = mapped_column(String)
     justification: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
-    vulnerability: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"))
+    vulnerability: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"), index=True)
 
     document: Mapped["VEXdocuments"] = relationship("VEXdocuments", back_populates="statements")
 
     components: Mapped[List["Components"]]= relationship(
         "Components",
-        secondary="vex_statement_component",
+        secondary=vex_statement_component,
         back_populates="vex_statements"
     )
 
@@ -221,9 +218,9 @@ class Finding(Base):
 
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
 
-    sbom_id: Mapped[int] = mapped_column(ForeignKey("sbom.id"))
-    component_id: Mapped[int] = mapped_column(ForeignKey("components.id"))
-    vulnerability_id: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"))
+    sbom_id: Mapped[int] = mapped_column(ForeignKey("sbom.id"), index=True)
+    component_id: Mapped[int] = mapped_column(ForeignKey("components.id"), index=True)
+    vulnerability_id: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"), index=True)
 
     sbom: Mapped["SBOM"] = relationship("SBOM", back_populates="findings")
     component: Mapped["Components"] = relationship("Components", back_populates="findings")
@@ -232,6 +229,7 @@ class Finding(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
 
     fusion_score: Mapped[float] = mapped_column(Float, index=True, nullable=False, default=0.0)
+    rank: Mapped[int] = mapped_column(Integer, index=True, nullable=False, default=0)
     priority: Mapped[str] = mapped_column(String, nullable=False, default="Not yet evaluated.")
     why_ranked: Mapped[str] = mapped_column(String, nullable=False, default="Not yet evaluated.")
     last_updated: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC))
@@ -251,7 +249,7 @@ class Evidence(Base):
     evidence_type: Mapped[str] = mapped_column(String)
     source: Mapped[str] = mapped_column(String)
     cve_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    created_at: Mapped[DateTime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
     text_snippet: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     url_or_ref: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 

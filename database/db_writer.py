@@ -489,7 +489,7 @@ def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
             session.commit()
 
 
-def save_finding_evidence_links(CVEs_id: set[str]) -> None:
+def save_finding_evidence_links(CVE_ids: set[str]) -> None:
     """Attach existing evidence rows to findings that reference the same CVEs.
 
     This function builds relationships in a many-to-many junction table by:
@@ -501,7 +501,7 @@ def save_finding_evidence_links(CVEs_id: set[str]) -> None:
        relationship collection and committing the changes.
 
     Args:
-        CVEs_id (set[str]): A collection of unique CVE alphanumeric string identifiers 
+        CVE_ids (set[str]): A collection of unique CVE alphanumeric string identifiers 
             (e.g., ['CVE-2026-1234', 'CVE-2026-5678']) used to isolate the linking operation.
 
     Returns:
@@ -513,7 +513,7 @@ def save_finding_evidence_links(CVEs_id: set[str]) -> None:
             session.query(Finding, Evidence)
             .join(Vulnerabilities, Finding.vulnerability_id == Vulnerabilities.id)
             .join(Evidence, Vulnerabilities.cve_id == Evidence.cve_id)
-            .filter(Evidence.cve_id.in_(CVEs_id))
+            .filter(Evidence.cve_id.in_(CVE_ids))
             .all()
         )
 
@@ -704,7 +704,8 @@ def save_fusion_results(risk_assessment):
             "id": item["finding_id"],
             "fusion_score": item["fusion_score"],
             "priority": item["priority"],
-            "why_ranked": item["why-ranked"],  # Store reasons as a space-separated string
+            "rank": item["rank"],
+            "why_ranked": item["why-ranked"],
             "last_updated": datetime.now(UTC)
         } for item in risk_assessment
     ]

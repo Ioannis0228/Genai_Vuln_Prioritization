@@ -4,18 +4,22 @@ This module provides reusable query building and execution functions that abstra
 away SQLAlchemy complexity for common patterns: filtering, joining, and snapshot retrieval.
 """
 
-from database import SessionLocal, Vulnerabilities
+from database import SessionLocal, Vulnerabilities, Finding
 from sqlalchemy import select
 
-def get_CVEs_id()-> list[str]:
-    """Return every stored CVE identifier as a list of strings.
+def get_CVE_ids(sbom_id: int)-> list[str]:
+    """Return stored CVE identifier as a list of strings for a given SBOM ID.
     
     Returns:
-        list: All unique CVE IDs currently in the Vulnerabilities table.
+        list: All unique CVE IDs for the specified SBOM ID currently in the Vulnerabilities table.
     """
 
     with SessionLocal() as session:
-        return session.execute(select(Vulnerabilities.cve_id)).scalars().all()
+        return session.execute(select(Vulnerabilities.cve_id)
+                               .select_from(Finding)
+                               .join(Vulnerabilities, Finding.vulnerability_id == Vulnerabilities.id)
+                               .where(Finding.sbom_id == sbom_id)
+                               ).scalars().all()
          
 def check_existence(table, column, value = None)-> bool:
     """Check whether a row exists, optionally constrained by a column value.
@@ -64,7 +68,7 @@ def get_rows_by_column_in(session, tables, filter_column, filter_values, selecte
 
     return session.execute(query).all()
 
-def execute_select(session, selected_columns, where_conditions=None, joins=None):
+def execute_select(session, selected_columns, where_conditions=None, joins=None, order_by=None, limit=None, options=None):
     """Execute a configurable SELECT query with optional joins and filters.
     
     Args:
@@ -72,7 +76,9 @@ def execute_select(session, selected_columns, where_conditions=None, joins=None)
         selected_columns: List of columns to select.
         where_conditions (optional): List of WHERE clause conditions to AND together.
         joins (optional): List of tuples (join_target, join_condition) to apply sequentially.
-    
+        order_by (optional): List of columns to order the results by.
+        limit (optional): Maximum number of rows to return.
+        options (optional): Additional options for the query.
     Returns:
         list: Query result rows.
     """
@@ -84,6 +90,15 @@ def execute_select(session, selected_columns, where_conditions=None, joins=None)
 
     if where_conditions:
         query = query.where(*where_conditions)
+    
+    if order_by:
+        query = query.order_by(*order_by)
+    
+    if limit:
+        query = query.limit(limit)
+
+    if options:
+        query = query.options(*options)
 
     return session.execute(query).all()
 

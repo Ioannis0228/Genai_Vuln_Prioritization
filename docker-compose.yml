@@ -1,31 +1,24 @@
 services: 
-  pipeline:
+  genai-vuln-prioritization:
     build: 
       context: .
-      dockerfile: ingestion/Dockerfile
     depends_on:
       postgres-db:
         condition: service_healthy
-    container_name: pipeline
+    container_name: GenAi_Vulnerability_Prioritization
+    stdin_open: true
+    tty: true
     command: ["python", "main.py"]
-    environment:
-      DATABASE_URL: postgresql://postgres:password@postgres-db:5432/vuln_intel_db
+    env_file: 
+      - .env
     volumes:
-      - ./ingestion/:/app/ingestion
-      - ./services/:/app/services
-      - ./scoring/:/app/scoring
-      - ./prioritization/:/app/prioritization
-      - ./database/:/app/database
-      - ./data/:/app/data
-      - ./main.py:/app/main.py
-
+      - ./:/app/
+      
   postgres-db:
     image: postgres
     container_name: postgres-db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: vuln_intel_db
+    env_file: 
+      - .env
     ports:
       - "5432:5432"
     volumes:

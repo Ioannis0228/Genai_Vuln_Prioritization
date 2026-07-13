@@ -1,6 +1,6 @@
 """Service layer for ingesting VEX documents and their statements."""
 
-from database import save_VEX_document, save_VEX_statements, check_existence, VEXdocuments
+from database import save_VEX_document, save_VEX_statements, check_existence, VEXdocuments, save_finding_evidence_links
 from ingestion import parse_vex
 
 
@@ -18,3 +18,5 @@ def process_vex(input_file: str):
 
     document_id = save_VEX_document(vex_document)
     save_VEX_statements(document_id, vex_statements)
+
+    save_finding_evidence_links([statement.get("vulnerability") for statement in vex_statements])

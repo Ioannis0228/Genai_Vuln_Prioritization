@@ -1,10 +1,13 @@
 """Service layer for persisting vulnerability enrichment link data."""
 
 from ingestion import fetch_vulnerability_links
-from database import save_vuln_enrichment
+from database import save_vuln_enrichment, get_CVE_ids
 
-def vuln_enrichment(CVE_ids):
+def vuln_enrichment(sbom_id: int):
     """Fetch vulnerability enrichment data from the Vulnerability-Lookup in batches and persist it to the database."""
+
+    # Retrieve CVE IDs associated with the given SBOM ID
+    CVE_ids = get_CVE_ids(sbom_id)
 
     print("Starting vulnerability enrichment...", flush=True)
 

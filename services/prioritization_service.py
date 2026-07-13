@@ -80,6 +80,7 @@ def ranking_sbom(sbom_id, cvss_ranking=False, epss_ranking=False, cvss_epss_rank
         cvss_epss_rank(CVSS_map, EPSS_map)
 
     risk_assessment = []
+    ranked_assesment = []
     if fusion_ranking:
         for finding_id, cve, purl in Findings:
             KEV_status = KEV_map.get(cve, False)
@@ -114,8 +115,8 @@ def ranking_sbom(sbom_id, cvss_ranking=False, epss_ranking=False, cvss_epss_rank
                                              vex_status=VEX_map.get((cve, purl), (None, None))[0]))
             })
 
-        fusion_rank(risk_assessment,vex_statements=VEX_map)
+        ranked_assesment = fusion_rank(risk_assessment,vex_statements=VEX_map)
 
-    save_fusion_results(risk_assessment)
+    save_fusion_results(ranked_assesment)
 
-    return risk_assessment
+    return ranked_assesment

@@ -1,12 +1,16 @@
 """Service layer for KEV, EPSS, and CSAF intelligence collection."""
 
-from database import save_CSAF_advisory, save_CVE_CSAF_mapping, save_EPSS_snapshot, save_KEV_snapshot, CSAFadvisories, check_existence
+from database import save_CSAF_advisory, save_CVE_CSAF_mapping, save_EPSS_snapshot, save_KEV_snapshot, CSAFadvisories, check_existence, get_CVE_ids, save_finding_evidence_links 
 from ingestion import fetch_RedHat_advisory, find_RHSA_id, fetch_EPSS, fetch_KEV
 
 
-def process_intelligence(CVE_ids):
-    """Fetch and persist external intelligence for a collection of CVE identifiers."""
+def process_intelligence(sbom_id: int):
+    """Fetch and persist external intelligence for the given SBOM ID."""
 
+    # Retrieve CVE IDs associated with the given SBOM ID
+    CVE_ids = get_CVE_ids(sbom_id)
+
+    print("Fetching KEV data...", flush=True)
     save_KEV_snapshot(fetch_KEV())
 
     print("Fetching EPSS data...", flush=True)
@@ -31,3 +35,5 @@ def process_intelligence(CVE_ids):
                 })
 
     save_CVE_CSAF_mapping(csaf_vuln)
+
+    save_finding_evidence_links(CVE_ids)
