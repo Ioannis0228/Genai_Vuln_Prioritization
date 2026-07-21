@@ -1,6 +1,6 @@
 """Service layer for SBOM ingestion, component normalization, and vulnerability mapping."""
 
-from database import save_sbom, save_components, save_CVEs, check_existence, SBOM, save_finding_evidence_links
+from database import save_sbom, save_components, save_CVEs, check_existence, SBOM, save_finding_evidence_links, SessionLocal, execute_select
 from ingestion import normalize_component, parse_sbom, mapping_cve
 
 def process_sbom(SBOM_PATH:str , OUTPUT_PATH:str):
@@ -37,3 +37,13 @@ def process_sbom(SBOM_PATH:str , OUTPUT_PATH:str):
     save_finding_evidence_links(CVE_ids)
 
     return sbom_id, CVE_ids
+
+def get_all_sboms():
+    """Retrieve all ingested SBOMs from the database."""
+    
+    with SessionLocal() as session:
+        results = execute_select(session=session, 
+                                 selected_columns=[SBOM.id, SBOM.product_name],
+                                 )
+
+    return results

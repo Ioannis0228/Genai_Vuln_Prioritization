@@ -3,3 +3,7 @@ psycopg2==2.9.11
 sqlalchemy==2.0.48
 requests==2.33.1
 pyvulnerabilitylookup==4.4.0
+typer==0.26.7
+python-dotenv==1.2.2
+pydantic==2.13.3
+openai==2.44.0

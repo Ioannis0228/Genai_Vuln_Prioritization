@@ -18,7 +18,6 @@ def vuln_enrichment(sbom_id: int):
         links_dict.append(fetch_vulnerability_links(cve))
 
         if len(links_dict) >= BUFFER_SIZE:
-            print(f"Processing enrichment for CVE: {cve}", flush=True)
             save_vuln_enrichment(links_dict)
             links_dict.clear()
 
