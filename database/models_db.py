@@ -245,9 +245,19 @@ class Evidence(Base):
     """Evidence items used to explain why a finding was created or ranked."""
 
     __tablename__ = 'evidence'
+
+    __table_args__ = (
+        UniqueConstraint(
+            "evidence_type",
+            "source_record_id",
+            name="uq_evidence_constraint"
+        ),
+    )
+
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     evidence_type: Mapped[str] = mapped_column(String)
     source: Mapped[str] = mapped_column(String)
+    source_record_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     cve_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
     text_snippet: Mapped[Optional[str]] = mapped_column(String, nullable=True)

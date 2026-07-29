@@ -15,7 +15,7 @@ def get_CVE_ids(sbom_id: int)-> list[str]:
     """
 
     with SessionLocal() as session:
-        return session.execute(select(Vulnerabilities.cve_id)
+        return session.execute(select(Vulnerabilities.cve_id).distinct()
                                .select_from(Finding)
                                .join(Vulnerabilities, Finding.vulnerability_id == Vulnerabilities.id)
                                .where(Finding.sbom_id == sbom_id)

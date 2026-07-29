@@ -11,7 +11,7 @@ This module handles the upsert logic for all ingested data types, managing:
 from .models_db import *
 from .session import SessionLocal
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import update
+from sqlalchemy import update, select
 from datetime import datetime, UTC
 
 
@@ -236,18 +236,20 @@ def save_CVEs(sbom_id: int, component_cve: list) -> None:
                 ).returning(Vulnerabilities.cve_id,
                             Vulnerabilities.cvss_score, 
                             Vulnerabilities.cvss_version,
-                            Vulnerabilities.cvss_source)
+                            Vulnerabilities.cvss_source,
+                            Vulnerabilities.id,
+                            )
 
             inserted_row = session.execute(stmt).fetchall()
 
         cve_ids = {item["cve_id"] for item in component_cve}
 
-        vulns = session.query(Vulnerabilities).filter(
-            Vulnerabilities.cve_id.in_(cve_ids)
-        ).all()
-
         # Map: cve_id → DB id
-        vuln_map = {v.cve_id: v.id for v in vulns}
+        vuln_map = dict(session.execute(
+            select(Vulnerabilities.cve_id, Vulnerabilities.id)
+            .where(Vulnerabilities.cve_id.in_(cve_ids))
+            ).tuples().all()
+        )
 
         # 3 Prepare component vulnerability pairs for insert
         pairs = []
@@ -277,6 +279,7 @@ def save_CVEs(sbom_id: int, component_cve: list) -> None:
                     "evidence_type": "CVSS score",
                     "source": item[3],
                     "cve_id": item[0],
+                    "source_record_id": item[4],
                     "text_snippet": f"CVSS {item[2]}: {item[1]} from {item[3]}",
                     "url_or_ref": f"https://nvd.nist.gov/vuln/detail/{item[0]}"
                 })
@@ -304,10 +307,16 @@ def save_KEV_snapshot(kev_data: list[dict]) -> None:
         None
     """
 
+    if not kev_data:
+        return  # No data to process
+
     inserted_rows = []
     with SessionLocal() as session:
         stmt = insert(KEVsnapshot).values(kev_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id","created_on"]).returning(KEVsnapshot.cve_id, KEVsnapshot.catalog_added_date)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id","created_on"]
+                                           ).returning(KEVsnapshot.cve_id, 
+                                                       KEVsnapshot.catalog_added_date, 
+                                                       KEVsnapshot.id)
         inserted_rows = session.execute(stmt).fetchall()
 
 
@@ -318,6 +327,7 @@ def save_KEV_snapshot(kev_data: list[dict]) -> None:
                     "evidence_type": "KEV",
                     "source": "CISA KEV catalog",
                     "cve_id": item[0],
+                    "source_record_id": item[2],
                     "text_snippet": f"Added to KEV catalog on {item[1]}",
                     "url_or_ref": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
                 })
@@ -347,7 +357,11 @@ def save_EPSS_snapshot(epss_data: list[dict]) -> None:
 
     with SessionLocal() as session:
         stmt = insert(EPSSsnapshot).values(epss_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id", "score_date"]).returning(EPSSsnapshot.cve_id, EPSSsnapshot.epss_score, EPSSsnapshot.score_date)
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id", "score_date"]
+                                           ).returning(EPSSsnapshot.cve_id, 
+                                                       EPSSsnapshot.epss_score, 
+                                                       EPSSsnapshot.score_date, 
+                                                       EPSSsnapshot.id)
         inserted_row = session.execute(stmt).fetchall()
 
         evidence_items = []
@@ -357,6 +371,7 @@ def save_EPSS_snapshot(epss_data: list[dict]) -> None:
                     "evidence_type": "EPSS",
                     "source": "First.org EPSS API",
                     "cve_id": item[0],
+                    "source_record_id": item[3],
                     "text_snippet": f"EPSS score: {item[1]} for {item[0]} on {item[2]}",
                     "url_or_ref": f"https://api.first.org/data/v1/epss?cve={item[0]}"
                 })
@@ -374,8 +389,6 @@ def save_CSAF_advisory(cve_id: str, csaf_data: dict | str, csaf_id: str):
     This function attempts to bulk-insert a parsed vendor security advisory into the 
     `CSAFadvisories` database table. If an advisory with the identical 'csaf_id' 
     already exists, the insert statement will execute without error but make no changes.
-    For a newly inserted advisory, a matching record is populated in the global 
-    `Evidence` table to establish a trace back to the vendor's data feed.
 
     Args:
         cve_id (str): The unique identifier of the security flaw (e.g., 'CVE-2026-1234') 
@@ -389,27 +402,10 @@ def save_CSAF_advisory(cve_id: str, csaf_data: dict | str, csaf_id: str):
         None
     """
 
-    inserted_row = []
     with SessionLocal() as session:
         stmt = insert(CSAFadvisories).values(csaf_id=csaf_id, data=csaf_data, description="Red Hat CSAF advisory")
         stmt = stmt.on_conflict_do_nothing(index_elements=["csaf_id"]).returning(CSAFadvisories.csaf_id)
-        inserted_row = session.execute(stmt).fetchall()
-
-        evidence_items = []
-        for item in inserted_row:
-            if item[0]:  # csaf_id is at index 0
-                evidence_items.append({
-                    "evidence_type": "CSAF Advisory",
-                    "source": "Red Hat CSAF Advisory API",
-                    "cve_id": cve_id,
-                    "text_snippet": f"Red Hat CSAF advisory with ID {item[0]} for {cve_id}.",
-                    "url_or_ref": f"https://access.redhat.com/hydra/rest/securitydata/csaf/{item[0]}.json",
-                })
-
-        if evidence_items:
-            stmt = insert(Evidence).values(evidence_items)
-            session.execute(stmt)
-
+        session.execute(stmt)
         session.commit()
     
 def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
@@ -423,6 +419,9 @@ def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
     3. Bundles verified relationship pairs and bulk-inserts them into the 
        `csaf_vulnerability` association table, ignoring rows that have 
        already been linked on previous executions.
+
+    - Also creates corresponding entries in the `Evidence` table for each new CVE-CSAF mapping,
+    capturing the advisory source and a reference URL.
 
     Args:
         csaf_vuln (list[dict]): A list of dictionaries representing mapping records.
@@ -440,26 +439,18 @@ def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
         cve_ids = {item["cve_id"] for item in csaf_vuln}
         csaf_ids = {item["csaf_id"] for item in csaf_vuln}
 
-        # Bulk query vulnerabilities
-        vulns = session.query(Vulnerabilities).filter(
-            Vulnerabilities.cve_id.in_(cve_ids)
-        ).all()
-
-        # Bulk query advisories
-        advisories = session.query(CSAFadvisories).filter(
-            CSAFadvisories.csaf_id.in_(csaf_ids)
-        ).all()
-
         # Create maps
-        vuln_map = {
-            v.cve_id: v.id
-            for v in vulns
-        }
+        vuln_map = dict(session.execute(
+            select(Vulnerabilities.cve_id, Vulnerabilities.id)
+            .where(Vulnerabilities.cve_id.in_(cve_ids))
+            ).tuples().all()
+        )
 
-        csaf_map = {
-            a.csaf_id: a.id
-            for a in advisories
-        }
+        csaf_map = dict(session.execute(
+            select(CSAFadvisories.csaf_id, CSAFadvisories.id)
+            .where(CSAFadvisories.csaf_id.in_(csaf_ids))
+            ).tuples().all()
+        )
 
         # Prepare insert pairs
         pairs = []
@@ -486,7 +477,23 @@ def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
             )
 
             session.execute(stmt)
-            session.commit()
+
+        evidence_items = []
+        for item in csaf_vuln:
+            evidence_items.append({
+                "evidence_type": "CSAF Advisory",
+                "source": "Red Hat CSAF Advisory API",
+                "cve_id": item["cve_id"],
+                "source_record_id": csaf_map.get(item["csaf_id"]),
+                "text_snippet": f"Red Hat CSAF advisory with ID {item['csaf_id']} for {item['cve_id']}.",
+                "url_or_ref": f"https://access.redhat.com/hydra/rest/securitydata/csaf/{item['csaf_id']}.json",
+            })
+
+        if evidence_items:
+            stmt = insert(Evidence).values(evidence_items).on_conflict_do_nothing()
+            session.execute(stmt)
+
+        session.commit()
 
 
 def save_finding_evidence_links(CVE_ids: set[str]) -> None:
@@ -638,6 +645,7 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
                     "evidence_type": "VEX Statement",
                     "source": "VEX document",
                     "cve_id": statement.get("vulnerability", ""),
+                    "source_reference": new_statement.id,
                     "text_snippet": f"VEX statement with status '{statement.get('status', '')}' and justification '{statement.get('justification', '')}' for component ID {component_id}.",
                     "url_or_ref": f"VEX document ID: {document_id}"
                 })
