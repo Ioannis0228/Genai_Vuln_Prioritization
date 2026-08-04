@@ -69,10 +69,11 @@ def fusion_rank(risk_assessment, vex_statements=None):
     """Adjust priorities using VEX context and print the final ordered risk list."""
 
     for items in risk_assessment:
-        cve_id = items['cve_id']
-
-        if cve_id in vex_statements and vex_statements[cve_id][0] == items['component_purl']:
-            status, justification = vex_statements[cve_id][1:]
+        lookup_key = (items['cve_id'], items['component_purl'])
+        
+        if lookup_key in vex_statements:
+            status, justification = vex_statements[lookup_key]
+            
             if status.lower() == 'not_affected':
                 items['priority'] = 'Informational'
                 items['priority_rank'] = 4

@@ -645,7 +645,7 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
                     "evidence_type": "VEX Statement",
                     "source": "VEX document",
                     "cve_id": statement.get("vulnerability", ""),
-                    "source_reference": new_statement.id,
+                    "source_record_id": new_statement.id,
                     "text_snippet": f"VEX statement with status '{statement.get('status', '')}' and justification '{statement.get('justification', '')}' for component ID {component_id}.",
                     "url_or_ref": f"VEX document ID: {document_id}"
                 })
