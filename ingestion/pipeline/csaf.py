@@ -23,8 +23,8 @@ def fetch_RedHat_advisory(RHSA_ID: str) -> dict:
         res = requests.get(url, timeout=10)
         data = res.json()
         return data
-    except Exception:
-        print(f"Error fetching CSAF advisory for {url}")
+    except Exception as e:
+        print(f"Error fetching CSAF advisory for {url}: {e}")
         return None
 
 def find_RHSA_id(CVE: str) -> list:
@@ -52,6 +52,6 @@ def find_RHSA_id(CVE: str) -> list:
         else:
             # print(f"No RHSA found for {CVE}")
             return []
-    except Exception:
-        print(f"Error searching for RHSA ID for {CVE}")
+    except Exception as e:
+        print(f"Error searching for RHSA ID for {CVE}: {e}")
         return []

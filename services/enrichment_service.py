@@ -1,7 +1,7 @@
 """Service layer for persisting vulnerability enrichment link data."""
 
 from ingestion import fetch_vulnerability_links
-from database import save_vuln_enrichment, get_CVE_ids
+from database import save_vuln_enrichment, get_CVE_ids, check_existence, VulnerabilityEnrichment
 
 def vuln_enrichment(sbom_id: int):
     """Fetch vulnerability enrichment data from the Vulnerability-Lookup in batches and persist it to the database."""
@@ -15,6 +15,8 @@ def vuln_enrichment(sbom_id: int):
     links_dict = []
 
     for cve in CVE_ids:
+        if check_existence(VulnerabilityEnrichment, VulnerabilityEnrichment.cve_id, cve):
+            continue  # Skip if enrichment data for this CVE already exists
         links_dict.append(fetch_vulnerability_links(cve))
 
         if len(links_dict) >= BUFFER_SIZE:
