@@ -11,7 +11,7 @@ This module handles the upsert logic for all ingested data types, managing:
 from .models_db import *
 from .session import SessionLocal
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import update, select
+from sqlalchemy import update, select, and_, or_
 from datetime import datetime, UTC
 
 
@@ -499,13 +499,11 @@ def save_CVE_CSAF_mapping(csaf_vuln: list[dict]) -> None:
 def save_finding_evidence_links(CVE_ids: set[str]) -> None:
     """Attach existing evidence rows to findings that reference the same CVEs.
 
-    This function builds relationships in a many-to-many junction table by:
-    1. Executing a relational join across `Finding`, `Vulnerabilities`, and `Evidence` 
-       tables to find matching data points scoped to a target set of CVE identifiers.
-    2. Iterating through the joined results to check if the specific `Evidence` record 
-       is already linked to the `Finding` instance via the ORM relationship collection.
-    3. Appending unlinked `Evidence` objects directly into the `finding.evidence_items` 
-       relationship collection and committing the changes.
+    This function performs a conditional join between the `Finding` and `Evidence` tables
+    based on shared CVE identifiers. It applies additional filtering rules to ensure that
+    only relevant evidence is linked to each finding, particularly when dealing with
+    scoped VEX statements. The resulting finding-evidence pairs are inserted into the
+    `finding_evidence` junction table, ignoring any duplicates that may already exist.
 
     Args:
         CVE_ids (set[str]): A collection of unique CVE alphanumeric string identifiers 
@@ -516,18 +514,42 @@ def save_finding_evidence_links(CVE_ids: set[str]) -> None:
     """
 
     with SessionLocal() as session:
-        results = (
-            session.query(Finding, Evidence)
+    # Query matching finding-evidence pairs using conditional join logic
+        matching_pairs = (
+            session.query(Finding.id.label("finding_id"), Evidence.id.label("evidence_id"))
             .join(Vulnerabilities, Finding.vulnerability_id == Vulnerabilities.id)
             .join(Evidence, Vulnerabilities.cve_id == Evidence.cve_id)
-            .filter(Evidence.cve_id.in_(CVE_ids))
-            .all()
+            # Left join to VEXstatements specifically when evidence_type is VEX
+            .outerjoin(
+                VEXstatements,
+                and_(
+                    Evidence.evidence_type == 'VEX Statement',
+                    Evidence.source_record_id == VEXstatements.id
+                )
+            )
+            .filter(
+                Evidence.cve_id.in_(CVE_ids),
+                or_(
+                    # Rule 1: Non-VEX Evidence applies globally
+                    Evidence.evidence_type != 'VEX Statement',
+                    
+                    # Rule 2: Global VEX (no SBOM scope defined on statement)
+                    VEXstatements.sbom_id.is_(None),
+                    
+                    # Rule 3: Scoped VEX (SBOM on statement MUST match SBOM on Finding
+                    VEXstatements.sbom_id == Finding.sbom_id
+                )
+            )
         )
 
-        for finding, evidence in results:
-            if evidence not in finding.evidence_items:
-                finding.evidence_items.append(evidence)
-
+        # Insert into the existing finding_evidence junction table
+        stmt = (
+            insert(finding_evidence)
+            .from_select(["finding_id", "evidence_id"], matching_pairs)
+            .on_conflict_do_nothing(index_elements=["finding_id", "evidence_id"])
+        )
+        
+        session.execute(stmt)
         session.commit()
 
 
@@ -599,13 +621,13 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
         for statement in statements:
 
             if not statement.get("subcomponents"): 
-                components_ids = session.query(Components.id).filter(
+                components = session.query(Components.id, Components.purl).filter(
                     Components.purl.in_(statement.get("products", []))
                 ).all()
                 sbom_id = None
 
             else:
-                components_ids = session.query(Components.id).filter(
+                components = session.query(Components.id, Components.purl).filter(
                     Components.purl.in_(statement.get("subcomponents", []))
                 ).all()
 
@@ -630,8 +652,8 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
 
             session.add(new_statement)
             session.flush()  
-            
-            for (component_id,) in components_ids:
+
+            for component_id, _ in components:
                 session.execute(
                     vex_statement_component.insert().values(
                         statement_id=new_statement.id,
@@ -639,19 +661,19 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
                     )
                 )
 
-            evidence_items = []
-            for (component_id,) in components_ids:
-                evidence_items.append({
-                    "evidence_type": "VEX Statement",
-                    "source": "VEX document",
-                    "cve_id": statement.get("vulnerability", ""),
-                    "source_record_id": new_statement.id,
-                    "text_snippet": f"VEX statement with status '{statement.get('status', '')}' and justification '{statement.get('justification', '')}' for component ID {component_id}.",
-                    "url_or_ref": f"VEX document ID: {document_id}"
-                })
+            text_snippet = f"VEX statement with status '{new_statement.status}' and justification '{new_statement.justification}' for vulnerability {statement.get("vulnerability")} for components: {', '.join(c.purl for c in components)}"
+
+            evidence_item = {
+                "evidence_type": "VEX Statement",
+                "source": "VEX document",
+                "cve_id": statement.get("vulnerability", ""),
+                "source_record_id": new_statement.id,
+                "text_snippet": text_snippet,
+                "url_or_ref": f"VEX document ID: {document_id}"
+            }
             
-            if evidence_items:
-                stmt = insert(Evidence).values(evidence_items)
+            if evidence_item:
+                stmt = insert(Evidence).values(evidence_item)
                 session.execute(stmt)
 
         session.commit()
