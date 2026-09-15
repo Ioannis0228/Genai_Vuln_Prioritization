@@ -11,7 +11,7 @@ def process_intelligence(sbom_id: int):
     CVE_ids = get_CVE_ids(sbom_id)
 
     print("Fetching KEV data...", flush=True)
-    save_KEV_snapshot(fetch_KEV())
+    save_KEV_snapshot(fetch_KEV(CVE_ids))
 
     print("Fetching EPSS data...", flush=True)
     save_EPSS_snapshot(fetch_EPSS(CVE_ids))

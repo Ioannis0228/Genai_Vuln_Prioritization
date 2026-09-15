@@ -16,9 +16,11 @@ def parse_sbom(input_file: str) -> Bom:
     Returns:
         Bom: Parsed SBOM object with metadata, components, and dependencies.
     """
-    
-    with open(input_file,'r', encoding='utf-8') as f:
-        json_data = json.load(f)
+    try:
+        with open(input_file,'r', encoding='utf-8') as f:
+            json_data = json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError("The specified SBOM file was not found.")
 
     # Parse the JSON into a validated CycloneDX Bom object
     sbom = Bom.from_json(json_data)
