@@ -102,7 +102,7 @@ def execute_select(session, selected_columns, where_conditions=None, joins=None,
 
     return session.execute(query).all()
 
-def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns):
+def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns, date=None)-> list:
     """Return the latest snapshot rows for each CVE in the supplied list.
     
     Retrieves one row per CVE ID, ordered by date_column descending (newest first).
@@ -114,6 +114,7 @@ def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns)
         cve_ids (list): CVE identifiers to retrieve.
         date_column: Date column to use for ordering and filtering.
         selected_columns: Columns to include in result.
+        date (optional): If provided, only snapshots on or before this date are considered.
     
     Returns:
         list: Latest snapshot rows for each CVE, one row per CVE ID.
@@ -125,5 +126,8 @@ def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns)
         .distinct(table.cve_id)
         .order_by(table.cve_id, date_column.desc())
     )
+
+    if date:
+        stmt = stmt.where(date_column <= date)
 
     return session.execute(stmt).all()

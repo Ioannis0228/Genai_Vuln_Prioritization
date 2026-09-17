@@ -1,79 +1,117 @@
 """Ranking helpers for sorting vulnerabilities by CVSS, EPSS, and fusion score.
 
-These functions print and return ranked CVE lists for different scoring models,
+These functions return ranked finding lists for different scoring models,
 enabling side-by-side comparison of different prioritization strategies.
 """
 
-def cvss_rank(scores):
-    """Print and return CVSS scores sorted from highest to lowest.
+def cvss_rank(findings) -> list:
+    """Return a list of findings sorted by CVSS score from highest to lowest.
     
     Args:
-        scores (dict): Mapping of CVE ID to CVSS score.
+        findings (list): List of finding records. [finding_id, cve_id, cvss_score, purl]
     
     Returns:
         list: Sorted list of tuples (CVE_ID, CVSS_score) in descending order.
     """
 
-    ranked_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    ranked_findings = []
 
-    for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank:<4}| {item[0]:<20} - CVSS Score: {item[1]}")
-    return ranked_scores
+    for finding in findings:
+        finding_id, cve_id, cvss_score, purl = finding
 
-def epss_rank(scores):
-    """Print and return EPSS scores sorted by probability in descending order.
+        ranked_findings.append({
+            "finding_id": finding_id,
+            "cve_id": cve_id,
+            "score": cvss_score or 0,
+            "component_purl": purl,
+        })
+
+    return sorted(ranked_findings, key=lambda finding: finding["score"], reverse=True)
+
+def epss_rank(findings, epss_map) -> list:
+    """Return a list of findings sorted by EPSS score from highest to lowest.
     
     Args:
-        scores (dict): Mapping of CVE ID to tuple (EPSS_probability, EPSS_percentile).
+        findings (list): List of finding records. [finding_id, cve_id, cvss_score, purl]
+        epss_map (dict): Mapping of CVE ID to tuple (EPSS_probability, EPSS_percentile).
     
     Returns:
         list: Sorted list of tuples (CVE_ID, (probability, percentile)) in descending order by probability.
     """
-    ranked_scores = sorted(scores.items(), key=lambda x: x[1][0], reverse=True)
+    ranked_findings = []
 
-    for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank:<4}| {item[0]:<20} - EPSS Score: {item[1][0]} with Percentile: {item[1][1]}")
-    return ranked_scores         
+    for finding in findings:
+        finding_id, cve_id, _, purl = finding
 
-def cvss_epss_rank(CVSS_map, EPSS_map):
-    """Combine CVSS and EPSS into a single ordered list for comparison output.
+        epss_score, percentile = epss_map.get(cve_id, (0, 0))
+
+        ranked_findings.append({
+            "finding_id": finding_id,
+            "cve_id": cve_id,
+            "component_purl": purl,
+            "score": epss_score,
+            "epss_percentile": percentile
+        })
+
+    return sorted(ranked_findings, key=lambda finding: finding["score"], reverse=True)        
+
+def cvss_epss_rank(findings, epss_map) -> list:
+    """Return a list of findings sorted by a combined CVSS and EPSS score from highest to lowest.
     
     Computes a hybrid score: min(8, CVSS * 0.35 + EPSS_avg * 0.45) and sorts by this combined value.
     
     Args:
-        CVSS_map (dict): Mapping of CVE ID to CVSS score.
-        EPSS_map (dict): Mapping of CVE ID to tuple (EPSS_probability, EPSS_percentile).
+        findings (list): List of finding records. [finding_id, cve_id, cvss_score, purl]
+        epss_map (dict): Mapping of CVE ID to tuple (EPSS_probability, EPSS_percentile).
     
     Returns:
         list: Sorted list of tuples (CVE_ID, combined_score, CVSS, EPSS_avg) in descending order by combined_score.
     """
-    combined_scores = []
 
-    for cve, cvss_score in CVSS_map.items():
-        
-        epss_prob, epss_perc = EPSS_map.get(cve, (0, 0))
-        epss_avg = (epss_prob + epss_perc) / 2 * 10
-        
-        combined_factor = round( min(8, cvss_score * 0.35 + epss_avg * 0.45), 2)
-        
-        combined_scores.append((cve, combined_factor, cvss_score, epss_avg))
+    ranked_findings = []
 
-    ranked_scores = sorted(combined_scores, key=lambda x: x[1], reverse=True)
+    for finding in findings:
+        finding_id, cve_id, cvss_score, purl = finding
 
-    for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank:<4}| {item[0]:<20} - CVSS: {item[2]:.2f}, EPSS Avg: {item[3]:.2f}, Combined: {item[1]}")
-    return ranked_scores
+        epss_score, percentile = epss_map.get(cve_id, (0, 0))
+        epss_avg = (epss_score + percentile) / 2 * 10
+
+        ranked_findings.append({
+            "finding_id": finding_id,
+            "cve_id": cve_id,
+            "cvss_score": cvss_score or 0,
+            "component_purl": purl,
+            "epss_avg": epss_avg,
+            "score": round(min(8, (cvss_score or 0) * 0.35 + epss_avg * 0.45), 2)
+        })
+
+    return sorted(ranked_findings, key=lambda finding: finding["score"], reverse=True)
     
 
-def fusion_rank(risk_assessment, vex_statements=None):
-    """Adjust priorities using VEX context and print the final ordered risk list."""
+def fusion_rank(risk_assessment, vex_statements=None) -> list[dict]:
+    """Return a list of findings sorted by fusion score, applying VEX status downgrades.
+    
+    Args:
+        risk_assessment (list): List of risk assessment items.
+        vex_statements (dict): VEX statements to consider.
+
+    Returns:
+        list: Final ordered list of risk items.
+    """
+    if vex_statements is None:
+        vex_statements = {}
 
     for items in risk_assessment:
         lookup_key = (items['cve_id'], items['component_purl'])
         
         if lookup_key in vex_statements:
-            status, justification = vex_statements[lookup_key]
-            
+            vex = vex_statements.get(lookup_key, {})
+
+            if not vex or not vex.get("status"):
+                continue
+
+            status = vex["status"].lower()
+                
             if status.lower() == 'not_affected':
                 items['priority'] = 'Informational'
                 items['priority_rank'] = 4
@@ -84,10 +122,10 @@ def fusion_rank(risk_assessment, vex_statements=None):
                 items['priority'] = 'Medium'
                 items['priority_rank'] = 2
 
-    ranked_scores = sorted(risk_assessment, key=lambda x: (x['priority_rank'], -x['fusion_score']))
+    ranked_scores = [
+        {**item,"rank":rank} for rank, item in enumerate(
+            sorted(risk_assessment, key=lambda x: (x['priority_rank'], -x['score'])),
+            start=1)
+    ]
 
-
-    for rank, item in enumerate(ranked_scores, start=1):
-        print(f"{rank:<4}| {item['cve_id']:<20} - Fusion Score: {item['fusion_score']} - Priority: {item['priority']} - Component: {item['component_purl']}")
-        item["rank"] = rank
     return ranked_scores
