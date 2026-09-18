@@ -1,11 +1,11 @@
 """Database engine and session factory configuration."""
 
-import os
+from config import config
 from .base import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = config.DATABASE_URL
 
 engine = create_engine(DATABASE_URL)
 

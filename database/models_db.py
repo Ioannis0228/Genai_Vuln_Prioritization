@@ -54,7 +54,8 @@ class SBOM(Base):
     __tablename__ = 'sbom'
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
     sbom_version: Mapped[str] = mapped_column(String)
-    bom_ref: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True)
+    purl: Mapped[Optional[str]] = mapped_column(String, nullable=True, index=True)
+    bom_ref: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     timestamp: Mapped[date] = mapped_column(Date)
     serial_number: Mapped[Optional[str]] = mapped_column(String, unique=True, nullable=True)
     product_name: Mapped[str] = mapped_column(String)
@@ -125,12 +126,13 @@ class KEVsnapshot(Base):
     __tablename__ = 'kev_snapshot'
 
     __table_args__ = (
-        UniqueConstraint("cve_id", "created_on", name="uq_kev_snapshot"),
+        UniqueConstraint("cve_id", "snapshot_date", name="uq_kev_snapshot"),
     )
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    cve_id: Mapped[str] = mapped_column(String, index=True) 
+    cve_id: Mapped[str] = mapped_column(ForeignKey("vulnerabilities.cve_id"), index=True)
     shortDescription: Mapped[str] = mapped_column(String)
     catalog_added_date: Mapped[date] = mapped_column(Date)
+    snapshot_date: Mapped[date] = mapped_column(Date)
     created_on: Mapped[date] = mapped_column(Date, default=lambda: date.today())
 
 
@@ -175,6 +177,7 @@ class VEXstatements(Base):
 
     status: Mapped[str] = mapped_column(String)
     justification: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    timestamp: Mapped[datetime] = mapped_column(DateTime)
 
     vulnerability: Mapped[int] = mapped_column(ForeignKey("vulnerabilities.id"), index=True)
 
@@ -268,3 +271,32 @@ class Evidence(Base):
         secondary=finding_evidence,
         back_populates="evidence_items"
     )
+
+class QueueSnapshotItem(Base):
+    """Individual ranked finding within a queue snapshot."""
+
+    __tablename__ = 'queue_snapshot_items'
+
+    id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
+    queue_snapshot_id: Mapped[int] = mapped_column(ForeignKey("queue_snapshots.id", ondelete="CASCADE"), index=True)
+    finding_id: Mapped[int] = mapped_column(ForeignKey("findings.id", ondelete="CASCADE"), index=True)
+
+    rank: Mapped[int] = mapped_column(Integer, index=True, nullable=False)
+    score: Mapped[float] = mapped_column(Float, index=True, nullable=False)
+
+    snapshot: Mapped["QueueSnapshot"] = relationship("QueueSnapshot", back_populates="ranked_findings")
+
+
+class QueueSnapshot(Base):
+    """Snapshot of the ranked queue for a given SBOM at a specific date."""
+
+    __tablename__ = 'queue_snapshots'
+
+    __table_args__ = (UniqueConstraint("algorithm","sbom_id","snapshot_date", name="uq_queue_snapshot"),)
+
+    id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
+    algorithm: Mapped[str] = mapped_column(String)
+    sbom_id: Mapped[int] = mapped_column(ForeignKey("sbom.id", ondelete="CASCADE"), index=True)
+    snapshot_date: Mapped[date] = mapped_column(Date)
+
+    ranked_findings: Mapped[List["QueueSnapshotItem"]] = relationship("QueueSnapshotItem", back_populates="snapshot", cascade="all, delete-orphan")

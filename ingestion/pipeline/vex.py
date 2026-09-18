@@ -10,7 +10,7 @@ import json
 def parse_vex(input_file: str) -> dict:
     """Parse a VEX JSON file into the flattened structure used by the database layer.
     
-    Normalizes VEX statement components and subcomponents, handling both string IDs
+    Normalizes statement components and subcomponents, handling both string IDs
     and nested dictionary representations.
     
     Args:
@@ -19,11 +19,16 @@ def parse_vex(input_file: str) -> dict:
     Returns:
         dict: Document record with keys: document_id, author, timestamp, version, statements.
               statements is a list of dicts with keys: status, justification, vulnerability, 
-              products, subcomponents.
+              products, subcomponents, timestamp.
     """
     
-    with open(input_file, 'r', encoding='utf-8') as f:
-        json_data = json.load(f)
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            json_data = json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError("The specified VEX file was not found.")
+    except json.JSONDecodeError:
+        raise json.JSONDecodeError("The specified VEX file is not valid JSON.")
 
     document = {
         "document_id": json_data.get('@id', ''),
@@ -46,7 +51,8 @@ def parse_vex(input_file: str) -> dict:
                 c.get("@id") if isinstance(c, dict) else c
                 for product in statement.get("products", [])
                 for c in product.get("subcomponents", []) 
-            ]
+            ],
+            "timestamp": statement.get('timestamp', document["timestamp"])
         }
 
         document['statements'].append(parsed_statement)

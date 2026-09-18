@@ -30,12 +30,13 @@ def save_sbom(sbom) -> int:
 
     sbom_dict = {
         "sbom_version": str(sbom.version),
-        "bom_ref": str(sbom.metadata.component.bom_ref) if sbom.metadata.component.bom_ref else None,
+        "purl": str(sbom.metadata.component.purl),
+        "bom_ref": str(sbom.metadata.component.bom_ref),
         "timestamp": sbom.metadata.timestamp,
         "serial_number": str(sbom.serial_number),
         "product_name": sbom.metadata.component.name,
         "product_version": str(sbom.metadata.component.version),
-        "description": str(sbom.metadata.component.description) if sbom.metadata.component.description else None
+        "description": str(sbom.metadata.component.description)
     }
 
     with SessionLocal() as session:
@@ -290,7 +291,7 @@ def save_CVEs(sbom_id: int, component_cve: list) -> None:
 
         session.commit()
 
-def save_KEV_snapshot(kev_data: list[dict]) -> None:
+def save_KEV_snapshot(kev_data: list[dict], create_evidence: bool = True) -> None:
     """Persist CISA Known Exploited Vulnerabilities (KEV) data and generate audit evidence.
 
     This function bulk-inserts incoming KEV records into the `KEVsnapshot` table.
@@ -313,32 +314,32 @@ def save_KEV_snapshot(kev_data: list[dict]) -> None:
     inserted_rows = []
     with SessionLocal() as session:
         stmt = insert(KEVsnapshot).values(kev_data)
-        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id","created_on"]
+        stmt = stmt.on_conflict_do_nothing(index_elements=["cve_id","snapshot_date"]
                                            ).returning(KEVsnapshot.cve_id, 
                                                        KEVsnapshot.catalog_added_date, 
                                                        KEVsnapshot.id)
         inserted_rows = session.execute(stmt).fetchall()
 
+        if create_evidence:
+            evidence_items = []
+            for item in inserted_rows:
+                if item[0]:
+                    evidence_items.append({
+                        "evidence_type": "KEV",
+                        "source": "CISA KEV catalog",
+                        "cve_id": item[0],
+                        "source_record_id": item[2],
+                        "text_snippet": f"Added to KEV catalog on {item[1]}",
+                        "url_or_ref": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+                    })
 
-        evidence_items = []
-        for item in inserted_rows:
-            if item[0]:
-                evidence_items.append({
-                    "evidence_type": "KEV",
-                    "source": "CISA KEV catalog",
-                    "cve_id": item[0],
-                    "source_record_id": item[2],
-                    "text_snippet": f"Added to KEV catalog on {item[1]}",
-                    "url_or_ref": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-                })
-
-        if evidence_items:
-            stmt = insert(Evidence).values(evidence_items)
-            session.execute(stmt)
+            if evidence_items:
+                stmt = insert(Evidence).values(evidence_items)
+                session.execute(stmt)
 
         session.commit()
 
-def save_EPSS_snapshot(epss_data: list[dict]) -> None:
+def save_EPSS_snapshot(epss_data: list[dict], create_evidence: bool = True) -> None:
     """Persist Exploit Prediction Scoring System (EPSS) data and generate matching evidence entries.
 
     This function updates the database by bulk-inserting daily EPSS snapshot records 
@@ -364,21 +365,22 @@ def save_EPSS_snapshot(epss_data: list[dict]) -> None:
                                                        EPSSsnapshot.id)
         inserted_row = session.execute(stmt).fetchall()
 
-        evidence_items = []
-        for item in inserted_row:
-            if item[0] and item[1]:  # cve_id is at index 0
-                evidence_items.append({
-                    "evidence_type": "EPSS",
-                    "source": "First.org EPSS API",
-                    "cve_id": item[0],
-                    "source_record_id": item[3],
-                    "text_snippet": f"EPSS score: {item[1]} for {item[0]} on {item[2]}",
-                    "url_or_ref": f"https://api.first.org/data/v1/epss?cve={item[0]}"
-                })
-        
-        if evidence_items:
-            stmt = insert(Evidence).values(evidence_items)
-            session.execute(stmt)
+        if create_evidence:
+            evidence_items = []
+            for item in inserted_row:
+                if item[0] and item[1]:  # cve_id is at index 0
+                    evidence_items.append({
+                        "evidence_type": "EPSS",
+                        "source": "First.org EPSS API",
+                        "cve_id": item[0],
+                        "source_record_id": item[3],
+                        "text_snippet": f"EPSS score: {item[1]} for {item[0]} on {item[2]}",
+                        "url_or_ref": f"https://api.first.org/data/v1/epss?cve={item[0]}"
+                    })
+            
+            if evidence_items:
+                stmt = insert(Evidence).values(evidence_items)
+                session.execute(stmt)
 
         session.commit()
 
@@ -597,14 +599,13 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
 
     This function processes a collection of Vulnerability Exploit Exchange (VEX) 
     statements. For each statement, it applies conditional logic to resolve targets:
-    - If 'subcomponents' are absent, it maps the vulnerability directly to the main 
-      products matching the provided PURLs.
-    - If 'subcomponents' are present, it links the vulnerability to those targeted 
-      subcomponents, and maps the parent product to its corresponding `sbom_id` via `bom_ref`.
+    - Get the SBOM ID based on the purl and fallback to product name.
+    - If no SBOM ID is found, it assumes a global VEX statement and fetches components
+      directly from the 'products' list.
 
     Once foreign keys are evaluated, the individual VEX statement is recorded, its 
     many-to-many relationships are written to the `vex_statement_component` junction 
-    table, and matching entries are generated in the global `Evidence` database.
+    table, and matching entries are generated in the `Evidence` table.
 
     Args:
         document_id (int): Primary key identifier of the parent VEX header document.
@@ -620,23 +621,27 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
 
         for statement in statements:
 
-            if not statement.get("subcomponents"): 
+            # Determine the SBOM ID based on the purl
+            sbom_id = session.query(SBOM.id).filter(
+                SBOM.purl.in_(statement.get("products", []))
+            ).first()
+
+            # Fallback: If no SBOM ID is found via purl, attempt to find it via product name
+            if not sbom_id:
+                sbom_id = session.query(SBOM.id).filter(
+                    SBOM.product_name.in_(statement.get("products", []))
+                ).first()
+
+            # If still no SBOM ID is found, we will proceed with None, which indicates a global VEX statement without SBOM scope
+            if not sbom_id:
                 components = session.query(Components.id, Components.purl).filter(
                     Components.purl.in_(statement.get("products", []))
                 ).all()
-                sbom_id = None
 
             else:
                 components = session.query(Components.id, Components.purl).filter(
                     Components.purl.in_(statement.get("subcomponents", []))
                 ).all()
-
-                sbom_id = session.query(SBOM.id).filter(
-                    SBOM.bom_ref.in_(statement.get("products", []))
-                ).scalar()
-
-
-            
 
             vulnerability_id = session.query(Vulnerabilities.id).filter(
                 Vulnerabilities.cve_id == statement.get("vulnerability", "")
@@ -648,6 +653,7 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
                 status=statement.get("status", ""),
                 justification=statement.get("justification", ""),
                 vulnerability=vulnerability_id,
+                timestamp=statement.get("timestamp")
             )
 
             session.add(new_statement)
@@ -732,7 +738,7 @@ def save_fusion_results(risk_assessment):
 
     rows = [{
             "id": item["finding_id"],
-            "fusion_score": item["fusion_score"],
+            "fusion_score": item["score"],
             "priority": item["priority"],
             "rank": item["rank"],
             "why_ranked": item["why-ranked"],
@@ -746,4 +752,39 @@ def save_fusion_results(risk_assessment):
                 update(Finding),
                 rows
             )
+        session.commit()
+
+
+def save_queue_snapshots(queue_snapshots: dict[str, dict], date) -> None:
+    """ Persist ranked findings for each SBOM and algorithm combination into the QueueSnapshot and QueueSnapshotItem tables."""
+
+    with SessionLocal() as session:
+        for sbom_id, algorithms in queue_snapshots.items():
+            for algorithm, findings in algorithms.items():
+                stmt = insert(QueueSnapshot).values(
+                    sbom_id=sbom_id,
+                    algorithm=algorithm,
+                    snapshot_date=date,
+                )
+
+                stmt = stmt.on_conflict_do_update(
+                    constraint="uq_queue_snapshot",
+                    set_={"snapshot_date": date}  
+                ).returning(QueueSnapshot.id)
+
+                snapshot_id = session.execute(stmt).scalar_one()
+
+                existing_snapshot = session.get(QueueSnapshot, snapshot_id)
+                existing_snapshot.ranked_findings.clear()
+                session.flush()
+
+                for index, finding in enumerate(findings):
+                    item = QueueSnapshotItem(
+                        queue_snapshot_id=snapshot_id,
+                        finding_id=finding["finding_id"],
+                        score=finding["score"],
+                        rank=index + 1
+                    )
+                    session.add(item)
+
         session.commit()
