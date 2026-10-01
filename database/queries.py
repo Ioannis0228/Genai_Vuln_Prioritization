@@ -103,11 +103,12 @@ def execute_select(session, selected_columns, where_conditions=None, joins=None,
     return session.execute(query).all()
 
 def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns, date=None)-> list:
-    """Return the latest snapshot rows for each CVE in the supplied list.
-    
-    Retrieves one row per CVE ID, ordered by date_column descending (newest first).
-    Used to get the most recent EPSS or KEV snapshot for each CVE.
-    
+    """Return the snapshot rows for the supplied CVEs from the latest available snapshot date.
+
+    Determines the latest snapshot date in the table, optionally restricted to
+    snapshots on or before the provided date, and returns rows for the CVE IDs
+    in cve_ids that exist at that snapshot date.
+
     Args:
         session: Active SQLAlchemy session.
         table: Snapshot table to query (e.g., EPSSsnapshot, KEVsnapshot).
@@ -117,17 +118,27 @@ def get_latest_snapshots(session, table, cve_ids, date_column, selected_columns,
         date (optional): If provided, only snapshots on or before this date are considered.
     
     Returns:
-        list: Latest snapshot rows for each CVE, one row per CVE ID.
+        list: Snapshot rows for the supplied CVE IDs that exist at the latest
+            available snapshot date. CVEs not present in that snapshot are not
+            included.
     """
+
+    snapshot_query = select(date_column)
+
+    if date:
+        snapshot_query = snapshot_query.where(date_column <= date)
+
+    snapshot_date = (
+        snapshot_query
+        .order_by(date_column.desc())
+        .limit(1)
+        .scalar_subquery()
+    )
 
     stmt = (
         select(*selected_columns)
         .where(table.cve_id.in_(cve_ids))
-        .distinct(table.cve_id)
-        .order_by(table.cve_id, date_column.desc())
+        .where(date_column == snapshot_date)
     )
-
-    if date:
-        stmt = stmt.where(date_column <= date)
 
     return session.execute(stmt).all()

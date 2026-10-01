@@ -624,13 +624,13 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
             # Determine the SBOM ID based on the purl
             sbom_id = session.query(SBOM.id).filter(
                 SBOM.purl.in_(statement.get("products", []))
-            ).first()
+            ).scalar()
 
             # Fallback: If no SBOM ID is found via purl, attempt to find it via product name
             if not sbom_id:
                 sbom_id = session.query(SBOM.id).filter(
                     SBOM.product_name.in_(statement.get("products", []))
-                ).first()
+                ).scalar()
 
             # If still no SBOM ID is found, we will proceed with None, which indicates a global VEX statement without SBOM scope
             if not sbom_id:
@@ -667,7 +667,7 @@ def save_VEX_statements(document_id: int, statements: list[dict]) -> None:
                     )
                 )
 
-            text_snippet = f"VEX statement with status '{new_statement.status}' and justification '{new_statement.justification}' for vulnerability {statement.get("vulnerability")} for components: {', '.join(c.purl for c in components)}"
+            text_snippet = f"VEX statement with status '{new_statement.status}' and justification '{new_statement.justification}' for vulnerability {statement.get('vulnerability')} for components: {', '.join(c.purl for c in components)}"
 
             evidence_item = {
                 "evidence_type": "VEX Statement",

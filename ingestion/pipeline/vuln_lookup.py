@@ -62,7 +62,7 @@ def fetch_vulnerability_links(cve_id: str) -> dict:
 
         for adp in adp_list:
             provider_name = adp.get("providerMetadata", {}).get("shortName", "adp").upper()
-            references = cna.get("references", [])
+            references = adp.get("references", [])
             linked_urls = [ref.get("url", "") for ref in references if ref.get("url", "")]
             extracted_links.append({
                 "data_type": "references",

@@ -253,6 +253,7 @@ class Evidence(Base):
         UniqueConstraint(
             "evidence_type",
             "source_record_id",
+            "cve_id",
             name="uq_evidence_constraint"
         ),
     )

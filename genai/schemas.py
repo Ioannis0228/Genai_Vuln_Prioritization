@@ -1,29 +1,41 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Optional
+from enum import Enum
 
-# --- Scope: Claims & Explanations ---
-class Prioritization(BaseModel):
-    reason_type: str = Field(description="Type of prioritization reason, e.g., CVSS, KEV, EPSS, CSAF_Advisory")
-    statement: str = Field(description="Statement explaining why the vulnerability is prioritized now")
-    evidence_ids: List[str] = Field(description="List of evidence ids supporting this prioritization reason")
-
-class Remediation(BaseModel):
-    action_type: str = Field(description="Type of remediation action, e.g., Patch, Mitigation, Workaround")
-    statement: str = Field(description="Statement explaining what to do next for remediation")
-    evidence_ids: List[str] = Field(description="List of evidence ids supporting this remediation action")
+class ClaimType(str, Enum):
+    CVSS = "CVSS"
+    KEV = "KEV"
+    EPSS = "EPSS"
+    CSAF_Advisory = "CSAF_Advisory"
+    VEX_Statement = "VEX_Statement"
+    Vendor_Advisory = "Vendor_Advisory"
+    Remediation_Step = "Remediation_Step"
+    Mitigation = "Mitigation"
+    Other = "Other"
 
 class Claim(BaseModel):
-    summary: str = Field(description="A concise summary of the claim")
-    claim_type: str = Field(description="e.g., KEV, EPSS, CSAF_Advisory, etc.")
-    value: str = Field(description="The claim value")
-    evidence_id: str = Field(description="Evidence id supporting this claim")
+    summary: str = Field(description="A detailed summary of the claim")
+    claim_type: ClaimType = Field(description="Type of claim")
+    value: Optional[str] = Field(description="The claim value")
+    evidence_id: Optional[int] = Field(description="Evidence id supporting this claim")
+
+class Personas_summary(BaseModel):
+    developer: str = Field(description="A detailed summary of the explanations for the developer persona")
+    devops: str = Field(description="A detailed summary of the explanations for the devops engineer persona")
+    security_lead: str = Field(description="A detailed summary of the explanations for the security lead persona")
 
 class GroundedExplanation(BaseModel):
     Vulnerability: str = Field(description="CVE ID or identifier of the vulnerability being explained")
     component_purl: str = Field(description="PURL of the affected component")
-    why_prioritized_now: List[Prioritization] = Field(description="Explanation of urgency, MUST cite evidence_ids")
-    what_to_do_next: List[Remediation] = Field(description="Actionable next steps, MUST cite evidence_ids")
-    claims: List[Claim] = Field(description="List of claims made in the explanation, each tied to an evidence_id")
+    rank: int = Field(description="Rank of the finding")
+    summary: Optional[str] = Field(description="A detailed summary of the explanation for the specified persona")
+    why_prioritized_now: List[Claim] = Field(description="Explanation of urgency")
+    what_to_do_next: List[Claim] = Field(description="Actionable next steps")
+    affected_versions: Optional[List[str]] = Field(description="List of affected versions of the component")
+    fixed_versions: Optional[List[str]] = Field(description="List of fixed versions of the component")
 
 class GroundedExplanationList(BaseModel):
-    explanations: List[GroundedExplanation] = Field(description="List of grounded explanations for multiple vulnerabilities")
+    Product_Name: str = Field(description="Name of the product for which the explanations are generated")
+    SBOM_id: int = Field(description="Database ID of the ingested SBOM")
+    summary: Personas_summary = Field(description="A detailed summary of the explanations for the specified persona")
+    explanations: List[GroundedExplanation] = Field(description="List of grounded explanations for multiple findings")

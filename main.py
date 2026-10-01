@@ -11,7 +11,9 @@ from services.sbom_service import process_sbom, get_all_sboms
 from services.vex_service import process_vex
 from services.prioritization_service import ranking_sbom
 from services.genai_service import generate_explanations
-from genai import LLMClient
+from services.snapshots_service import capture_snapshots
+from datetime import datetime, timedelta
+from config import config
 
 SBOM_PATH = ['data/juice_bom.json',
              'data/spring_petclinic_sbom.json',
@@ -32,9 +34,6 @@ app = typer.Typer(  name="GenAi Vulnerability Prioritization",
                     context_settings={"help_option_names": ["-h", "--help"]},
                 )
 
-# --- Initialize LLM Client ---
-llm_client = LLMClient() 
-
 # --- Typer Commands ---
 @app.command(name="list-sboms")
 def list_sboms():
@@ -48,6 +47,7 @@ def list_sboms():
     typer.echo("-" * 80)
     for sbom in sboms:
         typer.echo(f"{sbom.id:<10} {sbom.product_name:<70}")
+    typer.echo()
 
 
 @app.command(name="ingest-sbom")
@@ -87,8 +87,8 @@ def enrichment(sbom_id: Annotated[int, typer.Argument(..., help="The database ID
 
 
 @app.command(name="ingest-vex")
-def ingest_vex(file_path: Annotated[str, typer.Argument(..., help="Path to the Vulnerability Exploitability eXchange (VEX) JSON file.")]):
-    """Parse and ingest a Vulnerability Exploitability eXchange (VEX) JSON file."""
+def ingest_vex(file_path: Annotated[str, typer.Argument(..., help="Path to the Vulnerability Exploitability eXchange (OpenVEX) JSON file.")]):
+    """Parse and ingest a Vulnerability Exploitability eXchange (OpenVEX) JSON file."""
 
     typer.echo(f"Ingesting VEX from: {file_path}")
     process_vex(file_path)
@@ -97,27 +97,84 @@ def ingest_vex(file_path: Annotated[str, typer.Argument(..., help="Path to the V
 
 @app.command(name="prioritization")
 def prioritization(sbom_id: Annotated[int, typer.Argument(..., help="The database ID of the ingested SBOM.")],
-                       cvss_ranking: Annotated[bool, typer.Option("--cvss", help="Enable CVSS-based ranking.")] = False,
-                       epss_ranking: Annotated[bool, typer.Option("--epss", help="Enable EPSS-based ranking.")] = False,
-                       cvss_epss_ranking: Annotated[bool, typer.Option("--cvss-epss", help="Enable CVSS-EPSS fusion ranking.")] = False,
-                       fusion_ranking: Annotated[bool, typer.Option("--fusion/--no-fusion", help="Enable fusion-based ranking.")] = True):
+                       date: Annotated[datetime, typer.Option("-d","--date", help="The date to run the prioritization for. Defaults to today.", formats=["%Y-%m-%d"])] = None,
+                       cvss_ranking: Annotated[bool, typer.Option("-c","--cvss", help="Enable CVSS-based ranking.")] = False,
+                       epss_ranking: Annotated[bool, typer.Option("-e","--epss", help="Enable EPSS-based ranking.")] = False,
+                       cvss_epss_ranking: Annotated[bool, typer.Option("-ce","--cvss-epss", help="Enable CVSS-EPSS fusion ranking.")] = False,
+                       fusion_ranking: Annotated[bool, typer.Option("-f/-nf","--fusion/--no-fusion", help="Enable fusion-based ranking.")] = True):
 
     """Run the vulnerability prioritization pipeline for a given SBOM ID using specified ranking methods."""
 
     typer.echo(f"Running prioritization for SBOM ID: {sbom_id}...")
-    ranking_results = ranking_sbom(sbom_id, cvss_ranking, epss_ranking, cvss_epss_ranking, fusion_ranking)
-    typer.secho("Prioritization completed.", fg=typer.colors.GREEN)
+
+    if date is None: 
+        date = datetime.now().date()
+    else: 
+        date = date.date()  # Convert datetime to date
+
+    if date > datetime.now().date():
+        typer.secho("Error: The provided date is in the future. Please provide a valid date.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    
+    typer.echo(f"Date for prioritization: {date}")
+    
+    ranking_results = ranking_sbom(sbom_id, date, cvss_ranking, epss_ranking, cvss_epss_ranking, fusion_ranking)
+
+    if cvss_ranking:
+        typer.secho("\nCVSS Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["cvss"], start=1):
+            typer.secho(f"{rank:<4}",nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f" - Component:",nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.secho(f"    | CVSS Score: {item['score']:<4.2f}")
+            typer.echo()
+
+    if epss_ranking:
+        typer.secho("\nEPSS Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["epss"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f" - Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.echo(f"    | EPSS Score: {item['score']:<3.4f} with Percentile: {item['epss_percentile']:<.4f}")
+            typer.echo()
+
+    if cvss_epss_ranking:
+        typer.secho("\nCVSS-EPSS Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["cvss_epss"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f"- Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.echo(f"    | Combined score: {item['score']:<5.2f}")
+            typer.echo(f"    | CVSS: {item['cvss_score']:<4.2f} | EPSS average: {item['epss_avg']:<3.4f}")
+            typer.echo()
+
+    if fusion_ranking:
+        typer.secho("\nFusion Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["fusion"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f"- Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.secho(f"    | Priority: {item['priority']:<8} - Fusion Score: {item['score']:<4.2f}")
+            typer.secho(f"    | Why ranked:", nl=False, fg=typer.colors.YELLOW)
+            typer.echo(f" {item['why-ranked']}".replace("|", "\n"+ " "*17))
+            typer.echo()
+
+    typer.secho("Prioritization completed.\n", fg=typer.colors.GREEN)
 
 
 @app.command(name="full-pipeline")
 def full_pipeline(sbom_path: Annotated[str, typer.Argument(..., help="Path to the CycloneDX SBOM JSON file.")],
                   output_path: Annotated[str, typer.Argument(..., help="Path to the output JSON file from Trivy.")],
-                  vex_paths: Annotated[list[str], typer.Option("--vex", help="Paths to VEX JSON files to ingest.")] = [],
-                  cvss_ranking: Annotated[bool, typer.Option("--cvss", help="Enable CVSS-based ranking.")] = False,
-                  epss_ranking: Annotated[bool, typer.Option("--epss", help="Enable EPSS-based ranking.")] = False,
-                  cvss_epss_ranking: Annotated[bool, typer.Option("--cvss-epss", help="Enable CVSS-EPSS fusion ranking.")] = False,
-                  fusion_ranking: Annotated[bool, typer.Option("--fusion/--no-fusion", help="Enable fusion-based ranking.")] = True,
-                  ):
+                  vex_paths: Annotated[list[str], typer.Option("-v","--vex", help="Paths to VEX JSON files to ingest.")] = [],
+                  cvss_ranking: Annotated[bool, typer.Option("-c","--cvss", help="Enable CVSS-based ranking.")] = False,
+                  epss_ranking: Annotated[bool, typer.Option("-e","--epss", help="Enable EPSS-based ranking.")] = False,
+                  cvss_epss_ranking: Annotated[bool, typer.Option("-ce","--cvss-epss", help="Enable CVSS-EPSS fusion ranking.")] = False,
+                  fusion_ranking: Annotated[bool, typer.Option("-f/-nf","--fusion/--no-fusion", help="Enable fusion-based ranking.")] = True,
+                ):
     
     """
     Run the entire vulnerability prioritization pipeline for a given SBOM path.
@@ -143,17 +200,127 @@ def full_pipeline(sbom_path: Annotated[str, typer.Argument(..., help="Path to th
     for vex_file in vex_paths:
         ingest_vex(vex_file)
 
-    ranking_sbom(sbom_id, cvss_ranking, epss_ranking, cvss_epss_ranking, fusion_ranking)
+    ranking_results = ranking_sbom(sbom_id, datetime.now().date(), cvss_ranking, epss_ranking, cvss_epss_ranking, fusion_ranking)
 
+    if cvss_ranking:
+        typer.secho("\nCVSS Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["cvss"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f"    | Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.secho(f"    | CVSS Score: {item['score']:<4.2f}")
+        typer.echo()
+
+    if epss_ranking:
+        typer.secho("\nEPSS Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["epss"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f"    | Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.echo(f"    | EPSS Score: {item['score']:<3.4f} with Percentile: {item['epss_percentile']:<.4f}")
+        typer.echo()
+
+    if cvss_epss_ranking:
+        typer.secho("\nCVSS-EPSS Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["cvss_epss"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f"    | Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.secho(f"    | Combined score: {item['score']:<5.2f}")
+        typer.echo()
+
+    if fusion_ranking:
+        typer.secho("\nFusion Rankings:", fg=typer.colors.CYAN)
+        for rank, item in enumerate(ranking_results["fusion"], start=1):
+            typer.secho(f"{rank:<4}", nl=False, fg=typer.colors.CYAN)
+            typer.secho(f"| {item['cve_id']:<16}", nl=False, fg=typer.colors.RED)
+            typer.echo(f"- Component:", nl=False)
+            typer.secho(f" {item['component_purl']:<50}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.secho(f"    | Priority: {item['priority']:<8} - Fusion Score: {item['score']:<4.2f} ")
+            typer.secho(f"    | Why ranked:", nl=False, fg=typer.colors.YELLOW)
+            typer.echo(f"{item['why-ranked']}".replace("|", "\n"+ " "*17))
+        typer.echo()
 
 @app.command(name="genai-explanations")
 def genai_explanations(sbom_id: Annotated[int, typer.Argument(..., help="The database ID of the ingested SBOM.")],
-              top_k: Annotated[int, typer.Option("--top-k", help="Number of top vulnerabilities to prioritize for GenAI analysis.")] = 5):
-    """Run the GenAI explanation generation for a given SBOM ID."""
+              top_k: Annotated[int, typer.Option("-k","--top-k", help="Number of top items to generate AI explanations for.")] = 5,
+              persona: Annotated[str, typer.Option("-p","--persona", help="Persona for which the summary is generated. Developer, DevOps, or Security_Lead.")] = "Developer",
+              baseline: Annotated[bool, typer.Option("-b","--baseline", help="Use the baseline prompt for GenAI analysis.")] = False,
+              verbose: Annotated[bool, typer.Option("-v","--verbose", help="Enable verbose output for printing every explanation.")] = False):
+    """Run the GenAI explanation generation for a given SBOM ID.
+    
+    Warning: Don't run this command for large top_k value because will exceed the token limit of the LLM model. The default top_k is 5. 
+    """
+    persona = persona.lower()
+    if persona not in ["developer", "devops", "security_lead"]:
+        typer.secho("Invalid persona. Please choose from: developer, devops, security_lead.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
     typer.echo(f"Running GenAI for SBOM ID: {sbom_id}...")
-    generate_explanations(llm_client, sbom_id, top_k)
+    answer = generate_explanations(sbom_id, top_k, baseline)
+
+    typer.secho(f"\n{persona.capitalize()} summary:", fg=typer.colors.CYAN, bold=True)
+    typer.echo(getattr(answer.summary, persona))
+
+    if verbose:
+        for i, explanation in enumerate(answer.explanations, start=1):
+            typer.secho(f"\nExplanation {i}:", fg=typer.colors.CYAN)
+            typer.echo("Vulnerability: ", nl=False)
+            typer.secho(f"{explanation.Vulnerability}", fg=typer.colors.RED, bold=True)
+            typer.echo("Component PURL: ", nl=False)
+            typer.secho(f"{explanation.component_purl}", fg=typer.colors.BRIGHT_MAGENTA)
+            typer.echo("Rank: ", nl=False)
+            typer.secho(f"{explanation.rank}", fg=typer.colors.YELLOW)
+            typer.echo(f"Summary: {explanation.summary}")
+            typer.secho("Why Prioritized Now:", fg=typer.colors.CYAN)
+            for claim in explanation.why_prioritized_now:
+                typer.echo(f"  - Summary: {claim.summary}")
+                typer.secho(f"  - Claim Type: {claim.claim_type}, Value: {claim.value}, Evidence ID: {claim.evidence_id}", dim=True)
+            typer.secho("What to Do Next:", fg=typer.colors.CYAN)
+            for claim in explanation.what_to_do_next:
+                typer.echo(f"  - Summary: {claim.summary}")
+                typer.secho(f"  - Claim Type: {claim.claim_type}, Value: {claim.value}, Evidence ID: {claim.evidence_id}", dim=True)
+    typer.echo()
 
     typer.secho("GenAI explanation generation completed.", fg=typer.colors.GREEN)
+
+
+@app.command(name="capture-snapshots")
+def snapshots(start_date: Annotated[datetime, typer.Option("-s", "--start-date", help="Start date for snapshot capture.", formats=["%Y-%m-%d"])] = None,
+              end_date: Annotated[datetime, typer.Option("-e", "--end-date", help="End date for snapshot capture.", formats=["%Y-%m-%d"])] = None,
+              save_queues: Annotated[bool, typer.Option("-q", "--save-queues", help="Save prioritization queues for the snapshots.")] = True):
+    """Capture snapshots for a given date range and save prioritization queues for each date for evaluation purposes. 
+    The snapshots will include EPSS and KEV data for each date.
+    Start date is the oldest date and end date is the most recent date.
+    If no dates are provided, the default range from the configuration will be used. 
+
+    The start date must be after 2025-01-27, and the end date cannot be in the future.
+    Warning: This operation may take several minutes depending on the dates, the number of CVEs and SBOMs in the database.
+    """
+
+    if start_date is None:
+        start_date = config.start_date  # Default to config start date
+    else:
+        start_date = start_date.date()
+
+    if end_date is None:
+        end_date = config.end_date  # Default to config end date
+    else:
+        end_date = end_date.date()
+
+    if start_date > end_date:
+        typer.secho("Error: Start date cannot be after end date.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    if end_date > datetime.now().date():
+        typer.secho("Error: End date cannot be in the future.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+
+    dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
+
+    capture_snapshots(dates=dates, save_queues=save_queues)
+    typer.secho(f"Snapshots created for dates from {start_date} to {end_date}.", fg=typer.colors.GREEN)
 
 
 # --- Loop for REPL-like interface ---

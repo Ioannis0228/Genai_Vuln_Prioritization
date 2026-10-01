@@ -136,12 +136,13 @@ def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ran
                                              CVSS_score=CVSS,
                                              EPSS_probability=EPSS_prob,
                                              EPSS_percentile=EPSS_perc,
-                                             vex_status=VEX_map.get(finding_id, {}).get("status")))
+                                             vex_status=VEX_map.get((cve, purl), {}).get("status")))
             })
 
         ranked_assesment = fusion_rank(risk_assessment,vex_statements=VEX_map)
 
-        save_fusion_results(ranked_assesment)
+        if snapshot_date == date.today():
+            save_fusion_results(ranked_assesment)
 
         results["fusion"] = ranked_assesment
 
