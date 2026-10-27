@@ -31,6 +31,8 @@ def fetch_nvd_cvss(cve_id):
             return None, None
 
         metrics = vulns[0]["cve"].get("metrics", {})
+        if not metrics:
+            return None, None
 
         if metrics.get("cvssMetricV4"):
             return metrics["cvssMetricV4"][0]["cvssData"]["baseScore"], "4.0"
@@ -40,7 +42,7 @@ def fetch_nvd_cvss(cve_id):
             return metrics["cvssMetricV30"][0]["cvssData"]["baseScore"], "3.0"
         if metrics.get("cvssMetricV2"):
             return metrics["cvssMetricV2"][0]["cvssData"]["baseScore"], "2.0"
-        
+        return None, None
 
     except Exception:
         print(f"Error fetching CVSS for {cve_id}")

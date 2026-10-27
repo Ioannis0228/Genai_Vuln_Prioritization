@@ -40,7 +40,7 @@ def normalize_component(c) -> dict:
     """
     
     return {
-        "type": str(c.type),
+        "type": c.type.value,
         "bom_ref": str(c.bom_ref) if c.bom_ref else None,
         "name": c.name,
         "version": c.version or None,

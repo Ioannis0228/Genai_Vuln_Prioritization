@@ -16,7 +16,7 @@ client = PyVulnerabilityLookup()
 def fetch_vulnerability_links(cve_id: str) -> dict:
     """Fetch linked references, CWEs, and advisory metadata for a CVE.
     
-    Queries the vulnerability-lookup API with linked=true to retrieve:
+    Queries the vulnerability-lookup API with with_linked=true to retrieve:
     - CNA (CVE Numbering Authority) metadata: references, CWEs, vendor info
     - ADP (Authorized Data Publishers) metadata from multiple sources
     - Linked advisories from GitHub, vendors, and other platforms
@@ -87,6 +87,7 @@ def fetch_vulnerability_links(cve_id: str) -> dict:
             
             for advisory in payload:
                 advisory_id = (
+                    advisory[0] or
                     advisory[1].get("id") or 
                     advisory[1].get("reference") or 
                     advisory[1].get("document", {}).get("tracking", {}).get("id")

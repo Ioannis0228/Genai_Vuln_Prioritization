@@ -7,6 +7,7 @@ findings into database-ready records with CVSS metadata.
 
 import json
 import subprocess
+from datetime import datetime, UTC
 
 def mapping_cve(SBOM_PATH: str, OUTPUT_PATH: str) -> list:
     """Run Trivy against an SBOM and convert the findings into normalized CVE rows.
@@ -61,7 +62,7 @@ def mapping_cve(SBOM_PATH: str, OUTPUT_PATH: str) -> list:
                 "cvss_score": cvss_score,
                 "cvss_version": cvss_version,
                 "cvss_source": cvss_source,
-                "published_date": v.get("PublishedDate")
+                "published_date": v.get("PublishedDate") if v.get("PublishedDate") else datetime.now(UTC).date()
             })    
 
     return component_cve
