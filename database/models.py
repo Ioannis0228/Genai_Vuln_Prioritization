@@ -231,12 +231,6 @@ class Finding(Base):
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
 
-    fusion_score: Mapped[float] = mapped_column(Float, index=True, nullable=False, default=0.0)
-    rank: Mapped[int] = mapped_column(Integer, index=True, nullable=False, default=0)
-    priority: Mapped[str] = mapped_column(String, nullable=False, default="Not yet evaluated.")
-    why_ranked: Mapped[str] = mapped_column(String, nullable=False, default="Not yet evaluated.")
-    last_updated: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC), onupdate=lambda: datetime.now(UTC))
-
     evidence_items: Mapped[List["Evidence"]] = relationship(
         "Evidence", 
         secondary=finding_evidence,
@@ -293,10 +287,10 @@ class QueueSnapshot(Base):
 
     __tablename__ = 'queue_snapshots'
 
-    __table_args__ = (UniqueConstraint("algorithm","sbom_id","snapshot_date", name="uq_queue_snapshot"),)
+    __table_args__ = (UniqueConstraint("config_type","sbom_id","snapshot_date", name="uq_queue_snapshot"),)
 
     id: Mapped[int] = mapped_column(Integer,Identity(), primary_key=True)
-    algorithm: Mapped[str] = mapped_column(String)
+    config_type: Mapped[str] = mapped_column(String)
     sbom_id: Mapped[int] = mapped_column(ForeignKey("sbom.id", ondelete="CASCADE"), index=True)
     snapshot_date: Mapped[date] = mapped_column(Date)
 

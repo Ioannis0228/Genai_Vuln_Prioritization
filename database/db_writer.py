@@ -8,11 +8,10 @@ This module handles the upsert logic for all ingested data types, managing:
 - CSAF advisory linkages
 """
 
-from .models_db import *
+from .models import *
 from .session import SessionLocal
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import update, select, and_, or_
-from datetime import datetime, UTC
+from sqlalchemy import select, and_, or_
 
 
 def save_sbom(sbom) -> int:
@@ -384,9 +383,9 @@ def save_EPSS_snapshot(epss_data: list[dict], create_evidence: bool = True) -> N
 
         session.commit()
 
-    
+
 def save_CSAF_advisory(cve_id: str, csaf_data: dict | str, csaf_id: str):
-    """Persist a Common Security Advisory Framework (CSAF) advisory and log audit evidence.
+    """Persist a Common Security Advisory Framework (CSAF) advisory.
 
     This function attempts to bulk-insert a parsed vendor security advisory into the 
     `CSAFadvisories` database table. If an advisory with the identical 'csaf_id' 
@@ -719,51 +718,16 @@ def save_vuln_enrichment(enrichment_list: list[dict]) -> None:
         session.execute(stmt)
         session.commit()
 
-def save_fusion_results(risk_assessment):
-    """Update existing finding rows with compiled risk fusion scores and rank justifications.
-
-    This function processes final analytical metrics output by a risk scoring engine.
-    It loops through evaluated assessments, normalizes the keys (including mapping the 
-    space-separated 'why-ranked' string), and executes a bulk update on the `Finding` 
-    table to store localized prioritization metrics and update timestamps.
-
-    Args:
-        risk_assessment (list[dict]): A list of processed risk assessment dicts. Each dict 
-            must contain 'finding_id' (int), 'fusion_score' (float), 'priority' (str), 
-            and 'why-ranked' (str) keys.
-
-    Returns:
-        None
-    """
-
-    rows = [{
-            "id": item["finding_id"],
-            "fusion_score": item["score"],
-            "priority": item["priority"],
-            "rank": item["rank"],
-            "why_ranked": item["why-ranked"],
-            "last_updated": datetime.now(UTC)
-        } for item in risk_assessment
-    ]
-
-    with SessionLocal() as session: 
-        if rows:
-            session.execute(
-                update(Finding),
-                rows
-            )
-        session.commit()
-
 
 def save_queue_snapshots(queue_snapshots: dict[str, dict], date) -> None:
-    """ Persist ranked findings for each SBOM and algorithm combination into the QueueSnapshot and QueueSnapshotItem tables."""
+    """ Persist ranked findings for each SBOM and config_type combination into the QueueSnapshot and QueueSnapshotItem tables."""
 
     with SessionLocal() as session:
-        for sbom_id, algorithms in queue_snapshots.items():
-            for algorithm, findings in algorithms.items():
+        for sbom_id, config_types in queue_snapshots.items():
+            for config_type, findings in config_types.items():
                 stmt = insert(QueueSnapshot).values(
                     sbom_id=sbom_id,
-                    algorithm=algorithm,
+                    config_type=config_type,
                     snapshot_date=date,
                 )
 
