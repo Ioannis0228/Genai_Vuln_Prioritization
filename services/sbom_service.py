@@ -1,7 +1,7 @@
 """Service layer for SBOM ingestion, component normalization, and vulnerability mapping."""
 
 from database import save_sbom, save_components, save_CVEs, check_existence, SBOM, save_finding_evidence_links, SessionLocal, execute_select
-from ingestion import normalize_component, parse_sbom, mapping_cve
+from ingestion import normalize_component, parse_sbom, mapping_cve, fetch_nvd_cvss
 
 def process_sbom(SBOM_PATH:str , OUTPUT_PATH:str):
     """Parse an SBOM, persist it, and map the discovered CVEs.
@@ -29,6 +29,13 @@ def process_sbom(SBOM_PATH:str , OUTPUT_PATH:str):
 
     print("Starting CVE mapping...", flush=True)
     component_cve = mapping_cve(SBOM_PATH, OUTPUT_PATH)
+
+    for item in component_cve:
+        if item["cvss_score"] is None:
+            cvss_score, cvss_version = fetch_nvd_cvss(item["cve_id"])
+            item["cvss_score"] = cvss_score
+            item["cvss_version"] = cvss_version
+            item["cvss_source"] = "nvd" if cvss_score is not None else None
 
     save_CVEs(sbom_id, component_cve)
 

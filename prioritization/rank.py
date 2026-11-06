@@ -119,8 +119,7 @@ def fusion_rank(risk_assessment, vex_statements=None) -> list[dict]:
                 items['priority'] = 'Low'
                 items['priority_rank'] = 3
             elif status.lower() == 'under_investigation':
-                items['priority'] = 'Medium'
-                items['priority_rank'] = 2
+                pass
 
     ranked_scores = [
         {**item,"rank":rank} for rank, item in enumerate(

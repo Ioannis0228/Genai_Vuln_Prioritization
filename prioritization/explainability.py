@@ -22,17 +22,23 @@ def explain_fusion(KEV: bool, CVSS_score: float, EPSS_probability: float, EPSS_p
         reasons.append("Active Exploitation Identified (CISA KEV Boost Added)")
     if CVSS_score:
         reasons.append(f"CVSS Score: {CVSS_score}")
+    else:
+        reasons.append("CVSS Score: Not Available")
     if EPSS_percentile:
         reasons.append(f"EPSS Percentile: {EPSS_percentile:.3%}")
+    else:
+        reasons.append("EPSS Percentile: Not Available")
     if EPSS_probability:
         reasons.append(f"EPSS Probability: {EPSS_probability:.3%}")
+    else:
+        reasons.append("EPSS Probability: Not Available")
 
     if vex_status:
         vex_clean = vex_status.strip().lower()
         vex_labels = {
             'not_affected': "VEX Status: 'not_affected', Priority reduced",
             'fixed': "VEX Status: 'fixed', Priority reduced",
-            'under_investigation': "VEX Status: 'under_investigation', Priority reduced",
+            'under_investigation': "VEX Status: 'under_investigation', No priority change",
             'affected': "VEX Status: 'affected', No priority change",
         }
         # Fall back to raw status if it's an unmapped custom string

@@ -4,7 +4,7 @@ from database import execute_select, Vulnerabilities, SBOM, SessionLocal, save_E
 from ingestion import fetch_EPSS, fetch_KEV, get_sha_map
 from services.prioritization_service import ranking_sbom
 
-def capture_snapshots(dates: list, save_queues: bool = True):
+def capture_snapshots(dates: list, save_queues: bool = True, create_evidence: bool = False):
     """Create snapshots of EPSS and KEV data and create prioritization queues for the given dates.
 
     Args:
@@ -32,12 +32,12 @@ def capture_snapshots(dates: list, save_queues: bool = True):
         # Create EPSS snapshot for the given date
         epss_snapshot = fetch_EPSS(cve_ids=cve_ids, snapshot_date=date)
         if epss_snapshot:
-            save_EPSS_snapshot(epss_snapshot, create_evidence=False)
+            save_EPSS_snapshot(epss_snapshot, create_evidence=create_evidence)
 
         # Create KEV snapshot for the given date
         kev_snapshot = fetch_KEV(cve_ids=cve_ids, snapshot_date=date, sha_map=kev_sha_map)
         if kev_snapshot:
-            save_KEV_snapshot(kev_snapshot, create_evidence=False)
+            save_KEV_snapshot(kev_snapshot, create_evidence=create_evidence)
 
         if save_queues:
             results = {}

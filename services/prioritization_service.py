@@ -1,11 +1,12 @@
 """Service layer for assembling ranking inputs and persisting fusion results."""
 
-from database import SessionLocal, Components, Vulnerabilities, EPSSsnapshot, KEVsnapshot, VEXstatements, Finding, vex_statement_component, execute_select, get_latest_snapshots, save_fusion_results 
+from database import SessionLocal, Components, Vulnerabilities, EPSSsnapshot, KEVsnapshot, VEXstatements, Finding, vex_statement_component, execute_select, get_latest_snapshots
 from prioritization import compute_fusion_score, cvss_rank, epss_rank, cvss_epss_rank, fusion_rank, explain_fusion
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from sqlalchemy import or_
 
-def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ranking=False, cvss_epss_ranking=False, fusion_ranking=True)-> dict:
+def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ranking=False, cvss_epss_ranking=False, fusion_ranking=True,
+                 use_epss=True, use_kev=True)-> dict:
     """Computes the rankings for a given SBOM based on CVSS, EPSS, CVSS+EPSS, and fusion scores. 
     
     Retrieves all findings for an SBOM, fetches their associated CVSS/EPSS/KEV/VEX data,
@@ -57,7 +58,7 @@ def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ran
             session=session,
             selected_columns=[Vulnerabilities.cve_id, Components.purl, VEXstatements.status, VEXstatements.justification, VEXstatements.sbom_id, VEXstatements.timestamp],
             where_conditions=[or_(VEXstatements.sbom_id == sbom_id, VEXstatements.sbom_id.is_(None)), Vulnerabilities.cve_id.in_(cve_ids),
-                              VEXstatements.timestamp < datetime.combine(snapshot_date, datetime.min.time()) + timedelta(days=1)],
+                              VEXstatements.timestamp <= datetime.combine(snapshot_date, datetime.max.time())],
             joins=[(Vulnerabilities, VEXstatements.vulnerability == Vulnerabilities.id),
                     (vex_statement_component, VEXstatements.id == vex_statement_component.c.statement_id),
                     (Components, Components.id == vex_statement_component.c.component_id)]
@@ -66,6 +67,12 @@ def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ran
     EPSS_map = {cve: (score, perc) if score is not None and perc is not None else (0.0, 0.0) for cve, score, perc in EPSS_rows}
     KEV_map = {cve: True for (cve,) in KEV_rows}
     VEX_map = {}
+
+    if not use_epss:
+        EPSS_map = {}
+
+    if not use_kev:
+        KEV_map = {}
 
     # Build a mapping of the latest VEX statements for each finding, considering SBOM-specific statements and timestamps.
     # An SBOM-specific statement takes precedence over a global statement, and the latest timestamp takes precedence over older ones.
@@ -104,7 +111,7 @@ def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ran
         results["cvss_epss"] = cvss_epss_rank(Findings, EPSS_map)
 
     risk_assessment = []
-    ranked_assesment = []
+    ranked_assessment = []
     if fusion_ranking:
         for finding_id, cve, CVSS, purl in Findings:
             KEV_status = KEV_map.get(cve, False)
@@ -139,11 +146,8 @@ def ranking_sbom(sbom_id: int, snapshot_date: date, cvss_ranking=False, epss_ran
                                              vex_status=VEX_map.get((cve, purl), {}).get("status")))
             })
 
-        ranked_assesment = fusion_rank(risk_assessment,vex_statements=VEX_map)
+        ranked_assessment = fusion_rank(risk_assessment,vex_statements=VEX_map)
 
-        if snapshot_date == date.today():
-            save_fusion_results(ranked_assesment)
-
-        results["fusion"] = ranked_assesment
+        results["fusion"] = ranked_assessment
 
     return results

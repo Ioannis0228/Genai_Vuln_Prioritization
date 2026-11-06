@@ -1,10 +1,16 @@
 """Service layer for persisting vulnerability enrichment link data."""
 
 from ingestion import fetch_vulnerability_links
+import requests
 from database import save_vuln_enrichment, get_CVE_ids, check_existence, VulnerabilityEnrichment
 
 def vuln_enrichment(sbom_id: int):
     """Fetch vulnerability enrichment data from the Vulnerability-Lookup in batches and persist it to the database."""
+
+    response = requests.head("https://vulnerability.circl.lu/api/system/dbInfo", timeout=5)
+    if response.status_code != 200:
+        print("Vulnerability-Lookup API is not reachable. Skipping enrichment.", flush=True)
+        return
 
     # Retrieve CVE IDs associated with the given SBOM ID
     CVE_ids = get_CVE_ids(sbom_id)

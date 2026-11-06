@@ -21,11 +21,12 @@ class Config:
     OPENROUTER_KEY: str
 
     # Specify the model name for the LLM client
-    genai_model_name: str = "google/gemini-3.1-flash-lite"  
+    # genai_model_name: str = "google/gemini-3.1-flash-lite"  
+    genai_model_name: str = "google/gemini-3.5-flash-lite"  # Updated model name
 
     # Evaluation configuration
     k_values: tuple[int, ...] = (1, 3, 5, 10, 20, 50)
-    evaluation_algorithms: tuple[str, ...] = ("cvss", "epss", "cvss_epss", "fusion")
+    evaluation_config_types: tuple[str, ...] = ("cvss", "epss", "cvss_epss", "fusion", "sbom_ablation", "epss_ablation", "kev_ablation")
 
     # Dates for evaluation snapshots
     start_date: datetime.date = datetime.date(2025, 4, 1)
