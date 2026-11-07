@@ -7,12 +7,12 @@ from statistics import mean, median
 from evaluation import get_vex_status_at_date
 
 
-def time_to_surface(finding: Dict, queue_snapshots, kev_date: datetime.date, k: int, vex_statements) -> Dict[str, Optional[int]]:
+def time_to_surface(item: tuple, queue_snapshots, kev_date: datetime.date, k: int, vex_statements) -> Dict[str, Optional[int]]:
     """
     Calculate the time (in days) it takes for a finding to surface in the queue after, the CVE of that finding being added as a KEV.
 
     Args:
-        finding (Dict): A dictionary representing the finding, containing its ID and CVE.
+        item (tuple): A tuple representing the finding, containing its cve_id and purl.
         queue_snapshots (list): A list of queue snapshots, each containing a snapshot date and a dictionary of findings.
         kev_date (datetime.date): The date when the CVE was added as a KEV
         k (int): The number of top items to consider for determining if the finding has surfaced.
@@ -25,63 +25,49 @@ def time_to_surface(finding: Dict, queue_snapshots, kev_date: datetime.date, k: 
     if kev_date is None or k <= 0:
         raise ValueError("KEV added date must be provided and k must be greater than 0.")
 
-    snapshots = sorted(queue_snapshots, key=lambda x: x['snapshot_date'])
+    snapshots = sorted(queue_snapshots, key=lambda x: x["snapshot_date"])
+
+    def result(status: str, days: Optional[int] = None):
+        return {
+            "item": item,
+            "status": status,
+            "days_to_surface": days
+        }
 
     # If the KEV was added before the first snapshot, we can't calculate the time to surface, as we don't have any data before that snapshot. 
-    if kev_date < snapshots[0]['snapshot_date']:
-        return {
-            "finding_id": list(finding.keys())[0],
-            "status": "KEV_added_before_first_snapshot",
-            "days_to_surface": None
-        }
+    if kev_date < snapshots[0]["snapshot_date"]:
+        return result("KEV_added_before_first_snapshot")
 
     # If the KEV was added after the last snapshot, we cant calculate the time to surface, as we don't have any data after that snapshot.
-    if kev_date > snapshots[-1]['snapshot_date']:
-        return {
-            "finding_id": list(finding.keys())[0],
-            "status": "KEV_added_after_last_snapshot",
-            "days_to_surface": None
-        }
+    if kev_date > snapshots[-1]["snapshot_date"]:
+        return result("KEV_added_after_last_snapshot")
 
     # If KEV was added in snapshot window, we need to check subsequent snapshots to see if it surfaced.
     for snapshot in snapshots:
 
-        if snapshot['snapshot_date'] < kev_date:
+        if snapshot["snapshot_date"] < kev_date:
             continue
 
         status = get_vex_status_at_date(
-            finding_id=list(finding.keys())[0],
-            snapshot_date=snapshot['snapshot_date'],
+            cve_id=item[0],
+            purl=item[1],
+            snapshot_date=snapshot["snapshot_date"],
             vex_history=vex_statements
         )
 
         if status in ['not_affected', 'fixed']:
+            return result("Not_relevant_due_to_vex")
 
-            return {
-                "finding_id": list(finding.keys())[0],
-                "status": "Not_relevant_due_to_vex",
-                "days_to_surface": None
-            }
+        top_k = snapshot["findings"][:k]
 
-        top_k = list(snapshot['findings'].keys())[:k]
+        if item in top_k:
+            return result("Surfaced", (snapshot["snapshot_date"] - kev_date).days)
 
-        if list(finding.keys())[0] in top_k:
-            return {
-                "finding_id": list(finding.keys())[0],
-                "status": "Surfaced",
-                "days_to_surface": (snapshot['snapshot_date'] - kev_date).days
-            }
-
-    return {
-        "finding_id": list(finding.keys())[0],
-        "status": "Never_surfaced",
-        "days_to_surface": None
-    }
+    return result("Never_surfaced")
 
 
 
-
-def time_to_surface_all(kev_added_dates: Dict[str, str], queue_snapshots, k: int, vex_statements) -> List[Dict[str, Optional[int]]]:
+def time_to_surface_all(kev_added_dates: Dict[str, str], queue_snapshots, k: int, vex_statements, sbom_findings_set) -> List[Dict[str, Optional[int]]]:
     """
     Calculate the time to surface for all findings in the queue snapshots based on their KEV added dates.
     
@@ -97,24 +83,24 @@ def time_to_surface_all(kev_added_dates: Dict[str, str], queue_snapshots, k: int
 
     results = []
 
-    for kev_cve, added_date in kev_added_dates.items():
+    unique_items = dict.fromkeys(item for snapshot in queue_snapshots for item in snapshot["findings"] if item in sbom_findings_set)
 
-        finding = {id: cve for snapshot in queue_snapshots for id, cve in snapshot['findings'].items() if cve == kev_cve}
+    for item in unique_items:
+        cve_id, _ = item
+        kev_date = kev_added_dates.get(cve_id)
 
-        if not finding:
-            continue  # Skip if the finding is not present in any snapshot
+        if kev_date is None:
+            continue 
 
         results.append(time_to_surface(
-            finding=finding,
+            item=item,
             queue_snapshots=queue_snapshots,
-            kev_date=added_date,
+            kev_date=kev_date,
             k=k,
             vex_statements=vex_statements
         ))
 
     return results
-
-
 
 def summarize_time_to_surface(results: list[Dict[str, any]]) -> dict:
     """
@@ -125,11 +111,11 @@ def summarize_time_to_surface(results: list[Dict[str, any]]) -> dict:
 
     Returns:
         dict: A summary dictionary containing the mean and median days to surface, surfaced count, 
-        KEV added outside snapshot window count, never surfaced count, not relevant due to VEX count, 
+        KEV added outside snapshot window count, never surfaced count, not relevant due to VEX count,
         total count, and surface rate.
     """
 
-    total = len(results)
+    total = sum(r["status"] in ["Surfaced", "Never_surfaced"] for r in results)
 
     surfaced_days = [
         result["days_to_surface"]
@@ -187,6 +173,6 @@ def summarize_time_to_surface(results: list[Dict[str, any]]) -> dict:
         "surface_rate": (
             surfaced_count / total
             if total > 0
-            else 0.0
+            else None
         ),
     }

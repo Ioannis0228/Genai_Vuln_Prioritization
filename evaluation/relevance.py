@@ -7,24 +7,25 @@ def build_vex_history(vex_rows) -> Dict[int, List[dict]]:
 
     vex_history = defaultdict(list)
 
-    for cve_id, finding_id, status, timestamp in vex_rows:
-        vex_history[finding_id].append({
-            "cve_id": cve_id,
+    for cve_id, purl, status, sbom_id, timestamp in vex_rows:
+        key = (cve_id, purl)
+        vex_history[key].append({
+            "sbom_id": sbom_id,
             "status": status,
             "timestamp": timestamp,
         })
 
-    for finding_id in vex_history:
-        vex_history[finding_id].sort(
+    for key in vex_history:
+        vex_history[key].sort(
             key=lambda row: row["timestamp"]
         )
 
     return dict(vex_history)
 
-def get_vex_status_at_date(finding_id, snapshot_date, vex_history: Dict[int, List[dict]]) -> Optional[str]:
+def get_vex_status_at_date(cve_id: str, purl: str, snapshot_date, vex_history: Dict[tuple, List[dict]]) -> Optional[str]:
     """Return the latest VEX status known at snapshot_date."""
 
-    statements = vex_history.get(finding_id, [])
+    statements = vex_history.get((cve_id, purl), [])
 
     latest_status = None
 
@@ -55,26 +56,30 @@ def is_relevance(cve_id, snapshot_date, kev_by_date, vex_status) -> bool:
     return True
 
 
-
-def get_relevant_findings(snapshot: Dict, kev_by_date: Dict[str, set], vex_statements: Dict[tuple, str]) -> Set[str]:
-    """ Get the set of relevant findings based on KEV and VEX rules.
+def get_relevant_items(snapshot: Dict, kev_by_date: Dict[str, set], vex_statements: Dict[tuple, str], sbom_findings_set: Set[tuple]) -> Set[str]:
+    """ Get the set of relevant items based on KEV and VEX rules.
 
     Args:
         snapshot (Dict): Ordered dictionary of findings.
         kev_by_date (Dict[str, set]): Dictionary mapping snapshot dates to sets of KEV CVEs.
         vex_statements (Dict[tuple, str]): Dictionary mapping (cve_id, finding_id) to VEX status.
+        sbom_findings_set (Set[tuple]): Set of findings present in the SBOM.
 
     Returns:
-        Set[str]: Set of relevant finding IDs.
+        Set[str]: Set of relevant items.
     """
 
-    relevant_findings_ids = set()
+    relevant_items = set(tuple())
 
-    for finding_id, cve_id in snapshot['findings'].items():
-        snapshot_date = snapshot.get('snapshot_date')
-        vex_status = get_vex_status_at_date(finding_id, snapshot_date, vex_statements)
+    for (cve_id, purl) in snapshot["findings"]:
+        
+        if (cve_id, purl) not in sbom_findings_set:
+            continue 
+
+        snapshot_date = snapshot.get("snapshot_date")
+        vex_status = get_vex_status_at_date(cve_id, purl, snapshot_date, vex_statements)
 
         if is_relevance(cve_id=cve_id, snapshot_date=snapshot_date, kev_by_date=kev_by_date, vex_status=vex_status):
-            relevant_findings_ids.add(finding_id)
+            relevant_items.add((cve_id, purl))
 
-    return relevant_findings_ids
+    return relevant_items

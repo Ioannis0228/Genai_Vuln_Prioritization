@@ -16,11 +16,11 @@ def queue_churn(previous_queue, current_queue, k: int) -> float:
         float: Churn value, ranging from 0.0 (no churn) to 1.0 (complete churn).
     """
 
-    previous = set(list(previous_queue.keys())[:k])
-    current = set(list(current_queue.keys())[:k])
-
-    if k == 0:
-        return 0.0
+    if k <= 0:
+        return None
+    
+    previous = set(previous_queue[:k])
+    current = set(current_queue[:k])
 
     overlap = len(previous.intersection(current))
 
@@ -37,12 +37,15 @@ def calculate_churn(queue_snapshots, k: int) -> list:
         list: A list of churn values for each pair of consecutive snapshots.
     """
 
-    snapshots = sorted(queue_snapshots, key=lambda x: x['snapshot_date'])
+    snapshots = sorted(queue_snapshots, key=lambda x: x["snapshot_date"])
 
     churn_values = []
 
     for previous, current in zip(snapshots,snapshots[1:]):
-        churn_values.append(queue_churn(previous['findings'], current['findings'], k))
+        if len(previous["findings"])>=k and len(current["findings"])>=k:
+            value = queue_churn(previous["findings"], current["findings"], k)
+            if value is not None:
+                churn_values.append(value)
 
     return churn_values
 
@@ -62,5 +65,5 @@ def mean_churn(queue_snapshots, k: int) -> float:
 
     return (sum(values) / len(values)
         if values
-        else 0.0
+        else None
     )
