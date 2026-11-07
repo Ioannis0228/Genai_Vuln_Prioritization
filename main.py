@@ -10,23 +10,11 @@ from services.intelligence_service import process_intelligence
 from services.sbom_service import process_sbom, get_all_sboms
 from services.vex_service import process_vex
 from services.prioritization_service import ranking_sbom
-from services.genai_service import generate_explanations
+from services.genai_service import generate_explanations, generate_persona_narratives
 from services.snapshots_service import capture_snapshots
+from services.studies_service import run_ablation_studies
 from datetime import datetime, timedelta
 from config import config
-
-SBOM_PATH = ['data/juice_bom.json',
-             'data/spring_petclinic_sbom.json',
-             'data/grafana_sbom.json',
-             'data/webgoat_sbom.json']
-
-OUTPUT_PATH = ['data/juice_scan_results.json',
-               'data/spring_scan_results.json',
-               'data/grafana_scan_results.json',
-               'data/webgoat_scan_results.json']
-
-VEX_PATH = ['data/vex_documents/vex_document.json',
-            'data/vex_documents/vex_document_2.json']
 
 # --- Initialize Typer App ---
 app = typer.Typer(  name="GenAi Vulnerability Prioritization",
@@ -246,23 +234,28 @@ def full_pipeline(sbom_path: Annotated[str, typer.Argument(..., help="Path to th
 
 @app.command(name="genai-explanations")
 def genai_explanations(sbom_id: Annotated[int, typer.Argument(..., help="The database ID of the ingested SBOM.")],
+              date: Annotated[datetime, typer.Option("-d","--date", help="The date to run the GenAI explanations for. Defaults to today.", formats=["%Y-%m-%d"])] = None,
               top_k: Annotated[int, typer.Option("-k","--top-k", help="Number of top items to generate AI explanations for.")] = 5,
-              persona: Annotated[str, typer.Option("-p","--persona", help="Persona for which the summary is generated. Developer, DevOps, or Security_Lead.")] = "Developer",
               baseline: Annotated[bool, typer.Option("-b","--baseline", help="Use the baseline prompt for GenAI analysis.")] = False,
               verbose: Annotated[bool, typer.Option("-v","--verbose", help="Enable verbose output for printing every explanation.")] = False):
     """Run the GenAI explanation generation for a given SBOM ID.
     
     Warning: Don't run this command for large top_k value because will exceed the token limit of the LLM model. The default top_k is 5. 
     """
-    persona = persona.lower()
-    if persona not in ["developer", "devops", "security_lead"]:
-        typer.secho("Invalid persona. Please choose from: developer, devops, security_lead.", fg=typer.colors.RED)
-        raise typer.Exit(code=1)
-    typer.echo(f"Running GenAI for SBOM ID: {sbom_id}...")
-    answer = generate_explanations(sbom_id, top_k, baseline)
 
-    typer.secho(f"\n{persona.capitalize()} summary:", fg=typer.colors.CYAN, bold=True)
-    typer.echo(getattr(answer.summary, persona))
+    if date is None:
+        date = datetime.now().date()
+    else:
+        date = date.date()  # Convert datetime to date
+    
+    typer.echo(f"Running GenAI for SBOM ID: {sbom_id} for date: {date}...")
+    answer = generate_explanations(sbom_id, top_k, baseline, snapshot_date=date)
+
+    typer.secho("\n"+ "=" * 60, fg=typer.colors.CYAN)
+    typer.secho(f" PRODUCT: {answer.Product_Name} (SBOM ID: {answer.SBOM_id})", fg=typer.colors.CYAN, bold=True)
+    typer.secho(f" DATE: {date}", fg=typer.colors.CYAN)
+    typer.secho(f" TOP {top_k} EXPLANATIONS GENERATED", fg=typer.colors.CYAN)
+    typer.secho("=" * 60, fg=typer.colors.CYAN)
 
     if verbose:
         for i, explanation in enumerate(answer.explanations, start=1):
@@ -273,7 +266,6 @@ def genai_explanations(sbom_id: Annotated[int, typer.Argument(..., help="The dat
             typer.secho(f"{explanation.component_purl}", fg=typer.colors.BRIGHT_MAGENTA)
             typer.echo("Rank: ", nl=False)
             typer.secho(f"{explanation.rank}", fg=typer.colors.YELLOW)
-            typer.echo(f"Summary: {explanation.summary}")
             typer.secho("Why Prioritized Now:", fg=typer.colors.CYAN)
             for claim in explanation.why_prioritized_now:
                 typer.echo(f"  - Summary: {claim.summary}")
@@ -286,15 +278,59 @@ def genai_explanations(sbom_id: Annotated[int, typer.Argument(..., help="The dat
 
     typer.secho("GenAI explanation generation completed.", fg=typer.colors.GREEN)
 
+@app.command(name="genai-persona-narratives")
+def genai_persona_narratives(sbom_id: Annotated[int, typer.Argument(..., help="The database ID of the ingested SBOM.")],
+                             date: Annotated[datetime, typer.Option("-d","--date", help="The date to run the GenAI explanations for. Defaults to today.", formats=["%Y-%m-%d"])] = None,
+                             top_k: Annotated[int, typer.Option("-k","--top-k", help="Number of top items to generate AI explanations for.")] = 5,
+                             persona: Annotated[str, typer.Option("-p","--persona", help="The persona to generate narratives for.")] = "developer"):
+    """
+    Generate persona narratives for the top_k findings in a given SBOM ID.
+
+    Args:
+        sbom_id (int): The database ID of the ingested SBOM.
+        date (datetime): The date to run the GenAI explanations for. Defaults to today.
+        top_k (int): The number of top findings to generate explanations for.
+        baseline (bool): Whether to use the baseline prompt.
+    """
+    persona = persona.lower()
+    if persona not in ["developer", "devops", "security_lead"]:
+        typer.secho("Invalid persona. Please choose from: developer, devops, security_lead.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+
+    if date is None:
+        date = datetime.now().date()
+    else:
+        date = date.date()  # Convert datetime to date
+
+    typer.echo(f"Generating persona narratives for SBOM ID: {sbom_id} for date: {date}...")
+    try:
+        answer, generated_narratives = generate_persona_narratives(sbom_id=sbom_id, top_k=top_k, snapshot_date=date, persona=persona)
+    except FileNotFoundError as e:
+        typer.secho(str(e), fg=typer.colors.RED)
+        raise typer.Exit(code=1)        
+
+    typer.secho("\n" + "=" * 60, fg=typer.colors.CYAN)
+    typer.secho(f" PRODUCT: {answer.Product_Name} (SBOM ID: {answer.SBOM_id})", fg=typer.colors.CYAN, bold=True)
+    typer.secho(f" DATE: {date}", fg=typer.colors.CYAN)
+    typer.secho(f" TOP {top_k}", fg=typer.colors.CYAN)
+    typer.secho(f" SUMMARY FOR {persona.upper()}", fg=typer.colors.CYAN)
+    typer.secho("=" * 60, fg=typer.colors.CYAN)
+
+    typer.echo(generated_narratives + "\n")
+
 
 @app.command(name="capture-snapshots")
 def snapshots(start_date: Annotated[datetime, typer.Option("-s", "--start-date", help="Start date for snapshot capture.", formats=["%Y-%m-%d"])] = None,
               end_date: Annotated[datetime, typer.Option("-e", "--end-date", help="End date for snapshot capture.", formats=["%Y-%m-%d"])] = None,
-              save_queues: Annotated[bool, typer.Option("-q", "--save-queues", help="Save prioritization queues for the snapshots.")] = True):
-    """Capture snapshots for a given date range and save prioritization queues for each date for evaluation purposes. 
+              save_queues: Annotated[bool, typer.Option("-sq/-nsq", "--save-queues/--no-save-queues", help="Save prioritization queues for the snapshots.")] = True,
+              create_evidence: Annotated[bool, typer.Option("-ce/-nce", "--create-evidence/--no-create-evidence", help="Create evidence for the snapshots.")] = False):
+    """
+    Capture snapshots for a given date range and save prioritization queues for each date for evaluation purposes. 
+
     The snapshots will include EPSS and KEV data for each date.
     Start date is the oldest date and end date is the most recent date.
     If no dates are provided, the default range from the configuration will be used. 
+    Create evidence is optional and it will create evidence for later use in the GenAI explanation generation.
 
     The start date must be after 2025-01-27, and the end date cannot be in the future.
     Warning: This operation may take several minutes depending on the dates, the number of CVEs and SBOMs in the database.
@@ -319,8 +355,40 @@ def snapshots(start_date: Annotated[datetime, typer.Option("-s", "--start-date",
 
     dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
 
-    capture_snapshots(dates=dates, save_queues=save_queues)
+    capture_snapshots(dates=dates, save_queues=save_queues, create_evidence=create_evidence)
     typer.secho(f"Snapshots created for dates from {start_date} to {end_date}.", fg=typer.colors.GREEN)
+
+@app.command(name="ablation-studies")
+def ablation_studies(start_date: Annotated[datetime, typer.Option("-s", "--start-date", help="Start date for snapshot capture.", formats=["%Y-%m-%d"])] = None,
+                     end_date: Annotated[datetime, typer.Option("-e", "--end-date", help="End date for snapshot capture.", formats=["%Y-%m-%d"])] = None,):
+    """Run ablation studies for a given date range and save prioritization queues for each date for evaluation purposes.
+
+    Warning: This operation may take several minutes depending on the dates, the number of CVEs and SBOMs in the database.
+    The ablation studies will evaluate the impact of different factors on the prioritization of vulnerabilities.
+    We implement three ablation studies: One for the impact of SBOM linkage, one for the impact of EPSS and one on the impact of KEV. 
+    """
+
+    if start_date is None:
+        start_date = config.start_date  # Default to config start date
+    else:
+        start_date = start_date.date()
+
+    if end_date is None:
+        end_date = config.end_date  # Default to config end date
+    else:
+        end_date = end_date.date()
+
+    if start_date > end_date:
+        typer.secho("Error: Start date cannot be after end date.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+    if end_date > datetime.now().date():
+        typer.secho("Error: End date cannot be in the future.", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+
+    dates = [start_date + timedelta(days=i) for i in range((end_date - start_date).days + 1)]
+
+    run_ablation_studies(dates=dates)
+    typer.secho(f"Ablation studies completed for dates from {start_date} to {end_date}.", fg=typer.colors.GREEN)
 
 
 # --- Loop for REPL-like interface ---
