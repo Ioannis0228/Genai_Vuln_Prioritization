@@ -1,0 +1,1599 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:58f9891b-ac86-469b-882c-c838b10b448c",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-08-29T18:48:57+00:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "manufacturer": {
+            "name": "Aqua Security Software Ltd."
+          },
+          "group": "aquasecurity",
+          "name": "trivy",
+          "version": "0.69.3"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "pkg:oci/ubi-micro@sha256:0fe81f64dab0570da191fbc74004fff651027640496fb220661da4e9d83860f7?arch=amd64&repository_url=registry.access.redhat.com%2Fubi8%2Fubi-micro",
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi8/ubi-micro:8.10-26",
+      "purl": "pkg:oci/ubi-micro@sha256:0fe81f64dab0570da191fbc74004fff651027640496fb220661da4e9d83860f7?arch=amd64&repository_url=registry.access.redhat.com%2Fubi8%2Fubi-micro",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:DiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:ImageID",
+          "value": "sha256:acea9f6d76ad0615e5920b98ebeefb65ccf0b9a6655085cec913c137aa45fc07"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:architecture",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:build-date",
+          "value": "2025-05-29T15:16:50"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:com.redhat.component",
+          "value": "ubi8-micro-container"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:com.redhat.license_terms",
+          "value": "https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:description",
+          "value": "Very small image which doesn't install the package manager."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:distribution-scope",
+          "value": "public"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:io.buildah.version",
+          "value": "1.33.12"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:io.k8s.description",
+          "value": "Very small image which doesn't install the package manager."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:io.k8s.display-name",
+          "value": "Ubi8-micro"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:maintainer",
+          "value": "Red Hat, Inc."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:name",
+          "value": "ubi8/ubi-micro"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:release",
+          "value": "26"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:summary",
+          "value": "ubi8 micro image"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:url",
+          "value": "https://access.redhat.com/containers/#/registry.access.redhat.com/ubi8/ubi-micro/images/8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:vcs-ref",
+          "value": "be611e3414a0692bd94bfcb467e3fcdeadbdd03e"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:vcs-type",
+          "value": "git"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:vendor",
+          "value": "Red Hat, Inc."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:version",
+          "value": "8.10"
+        },
+        {
+          "name": "aquasecurity:trivy:Reference",
+          "value": "registry.access.redhat.com/ubi8/ubi-micro:8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:RepoDigest",
+          "value": "registry.access.redhat.com/ubi8/ubi-micro@sha256:0fe81f64dab0570da191fbc74004fff651027640496fb220661da4e9d83860f7"
+        },
+        {
+          "name": "aquasecurity:trivy:RepoTag",
+          "value": "registry.access.redhat.com/ubi8/ubi-micro:8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:SchemaVersion",
+          "value": "2"
+        },
+        {
+          "name": "aquasecurity:trivy:Size",
+          "value": "28572672"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "08e8b1d3-6e2f-43c7-98e6-546973b01566",
+      "type": "operating-system",
+      "name": "redhat",
+      "version": "8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "os-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "redhat"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/basesystem@11-5.el8?arch=noarch&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "basesystem",
+      "version": "11-5.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "31bc067a6462aacd3b891681bdb27512"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/basesystem@11-5.el8?arch=noarch&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "basesystem@11-5.el8.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "basesystem"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "5.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "11"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/bash@4.4.20-5.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "bash",
+      "version": "4.4.20-5.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "76e25dbda4d6c008e0b83ce412388ef1"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/bash@4.4.20-5.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "bash@4.4.20-5.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "bash"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "5.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "4.4.20"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/coreutils-single@8.30-15.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "coreutils-single",
+      "version": "8.30-15.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "88f7a5370fc2bd3688e8ef131c6dcee5"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/coreutils-single@8.30-15.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "coreutils-single@8.30-15.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "coreutils"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "15.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "8.30"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/filesystem@3.8-6.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "filesystem",
+      "version": "3.8-6.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "a233600500dd92402754400d8bbf6762"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/filesystem@3.8-6.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "filesystem@3.8-6.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "filesystem"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "6.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "3.8"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/glibc-common@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "glibc-common",
+      "version": "2.28-251.el8_10.16",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "cd0fa5ac7236f05ebd4505683a99c72b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later AND GPL-2.0-or-later WITH exceptions AND BSD-3-Clause AND Inner-Net AND ISC AND Public-Domain AND GFDL-1.3-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/glibc-common@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "glibc-common@2.28-251.el8_10.16.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "glibc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "251.el8_10.16"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.28"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/glibc-minimal-langpack@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "glibc-minimal-langpack",
+      "version": "2.28-251.el8_10.16",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "2f12c89f189517f105bd05d2d38e5487"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later AND GPL-2.0-or-later WITH exceptions AND BSD-3-Clause AND Inner-Net AND ISC AND Public-Domain AND GFDL-1.3-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/glibc-minimal-langpack@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "glibc-minimal-langpack@2.28-251.el8_10.16.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "glibc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "251.el8_10.16"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.28"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "glibc",
+      "version": "2.28-251.el8_10.16",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "44c43221b0cb00241f6f393d8f62d996"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later AND GPL-2.0-or-later WITH exceptions AND BSD-3-Clause AND Inner-Net AND ISC AND Public-Domain AND GFDL-1.3-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "glibc@2.28-251.el8_10.16.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "glibc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "251.el8_10.16"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.28"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libacl@2.2.53-3.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libacl",
+      "version": "2.2.53-3.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "ee8ebfa5914a737ed301969629d065c3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-2.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libacl@2.2.53-3.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libacl@2.2.53-3.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "acl"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "3.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.2.53"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libattr@2.4.48-3.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libattr",
+      "version": "2.4.48-3.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "ccdc272fc3236e0634d1be86dd1599dc"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-2.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libattr@2.4.48-3.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libattr@2.4.48-3.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "attr"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "3.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.4.48"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libcap@2.48-6.el8_9?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libcap",
+      "version": "2.48-6.el8_9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "9a09b420b43e159cfab715717779023c"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause OR GPL-2.0-only"
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libcap@2.48-6.el8_9?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libcap@2.48-6.el8_9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "libcap"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "6.el8_9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.48"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libgcc@8.5.0-26.el8_10?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libgcc",
+      "version": "8.5.0-26.el8_10",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "b2017826cc43d6273d9db3fef8643aaf"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-or-later AND GPL-3.0-or-later WITH exceptions AND GPL-2.0-or-later WITH exceptions AND LGPL-2.0-or-later AND BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libgcc@8.5.0-26.el8_10?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libgcc@8.5.0-26.el8_10.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "gcc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "26.el8_10"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "8.5.0"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libselinux@2.9-10.el8_10?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libselinux",
+      "version": "2.9-10.el8_10",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "143a1bbd8855becb6642315f741ab2c0"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libselinux@2.9-10.el8_10?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libselinux@2.9-10.el8_10.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "libselinux"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "10.el8_10"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.9"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libsepol@2.9-3.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libsepol",
+      "version": "2.9-3.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "13e99ba2e4fd5f8c82bdf73d126f65a3"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-2.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libsepol@2.9-3.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libsepol@2.9-3.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "libsepol"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "3.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.9"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/ncurses-base@6.1-10.20180224.el8?arch=noarch&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "ncurses-base",
+      "version": "6.1-10.20180224.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "8ec2a8c0dc340c4c158a7b78bb726f3b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/ncurses-base@6.1-10.20180224.el8?arch=noarch&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ncurses-base@6.1-10.20180224.el8.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "ncurses"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "10.20180224.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "6.1"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/ncurses-libs@6.1-10.20180224.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "ncurses-libs",
+      "version": "6.1-10.20180224.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "bae9c437ca08113850468b61a9a43b48"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/ncurses-libs@6.1-10.20180224.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ncurses-libs@6.1-10.20180224.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "ncurses"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "10.20180224.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "6.1"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/pcre2@10.32-3.el8_6?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "pcre2",
+      "version": "10.32-3.el8_6",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "530ac3cc357b01ee5b05b75d509fc58f"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/pcre2@10.32-3.el8_6?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "pcre2@10.32-3.el8_6.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "pcre2"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "3.el8_6"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "10.32"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/redhat-release@8.10-0.3.el8?arch=x86_64&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "redhat-release",
+      "version": "8.10-0.3.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "5a774f782318ca7008fb419453840f7d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/redhat-release@8.10-0.3.el8?arch=x86_64&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "redhat-release@8.10-0.3.el8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "redhat-release"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "0.3.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "8.10"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/setup@2.12.2-9.el8?arch=noarch&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "setup",
+      "version": "2.12.2-9.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "14fdf6f7e4b95d8e508d5baa7e42f478"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/setup@2.12.2-9.el8?arch=noarch&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "setup@2.12.2-9.el8.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "setup"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "9.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.12.2"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/tzdata@2025b-1.el8?arch=noarch&distro=redhat-8.10",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "tzdata",
+      "version": "2025b-1.el8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "97e6eb21ea272fe0c1813361b0b54093"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/tzdata@2025b-1.el8?arch=noarch&distro=redhat-8.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Arch",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-appstream-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-8-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:d022d006434cb9c47ea2c05cb07691219424814ff4ca93fdce9b9e1e9c9fdac8"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:60472fdb372fadaf19eb77f72f43134cfa53b38930160c3b32b009d94cb3d7b3"
+        },
+        {
+          "name": "aquasecurity:trivy:NVR",
+          "value": "ubi8-micro-container-8.10-26"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "tzdata@2025b-1.el8.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "tzdata"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "1.el8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2025b"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "08e8b1d3-6e2f-43c7-98e6-546973b01566",
+      "dependsOn": [
+        "pkg:rpm/redhat/coreutils-single@8.30-15.el8?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:oci/ubi-micro@sha256:0fe81f64dab0570da191fbc74004fff651027640496fb220661da4e9d83860f7?arch=amd64&repository_url=registry.access.redhat.com%2Fubi8%2Fubi-micro",
+      "dependsOn": [
+        "08e8b1d3-6e2f-43c7-98e6-546973b01566"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/basesystem@11-5.el8?arch=noarch&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/filesystem@3.8-6.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/setup@2.12.2-9.el8?arch=noarch&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/bash@4.4.20-5.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/filesystem@3.8-6.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/ncurses-libs@6.1-10.20180224.el8?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/coreutils-single@8.30-15.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libacl@2.2.53-3.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libattr@2.4.48-3.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libcap@2.48-6.el8_9?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libselinux@2.9-10.el8_10?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/filesystem@3.8-6.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/bash@4.4.20-5.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/setup@2.12.2-9.el8?arch=noarch&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/glibc-common@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/bash@4.4.20-5.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libselinux@2.9-10.el8_10?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/tzdata@2025b-1.el8?arch=noarch&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/glibc-minimal-langpack@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc-common@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/basesystem@11-5.el8?arch=noarch&distro=redhat-8.10",
+        "pkg:rpm/redhat/glibc-common@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/glibc-minimal-langpack@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libacl@2.2.53-3.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libattr@2.4.48-3.el8?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libattr@2.4.48-3.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libcap@2.48-6.el8_9?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libgcc@8.5.0-26.el8_10?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libgcc@8.5.0-26.el8_10?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/libselinux@2.9-10.el8_10?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/libsepol@2.9-3.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/pcre2@10.32-3.el8_6?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libsepol@2.9-3.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/bash@4.4.20-5.el8?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/ncurses-base@6.1-10.20180224.el8?arch=noarch&distro=redhat-8.10",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/ncurses-libs@6.1-10.20180224.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10",
+        "pkg:rpm/redhat/ncurses-base@6.1-10.20180224.el8?arch=noarch&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/pcre2@10.32-3.el8_6?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.28-251.el8_10.16?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/redhat-release@8.10-0.3.el8?arch=x86_64&distro=redhat-8.10",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/setup@2.12.2-9.el8?arch=noarch&distro=redhat-8.10",
+      "dependsOn": [
+        "pkg:rpm/redhat/redhat-release@8.10-0.3.el8?arch=x86_64&distro=redhat-8.10"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/tzdata@2025b-1.el8?arch=noarch&distro=redhat-8.10",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": []
+}

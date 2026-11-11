@@ -1,0 +1,2130 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:5d0e0a82-df00-4b67-ba92-f95da04e05b9",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-08-29T18:39:00+00:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "manufacturer": {
+            "name": "Aqua Security Software Ltd."
+          },
+          "group": "aquasecurity",
+          "name": "trivy",
+          "version": "0.69.3"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "pkg:oci/ubi9-micro@sha256:839f16991579b023d4452eadd0efa925e438f8b73063afe4f75bdc6cf7a09b12?arch=amd64&repository_url=registry.access.redhat.com%2Fubi9-micro",
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9-micro:9.5-1746002938",
+      "purl": "pkg:oci/ubi9-micro@sha256:839f16991579b023d4452eadd0efa925e438f8b73063afe4f75bdc6cf7a09b12?arch=amd64&repository_url=registry.access.redhat.com%2Fubi9-micro",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:DiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:ImageID",
+          "value": "sha256:eb77c4abe7cafa74e3b1d1bff0c4c82363b83030e8a78d55914c5fba4724d3d7"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:architecture",
+          "value": "x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:build-date",
+          "value": "2025-04-30T08:49:38"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:com.redhat.component",
+          "value": "ubi9-micro-container"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:com.redhat.license_terms",
+          "value": "https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:description",
+          "value": "Very small image which doesn't install the package manager."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:distribution-scope",
+          "value": "public"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:io.buildah.version",
+          "value": "1.39.0-dev"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:io.k8s.description",
+          "value": "Very small image which doesn't install the package manager."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:io.k8s.display-name",
+          "value": "Red Hat Universal Base Image 9 Micro"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:maintainer",
+          "value": "Red Hat, Inc."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:name",
+          "value": "ubi9/ubi-micro"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:release",
+          "value": "1746002938"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:summary",
+          "value": "ubi9 micro image"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:url",
+          "value": "https://www.redhat.com"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:vcs-ref",
+          "value": "b90d9fb02b3a7b280f0ffe16e69bbd67c0134c4a"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:vcs-type",
+          "value": "git"
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:vendor",
+          "value": "Red Hat, Inc."
+        },
+        {
+          "name": "aquasecurity:trivy:Labels:version",
+          "value": "9.5"
+        },
+        {
+          "name": "aquasecurity:trivy:Reference",
+          "value": "registry.access.redhat.com/ubi9-micro:9.5-1746002938"
+        },
+        {
+          "name": "aquasecurity:trivy:RepoDigest",
+          "value": "registry.access.redhat.com/ubi9-micro@sha256:839f16991579b023d4452eadd0efa925e438f8b73063afe4f75bdc6cf7a09b12"
+        },
+        {
+          "name": "aquasecurity:trivy:RepoTag",
+          "value": "registry.access.redhat.com/ubi9-micro:9.5-1746002938"
+        },
+        {
+          "name": "aquasecurity:trivy:SchemaVersion",
+          "value": "2"
+        },
+        {
+          "name": "aquasecurity:trivy:Size",
+          "value": "23504896"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "47270c2f-240a-4767-a4fa-68b12a9ede04",
+      "type": "operating-system",
+      "name": "redhat",
+      "version": "9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "os-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "redhat"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/basesystem@11-13.el9?arch=noarch&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "basesystem",
+      "version": "11-13.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "16605e0013938a5e21ffdf777cfa86ce"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/basesystem@11-13.el9?arch=noarch&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "basesystem@11-13.el9.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "basesystem"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "13.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "11"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/bash@5.1.8-9.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "bash",
+      "version": "5.1.8-9.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "57e93b1739cc3512f9f29dcaa8a38055"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/bash@5.1.8-9.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "bash@5.1.8-9.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "bash"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "9.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "5.1.8"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/coreutils-single@8.32-36.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "coreutils-single",
+      "version": "8.32-36.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "c609233846d156be82a31c09a203270e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-3.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/coreutils-single@8.32-36.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "coreutils-single@8.32-36.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "coreutils"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "36.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "8.32"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/filesystem@3.16-5.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "filesystem",
+      "version": "3.16-5.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "af1812d471b0fc3456fa0a17b3500775"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/filesystem@3.16-5.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "filesystem@3.16-5.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "filesystem"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "5.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "3.16"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/glibc-common@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "glibc-common",
+      "version": "2.34-125.el9_5.8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "1dbbe3e5093c440833eda956f2892f82"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later AND GPL-2.0-or-later WITH exceptions AND BSD-3-Clause AND Inner-Net AND ISC AND Public-Domain AND GFDL-1.3-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/glibc-common@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "glibc-common@2.34-125.el9_5.8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "glibc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "125.el9_5.8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.34"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/glibc-minimal-langpack@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "glibc-minimal-langpack",
+      "version": "2.34-125.el9_5.8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "ef6476905fe307f81231734db6f24897"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later AND GPL-2.0-or-later WITH exceptions AND BSD-3-Clause AND Inner-Net AND ISC AND Public-Domain AND GFDL-1.3-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/glibc-minimal-langpack@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "glibc-minimal-langpack@2.34-125.el9_5.8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "glibc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "125.el9_5.8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.34"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "glibc",
+      "version": "2.34-125.el9_5.8",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "cfd9688de873c9ce85a13688c4f13c10"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "LGPL-2.0-or-later AND LGPL-2.0-or-later WITH exceptions AND GPL-2.0-or-later AND GPL-2.0-or-later WITH exceptions AND BSD-3-Clause AND Inner-Net AND ISC AND Public-Domain AND GFDL-1.3-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "glibc@2.34-125.el9_5.8.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "glibc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "125.el9_5.8"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.34"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/gpg-pubkey@5a6340b3-6229229e?arch=None&distro=redhat-9.5",
+      "type": "library",
+      "name": "gpg-pubkey",
+      "version": "5a6340b3-6229229e",
+      "licenses": [
+        {
+          "license": {
+            "name": "pubkey"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/gpg-pubkey@5a6340b3-6229229e?arch=None&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "gpg-pubkey@5a6340b3-6229229e."
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/gpg-pubkey@fd431d51-4ae0493b?arch=None&distro=redhat-9.5",
+      "type": "library",
+      "name": "gpg-pubkey",
+      "version": "fd431d51-4ae0493b",
+      "licenses": [
+        {
+          "license": {
+            "name": "pubkey"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/gpg-pubkey@fd431d51-4ae0493b?arch=None&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "gpg-pubkey@fd431d51-4ae0493b."
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libacl@2.3.1-4.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libacl",
+      "version": "2.3.1-4.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "60e0fde3f7771c02903da07a53be36fd"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-2.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libacl@2.3.1-4.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libacl@2.3.1-4.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "acl"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "4.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.3.1"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libattr@2.5.1-3.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libattr",
+      "version": "2.5.1-3.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "52ccab71d2ac43945dc5d604e96548c4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-2.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libattr@2.5.1-3.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libattr@2.5.1-3.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "attr"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "3.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.5.1"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libcap@2.48-9.el9_2?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libcap",
+      "version": "2.48-9.el9_2",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "eb03b19ffc61a35455408b0b8dbe6770"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause OR GPL-2.0-only"
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libcap@2.48-9.el9_2?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libcap@2.48-9.el9_2.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "libcap"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "9.el9_2"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.48"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libgcc@11.5.0-5.el9_5?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libgcc",
+      "version": "11.5.0-5.el9_5",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "e94be5082e728daef320941c06d23cdb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-or-later AND GPL-3.0-or-later WITH exceptions AND GPL-2.0-or-later WITH exceptions AND LGPL-2.0-or-later AND BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libgcc@11.5.0-5.el9_5?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libgcc@11.5.0-5.el9_5.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "gcc"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "5.el9_5"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "11.5.0"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libselinux@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libselinux",
+      "version": "3.6-1.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "7b41929011fd9a579c33a74b7d8c2b1d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libselinux@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libselinux@3.6-1.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "libselinux"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "1.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "3.6"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/libsepol@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "libsepol",
+      "version": "3.6-1.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "ff8350b3eb68846cf33f797a65e6ed48"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-2.0-or-later"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/libsepol@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "libsepol@3.6-1.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "libsepol"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "1.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "3.6"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/ncurses-base@6.2-10.20210508.el9?arch=noarch&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "ncurses-base",
+      "version": "6.2-10.20210508.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "9144b9cab47e7f1b2847d9034345dffb"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/ncurses-base@6.2-10.20210508.el9?arch=noarch&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ncurses-base@6.2-10.20210508.el9.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "ncurses"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "10.20210508.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "6.2"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/ncurses-libs@6.2-10.20210508.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "ncurses-libs",
+      "version": "6.2-10.20210508.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "9b5398bcc39bef4de11d308e38f0128c"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/ncurses-libs@6.2-10.20210508.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ncurses-libs@6.2-10.20210508.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "ncurses"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "10.20210508.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "6.2"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/pcre2-syntax@10.40-6.el9?arch=noarch&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "pcre2-syntax",
+      "version": "10.40-6.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "e16f2b328f130d319f08c995f4d3315b"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/pcre2-syntax@10.40-6.el9?arch=noarch&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "pcre2-syntax@10.40-6.el9.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "pcre2"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "6.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "10.40"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/pcre2@10.40-6.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "pcre2",
+      "version": "10.40-6.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "6bad562d1fe17248c677891016d5c18e"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/pcre2@10.40-6.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "pcre2@10.40-6.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "pcre2"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "6.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "10.40"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/redhat-release@9.5-0.6.el9?arch=x86_64&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "redhat-release",
+      "version": "9.5-0.6.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "2250d9cd0d4568420047643254adbf41"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/redhat-release@9.5-0.6.el9?arch=x86_64&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "redhat-release@9.5-0.6.el9.x86_64"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "redhat-release"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "0.6.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "9.5"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/setup@2.13.7-10.el9?arch=noarch&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "setup",
+      "version": "2.13.7-10.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "b7e2acce809a4d9403ae8499e929ad53"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/setup@2.13.7-10.el9?arch=noarch&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "setup@2.13.7-10.el9.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "setup"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "10.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2.13.7"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:rpm/redhat/tzdata@2025b-1.el9?arch=noarch&distro=redhat-9.5",
+      "type": "library",
+      "supplier": {
+        "name": "Red Hat, Inc."
+      },
+      "name": "tzdata",
+      "version": "2025b-1.el9",
+      "hashes": [
+        {
+          "alg": "MD5",
+          "content": "d7fd195490791e657d509ab1594ff2f6"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "Public-Domain"
+          }
+        }
+      ],
+      "purl": "pkg:rpm/redhat/tzdata@2025b-1.el9?arch=noarch&distro=redhat-9.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-aarch64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-ppc64le-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-s390x-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:ContentSet",
+          "value": "rhel-9-for-x86_64-baseos-source-rpms"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDiffID",
+          "value": "sha256:a6399e0a94a1ed56fe71fb594eadaaa197719016105dbd4145706120a92e8b32"
+        },
+        {
+          "name": "aquasecurity:trivy:LayerDigest",
+          "value": "sha256:22ac1dbcbc6a95a5548f56a4d02c8cf20043add48c7cd42bd5ed0dbebc3830be"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "tzdata@2025b-1.el9.noarch"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "redhat"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcName",
+          "value": "tzdata"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcRelease",
+          "value": "1.el9"
+        },
+        {
+          "name": "aquasecurity:trivy:SrcVersion",
+          "value": "2025b"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "47270c2f-240a-4767-a4fa-68b12a9ede04",
+      "dependsOn": [
+        "pkg:rpm/redhat/coreutils-single@8.32-36.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/gpg-pubkey@5a6340b3-6229229e?arch=None&distro=redhat-9.5",
+        "pkg:rpm/redhat/gpg-pubkey@fd431d51-4ae0493b?arch=None&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:oci/ubi9-micro@sha256:839f16991579b023d4452eadd0efa925e438f8b73063afe4f75bdc6cf7a09b12?arch=amd64&repository_url=registry.access.redhat.com%2Fubi9-micro",
+      "dependsOn": [
+        "47270c2f-240a-4767-a4fa-68b12a9ede04"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/basesystem@11-13.el9?arch=noarch&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/filesystem@3.16-5.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/setup@2.13.7-10.el9?arch=noarch&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/bash@5.1.8-9.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/filesystem@3.16-5.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/ncurses-libs@6.2-10.20210508.el9?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/coreutils-single@8.32-36.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libacl@2.3.1-4.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libattr@2.5.1-3.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libcap@2.48-9.el9_2?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libselinux@3.6-1.el9?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/filesystem@3.16-5.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/bash@5.1.8-9.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/setup@2.13.7-10.el9?arch=noarch&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/glibc-common@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/bash@5.1.8-9.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/tzdata@2025b-1.el9?arch=noarch&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/glibc-minimal-langpack@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc-common@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/basesystem@11-13.el9?arch=noarch&distro=redhat-9.5",
+        "pkg:rpm/redhat/glibc-common@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/glibc-minimal-langpack@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libgcc@11.5.0-5.el9_5?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/gpg-pubkey@5a6340b3-6229229e?arch=None&distro=redhat-9.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/gpg-pubkey@fd431d51-4ae0493b?arch=None&distro=redhat-9.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/libacl@2.3.1-4.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libattr@2.5.1-3.el9?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libattr@2.5.1-3.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libcap@2.48-9.el9_2?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libgcc@11.5.0-5.el9_5?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libgcc@11.5.0-5.el9_5?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/libselinux@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/libsepol@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/pcre2@10.40-6.el9?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/libsepol@3.6-1.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/ncurses-base@6.2-10.20210508.el9?arch=noarch&distro=redhat-9.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/ncurses-libs@6.2-10.20210508.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/ncurses-base@6.2-10.20210508.el9?arch=noarch&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/pcre2-syntax@10.40-6.el9?arch=noarch&distro=redhat-9.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/pcre2@10.40-6.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/glibc@2.34-125.el9_5.8?arch=x86_64&distro=redhat-9.5",
+        "pkg:rpm/redhat/pcre2-syntax@10.40-6.el9?arch=noarch&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/redhat-release@9.5-0.6.el9?arch=x86_64&distro=redhat-9.5",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/redhat/setup@2.13.7-10.el9?arch=noarch&distro=redhat-9.5",
+      "dependsOn": [
+        "pkg:rpm/redhat/redhat-release@9.5-0.6.el9?arch=x86_64&distro=redhat-9.5"
+      ]
+    },
+    {
+      "ref": "pkg:rpm/redhat/tzdata@2025b-1.el9?arch=noarch&distro=redhat-9.5",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": []
+}

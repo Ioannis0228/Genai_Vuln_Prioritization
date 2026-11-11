@@ -1,0 +1,46 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "merged-vex-b1c4563995d1930723019fc896188512d57b3cc8d1d60262dbae85024ba176f4",
+  "author": "Unknown Author",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2022-33891"
+      },
+      "products": [
+        {
+          "@id": "pkg:pypi/meridian-support-platform@3.2.0",
+          "subcomponents": [
+            {
+              "@id": "pkg:pypi/pyspark@3.2.1"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "justification": "inline_mitigations_already_exist",
+      "timestamp": "2025-01-16T21:21:07.277240054Z"
+    },
+    {
+      "vulnerability": {
+        "name": "CVE-2023-32007"
+      },
+      "products": [
+        {
+          "@id": "pkg:pypi/meridian-support-platform@3.2.0",
+          "subcomponents": [
+            {
+              "@id": "pkg:pypi/pyspark@3.2.1"
+            }
+          ]
+        }
+      ],
+      "status": "affected",
+      "action_statement": "No action statement provided",
+      "action_statement_timestamp": "2025-01-17T23:21:49.921047064+02:00",
+      "timestamp": "2025-01-17T21:21:49.921047064Z"
+    }
+  ],
+  "timestamp": "2025-01-18T21:22:39Z"
+}

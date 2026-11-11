@@ -1,0 +1,27 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-002c2bdc6bf823301ad6a8479dec0682a12844ea3521ed9c8e412dae11b84b0d",
+  "author": "Unknown Author",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2016-4437"
+      },
+      "products": [
+        {
+          "@id": "pkg:maven/com.meridianretail.platform/order-service@2.8.0",
+          "subcomponents": [
+            {
+              "@id": "pkg:maven/org.apache.shiro/shiro-core@1.2.4"
+            }
+          ]
+        }
+      ],
+      "status": "not_affected",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "timestamp": "2025-03-01T19:17:54.446626746Z"
+    }
+  ],
+  "timestamp": "2025-03-01T19:17:54Z"
+}

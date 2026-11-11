@@ -1,0 +1,26 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-ee11d59b94f0f1f94045c5aef1c48596c48bf7d05fd1f125f07052b1ec510482",
+  "author": "Unknown Author",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2019-10758"
+      },
+      "products": [
+        {
+          "@id": "pkg:npm/%40meridianretail/commerce-platform@4.4.0",
+          "subcomponents": [
+            {
+              "@id": "pkg:npm/mongo-express@0.53.0"
+            }
+          ]
+        }
+      ],
+      "status": "fixed",
+      "timestamp": "2025-02-05T21:14:52.943568214Z"
+    }
+  ],
+  "timestamp": "2025-02-05T21:14:52Z"
+}

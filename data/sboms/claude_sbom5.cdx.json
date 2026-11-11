@@ -1,0 +1,3016 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:0c7d67ab-3fd1-4d7c-8054-bc0aa4b34661",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-08-30T10:12:31+00:00",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "group": "aquasecurity",
+          "name": "trivy",
+          "version": "0.69.3"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "ea38e984-86bd-4f52-a658-93f735c5af63",
+      "type": "application",
+      "name": "meridian-web-platform",
+      "version": "5.3.0",
+      "purl": "pkg:composer/meridianretail/web-platform@5.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:SchemaVersion",
+          "value": "2"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "pkg:composer/craftcms/cms@4.13.1",
+      "type": "library",
+      "name": "craftcms/cms",
+      "version": "4.13.1",
+      "purl": "pkg:composer/craftcms/cms@4.13.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "craftcms/cms@4.13.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/yiisoft/yii2@2.0.51",
+      "type": "library",
+      "name": "yiisoft/yii2",
+      "version": "2.0.51",
+      "purl": "pkg:composer/yiisoft/yii2@2.0.51",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "yiisoft/yii2@2.0.51"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/yiisoft/yii2-debug@2.1.25",
+      "type": "library",
+      "name": "yiisoft/yii2-debug",
+      "version": "2.1.25",
+      "purl": "pkg:composer/yiisoft/yii2-debug@2.1.25",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "yiisoft/yii2-debug@2.1.25"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/yiisoft/yii2-queue@2.3.7",
+      "type": "library",
+      "name": "yiisoft/yii2-queue",
+      "version": "2.3.7",
+      "purl": "pkg:composer/yiisoft/yii2-queue@2.3.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "yiisoft/yii2-queue@2.3.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/yiisoft/yii2-symfonymailer@2.0.4",
+      "type": "library",
+      "name": "yiisoft/yii2-symfonymailer",
+      "version": "2.0.4",
+      "purl": "pkg:composer/yiisoft/yii2-symfonymailer@2.0.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "yiisoft/yii2-symfonymailer@2.0.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/yiisoft/yii2-composer@2.0.10",
+      "type": "library",
+      "name": "yiisoft/yii2-composer",
+      "version": "2.0.10",
+      "purl": "pkg:composer/yiisoft/yii2-composer@2.0.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "yiisoft/yii2-composer@2.0.10"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/ezyang/htmlpurifier@4.17.0",
+      "type": "library",
+      "name": "ezyang/htmlpurifier",
+      "version": "4.17.0",
+      "purl": "pkg:composer/ezyang/htmlpurifier@4.17.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ezyang/htmlpurifier@4.17.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/cebe/markdown@1.2.1",
+      "type": "library",
+      "name": "cebe/markdown",
+      "version": "1.2.1",
+      "purl": "pkg:composer/cebe/markdown@1.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "cebe/markdown@1.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/commerceguys/addressing@1.4.2",
+      "type": "library",
+      "name": "commerceguys/addressing",
+      "version": "1.4.2",
+      "purl": "pkg:composer/commerceguys/addressing@1.4.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "commerceguys/addressing@1.4.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/composer/composer@2.8.3",
+      "type": "library",
+      "name": "composer/composer",
+      "version": "2.8.3",
+      "purl": "pkg:composer/composer/composer@2.8.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "composer/composer@2.8.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/composer/semver@3.4.3",
+      "type": "library",
+      "name": "composer/semver",
+      "version": "3.4.3",
+      "purl": "pkg:composer/composer/semver@3.4.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "composer/semver@3.4.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/composer/ca-bundle@1.5.3",
+      "type": "library",
+      "name": "composer/ca-bundle",
+      "version": "1.5.3",
+      "purl": "pkg:composer/composer/ca-bundle@1.5.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "composer/ca-bundle@1.5.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/composer/pcre@3.3.1",
+      "type": "library",
+      "name": "composer/pcre",
+      "version": "3.3.1",
+      "purl": "pkg:composer/composer/pcre@3.3.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "composer/pcre@3.3.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/justinrainbow/json-schema@5.3.0",
+      "type": "library",
+      "name": "justinrainbow/json-schema",
+      "version": "5.3.0",
+      "purl": "pkg:composer/justinrainbow/json-schema@5.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "justinrainbow/json-schema@5.3.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/seld/jsonlint@1.11.0",
+      "type": "library",
+      "name": "seld/jsonlint",
+      "version": "1.11.0",
+      "purl": "pkg:composer/seld/jsonlint@1.11.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "seld/jsonlint@1.11.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/craftcms/plugin-installer@1.6.0",
+      "type": "library",
+      "name": "craftcms/plugin-installer",
+      "version": "1.6.0",
+      "purl": "pkg:composer/craftcms/plugin-installer@1.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "craftcms/plugin-installer@1.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/craftcms/server-check@2.1.2",
+      "type": "library",
+      "name": "craftcms/server-check",
+      "version": "2.1.2",
+      "purl": "pkg:composer/craftcms/server-check@2.1.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "craftcms/server-check@2.1.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/creocoder/yii2-nested-sets@0.9.0",
+      "type": "library",
+      "name": "creocoder/yii2-nested-sets",
+      "version": "0.9.0",
+      "purl": "pkg:composer/creocoder/yii2-nested-sets@0.9.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "creocoder/yii2-nested-sets@0.9.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/elvanto/litemoji@4.3.0",
+      "type": "library",
+      "name": "elvanto/litemoji",
+      "version": "4.3.0",
+      "purl": "pkg:composer/elvanto/litemoji@4.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "elvanto/litemoji@4.3.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/enshrined/svg-sanitize@0.19.0",
+      "type": "library",
+      "name": "enshrined/svg-sanitize",
+      "version": "0.19.0",
+      "purl": "pkg:composer/enshrined/svg-sanitize@0.19.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "enshrined/svg-sanitize@0.19.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/mikehaertl/php-shellcommand@1.7.0",
+      "type": "library",
+      "name": "mikehaertl/php-shellcommand",
+      "version": "1.7.0",
+      "purl": "pkg:composer/mikehaertl/php-shellcommand@1.7.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "mikehaertl/php-shellcommand@1.7.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/moneyphp/money@4.5.0",
+      "type": "library",
+      "name": "moneyphp/money",
+      "version": "4.5.0",
+      "purl": "pkg:composer/moneyphp/money@4.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "moneyphp/money@4.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/pixelandtonic/imagine@1.3.3.1",
+      "type": "library",
+      "name": "pixelandtonic/imagine",
+      "version": "1.3.3.1",
+      "purl": "pkg:composer/pixelandtonic/imagine@1.3.3.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "pixelandtonic/imagine@1.3.3.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/samdark/yii2-psr-log-target@1.1.3",
+      "type": "library",
+      "name": "samdark/yii2-psr-log-target",
+      "version": "1.1.3",
+      "purl": "pkg:composer/samdark/yii2-psr-log-target@1.1.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "samdark/yii2-psr-log-target@1.1.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/seld/cli-prompt@1.0.4",
+      "type": "library",
+      "name": "seld/cli-prompt",
+      "version": "1.0.4",
+      "purl": "pkg:composer/seld/cli-prompt@1.0.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "seld/cli-prompt@1.0.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/theiconic/name-parser@1.2.11",
+      "type": "library",
+      "name": "theiconic/name-parser",
+      "version": "1.2.11",
+      "purl": "pkg:composer/theiconic/name-parser@1.2.11",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "theiconic/name-parser@1.2.11"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/voku/stringy@6.5.3",
+      "type": "library",
+      "name": "voku/stringy",
+      "version": "6.5.3",
+      "purl": "pkg:composer/voku/stringy@6.5.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "voku/stringy@6.5.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/webonyx/graphql-php@14.11.10",
+      "type": "library",
+      "name": "webonyx/graphql-php",
+      "version": "14.11.10",
+      "purl": "pkg:composer/webonyx/graphql-php@14.11.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "webonyx/graphql-php@14.11.10"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/twig/twig@3.14.2",
+      "type": "library",
+      "name": "twig/twig",
+      "version": "3.14.2",
+      "purl": "pkg:composer/twig/twig@3.14.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "twig/twig@3.14.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/monolog/monolog@2.9.3",
+      "type": "library",
+      "name": "monolog/monolog",
+      "version": "2.9.3",
+      "purl": "pkg:composer/monolog/monolog@2.9.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "monolog/monolog@2.9.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/illuminate/collections@9.52.16",
+      "type": "library",
+      "name": "illuminate/collections",
+      "version": "9.52.16",
+      "purl": "pkg:composer/illuminate/collections@9.52.16",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "illuminate/collections@9.52.16"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/illuminate/contracts@9.52.16",
+      "type": "library",
+      "name": "illuminate/contracts",
+      "version": "9.52.16",
+      "purl": "pkg:composer/illuminate/contracts@9.52.16",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "illuminate/contracts@9.52.16"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/illuminate/macroable@9.52.16",
+      "type": "library",
+      "name": "illuminate/macroable",
+      "version": "9.52.16",
+      "purl": "pkg:composer/illuminate/macroable@9.52.16",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "illuminate/macroable@9.52.16"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/guzzle@7.9.2",
+      "type": "library",
+      "name": "guzzlehttp/guzzle",
+      "version": "7.9.2",
+      "purl": "pkg:composer/guzzlehttp/guzzle@7.9.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/guzzle@7.9.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/psr7@2.7.0",
+      "type": "library",
+      "name": "guzzlehttp/psr7",
+      "version": "2.7.0",
+      "purl": "pkg:composer/guzzlehttp/psr7@2.7.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/psr7@2.7.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/promises@2.0.4",
+      "type": "library",
+      "name": "guzzlehttp/promises",
+      "version": "2.0.4",
+      "purl": "pkg:composer/guzzlehttp/promises@2.0.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/promises@2.0.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-client@6.4.15",
+      "type": "library",
+      "name": "symfony/http-client",
+      "version": "6.4.15",
+      "purl": "pkg:composer/symfony/http-client@6.4.15",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-client@6.4.15"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-client-contracts@3.5.0",
+      "type": "library",
+      "name": "symfony/http-client-contracts",
+      "version": "3.5.0",
+      "purl": "pkg:composer/symfony/http-client-contracts@3.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-client-contracts@3.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/var-dumper@6.4.15",
+      "type": "library",
+      "name": "symfony/var-dumper",
+      "version": "6.4.15",
+      "purl": "pkg:composer/symfony/var-dumper@6.4.15",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/var-dumper@6.4.15"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/yaml@5.4.45",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "5.4.45",
+      "purl": "pkg:composer/symfony/yaml@5.4.45",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@5.4.45"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/mailer@6.4.13",
+      "type": "library",
+      "name": "symfony/mailer",
+      "version": "6.4.13",
+      "purl": "pkg:composer/symfony/mailer@6.4.13",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/mailer@6.4.13"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laravel/framework@11.36.1",
+      "type": "library",
+      "name": "laravel/framework",
+      "version": "11.36.1",
+      "purl": "pkg:composer/laravel/framework@11.36.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laravel/framework@11.36.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laravel/prompts@0.3.2",
+      "type": "library",
+      "name": "laravel/prompts",
+      "version": "0.3.2",
+      "purl": "pkg:composer/laravel/prompts@0.3.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laravel/prompts@0.3.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laravel/serializable-closure@2.0.0",
+      "type": "library",
+      "name": "laravel/serializable-closure",
+      "version": "2.0.0",
+      "purl": "pkg:composer/laravel/serializable-closure@2.0.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laravel/serializable-closure@2.0.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laravel/sanctum@4.0.7",
+      "type": "library",
+      "name": "laravel/sanctum",
+      "version": "4.0.7",
+      "purl": "pkg:composer/laravel/sanctum@4.0.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laravel/sanctum@4.0.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laravel/tinker@2.10.0",
+      "type": "library",
+      "name": "laravel/tinker",
+      "version": "2.10.0",
+      "purl": "pkg:composer/laravel/tinker@2.10.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laravel/tinker@2.10.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/livewire/livewire@3.5.18",
+      "type": "library",
+      "name": "livewire/livewire",
+      "version": "3.5.18",
+      "purl": "pkg:composer/livewire/livewire@3.5.18",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "livewire/livewire@3.5.18"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/nesbot/carbon@3.8.2",
+      "type": "library",
+      "name": "nesbot/carbon",
+      "version": "3.8.2",
+      "purl": "pkg:composer/nesbot/carbon@3.8.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nesbot/carbon@3.8.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/brick/math@0.12.1",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.12.1",
+      "purl": "pkg:composer/brick/math@0.12.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.12.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/dflydev/dot-access-data@3.0.3",
+      "type": "library",
+      "name": "dflydev/dot-access-data",
+      "version": "3.0.3",
+      "purl": "pkg:composer/dflydev/dot-access-data@3.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "dflydev/dot-access-data@3.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/doctrine/inflector@2.0.10",
+      "type": "library",
+      "name": "doctrine/inflector",
+      "version": "2.0.10",
+      "purl": "pkg:composer/doctrine/inflector@2.0.10",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "doctrine/inflector@2.0.10"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/egulias/email-validator@4.0.2",
+      "type": "library",
+      "name": "egulias/email-validator",
+      "version": "4.0.2",
+      "purl": "pkg:composer/egulias/email-validator@4.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "egulias/email-validator@4.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/fruitcake/php-cors@1.3.0",
+      "type": "library",
+      "name": "fruitcake/php-cors",
+      "version": "1.3.0",
+      "purl": "pkg:composer/fruitcake/php-cors@1.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "fruitcake/php-cors@1.3.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/commonmark@2.6.0",
+      "type": "library",
+      "name": "league/commonmark",
+      "version": "2.6.0",
+      "purl": "pkg:composer/league/commonmark@2.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/commonmark@2.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/flysystem@3.29.1",
+      "type": "library",
+      "name": "league/flysystem",
+      "version": "3.29.1",
+      "purl": "pkg:composer/league/flysystem@3.29.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem@3.29.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/mime-type-detection@1.16.0",
+      "type": "library",
+      "name": "league/mime-type-detection",
+      "version": "1.16.0",
+      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/mime-type-detection@1.16.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/monolog/monolog@3.8.0",
+      "type": "library",
+      "name": "monolog/monolog",
+      "version": "3.8.0",
+      "purl": "pkg:composer/monolog/monolog@3.8.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "monolog/monolog@3.8.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/nunomaduro/termwind@2.3.0",
+      "type": "library",
+      "name": "nunomaduro/termwind",
+      "version": "2.3.0",
+      "purl": "pkg:composer/nunomaduro/termwind@2.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nunomaduro/termwind@2.3.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/container@2.0.2",
+      "type": "library",
+      "name": "psr/container",
+      "version": "2.0.2",
+      "purl": "pkg:composer/psr/container@2.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/container@2.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/log@3.0.2",
+      "type": "library",
+      "name": "psr/log",
+      "version": "3.0.2",
+      "purl": "pkg:composer/psr/log@3.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/log@3.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/ramsey/uuid@4.7.6",
+      "type": "library",
+      "name": "ramsey/uuid",
+      "version": "4.7.6",
+      "purl": "pkg:composer/ramsey/uuid@4.7.6",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/uuid@4.7.6"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/ramsey/collection@2.0.0",
+      "type": "library",
+      "name": "ramsey/collection",
+      "version": "2.0.0",
+      "purl": "pkg:composer/ramsey/collection@2.0.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/collection@2.0.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/vlucas/phpdotenv@5.6.1",
+      "type": "library",
+      "name": "vlucas/phpdotenv",
+      "version": "5.6.1",
+      "purl": "pkg:composer/vlucas/phpdotenv@5.6.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "vlucas/phpdotenv@5.6.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/graham-campbell/result-type@1.1.3",
+      "type": "library",
+      "name": "graham-campbell/result-type",
+      "version": "1.1.3",
+      "purl": "pkg:composer/graham-campbell/result-type@1.1.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "graham-campbell/result-type@1.1.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/phpoption/phpoption@1.9.3",
+      "type": "library",
+      "name": "phpoption/phpoption",
+      "version": "1.9.3",
+      "purl": "pkg:composer/phpoption/phpoption@1.9.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "phpoption/phpoption@1.9.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/voku/portable-ascii@2.0.3",
+      "type": "library",
+      "name": "voku/portable-ascii",
+      "version": "2.0.3",
+      "purl": "pkg:composer/voku/portable-ascii@2.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "voku/portable-ascii@2.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/tijsverkoyen/css-to-inline-styles@2.2.7",
+      "type": "library",
+      "name": "tijsverkoyen/css-to-inline-styles",
+      "version": "2.2.7",
+      "purl": "pkg:composer/tijsverkoyen/css-to-inline-styles@2.2.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "tijsverkoyen/css-to-inline-styles@2.2.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/predis/predis@2.3.0",
+      "type": "library",
+      "name": "predis/predis",
+      "version": "2.3.0",
+      "purl": "pkg:composer/predis/predis@2.3.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "predis/predis@2.3.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/spatie/laravel-permission@6.10.1",
+      "type": "library",
+      "name": "spatie/laravel-permission",
+      "version": "6.10.1",
+      "purl": "pkg:composer/spatie/laravel-permission@6.10.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "spatie/laravel-permission@6.10.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/console@7.2.0",
+      "type": "library",
+      "name": "symfony/console",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/console@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/console@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-foundation@7.2.0",
+      "type": "library",
+      "name": "symfony/http-foundation",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/http-foundation@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-foundation@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-kernel@7.2.0",
+      "type": "library",
+      "name": "symfony/http-kernel",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/http-kernel@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-kernel@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/mime@7.2.0",
+      "type": "library",
+      "name": "symfony/mime",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/mime@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/mime@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/routing@7.2.0",
+      "type": "library",
+      "name": "symfony/routing",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/routing@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/routing@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/process@7.2.0",
+      "type": "library",
+      "name": "symfony/process",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/process@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/process@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/finder@7.2.0",
+      "type": "library",
+      "name": "symfony/finder",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/finder@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/finder@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/error-handler@7.2.0",
+      "type": "library",
+      "name": "symfony/error-handler",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/error-handler@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/error-handler@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/event-dispatcher@7.2.0",
+      "type": "library",
+      "name": "symfony/event-dispatcher",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/event-dispatcher@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/event-dispatcher@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/string@7.2.0",
+      "type": "library",
+      "name": "symfony/string",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/string@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/string@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/translation@7.2.0",
+      "type": "library",
+      "name": "symfony/translation",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/translation@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/translation@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/uid@7.2.0",
+      "type": "library",
+      "name": "symfony/uid",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/uid@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/uid@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-mbstring@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-mbstring",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-mbstring@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-mbstring@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-ctype@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-ctype",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-ctype@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-ctype@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-php80@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-php80",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-php80@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-php80@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-php83@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-php83",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-php83@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-php83@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-intl-idn@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-intl-idn",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-intl-idn@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-idn@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-intl-normalizer@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-intl-normalizer",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-normalizer@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/dragonmantank/cron-expression@3.4.0",
+      "type": "library",
+      "name": "dragonmantank/cron-expression",
+      "version": "3.4.0",
+      "purl": "pkg:composer/dragonmantank/cron-expression@3.4.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "dragonmantank/cron-expression@3.4.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/uri-template@1.0.3",
+      "type": "library",
+      "name": "guzzlehttp/uri-template",
+      "version": "1.0.3",
+      "purl": "pkg:composer/guzzlehttp/uri-template@1.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/uri-template@1.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/uri@7.5.1",
+      "type": "library",
+      "name": "league/uri",
+      "version": "7.5.1",
+      "purl": "pkg:composer/league/uri@7.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/uri@7.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/uri-interfaces@7.5.0",
+      "type": "library",
+      "name": "league/uri-interfaces",
+      "version": "7.5.0",
+      "purl": "pkg:composer/league/uri-interfaces@7.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/uri-interfaces@7.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/flysystem-local@3.29.0",
+      "type": "library",
+      "name": "league/flysystem-local",
+      "version": "3.29.0",
+      "purl": "pkg:composer/league/flysystem-local@3.29.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem-local@3.29.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/simple-cache@3.0.0",
+      "type": "library",
+      "name": "psr/simple-cache",
+      "version": "3.0.0",
+      "purl": "pkg:composer/psr/simple-cache@3.0.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/simple-cache@3.0.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/config@1.2.0",
+      "type": "library",
+      "name": "league/config",
+      "version": "1.2.0",
+      "purl": "pkg:composer/league/config@1.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/config@1.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/event-dispatcher@1.0.0",
+      "type": "library",
+      "name": "psr/event-dispatcher",
+      "version": "1.0.0",
+      "purl": "pkg:composer/psr/event-dispatcher@1.0.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/event-dispatcher@1.0.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/http-client@1.0.3",
+      "type": "library",
+      "name": "psr/http-client",
+      "version": "1.0.3",
+      "purl": "pkg:composer/psr/http-client@1.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/http-client@1.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/http-message@2.0",
+      "type": "library",
+      "name": "psr/http-message",
+      "version": "2.0",
+      "purl": "pkg:composer/psr/http-message@2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/http-message@2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/http-factory@1.1.0",
+      "type": "library",
+      "name": "psr/http-factory",
+      "version": "1.1.0",
+      "purl": "pkg:composer/psr/http-factory@1.1.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/http-factory@1.1.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/ralouphie/getallheaders@3.0.3",
+      "type": "library",
+      "name": "ralouphie/getallheaders",
+      "version": "3.0.3",
+      "purl": "pkg:composer/ralouphie/getallheaders@3.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ralouphie/getallheaders@3.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/deprecation-contracts@3.5.1",
+      "type": "library",
+      "name": "symfony/deprecation-contracts",
+      "version": "3.5.1",
+      "purl": "pkg:composer/symfony/deprecation-contracts@3.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/deprecation-contracts@3.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/polyfill-php81@1.31.0",
+      "type": "library",
+      "name": "symfony/polyfill-php81",
+      "version": "1.31.0",
+      "purl": "pkg:composer/symfony/polyfill-php81@1.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-php81@1.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/service-contracts@3.5.1",
+      "type": "library",
+      "name": "symfony/service-contracts",
+      "version": "3.5.1",
+      "purl": "pkg:composer/symfony/service-contracts@3.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/service-contracts@3.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/event-dispatcher-contracts@3.5.1",
+      "type": "library",
+      "name": "symfony/event-dispatcher-contracts",
+      "version": "3.5.1",
+      "purl": "pkg:composer/symfony/event-dispatcher-contracts@3.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/event-dispatcher-contracts@3.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/translation-contracts@3.5.1",
+      "type": "library",
+      "name": "symfony/translation-contracts",
+      "version": "3.5.1",
+      "purl": "pkg:composer/symfony/translation-contracts@3.5.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/translation-contracts@3.5.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/mailer@7.2.0",
+      "type": "library",
+      "name": "symfony/mailer",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/mailer@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/mailer@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/var-dumper@7.2.0",
+      "type": "library",
+      "name": "symfony/var-dumper",
+      "version": "7.2.0",
+      "purl": "pkg:composer/symfony/var-dumper@7.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/var-dumper@7.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/drupal/core@9.5.0",
+      "type": "library",
+      "name": "drupal/core",
+      "version": "9.5.0",
+      "purl": "pkg:composer/drupal/core@9.5.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "drupal/core@9.5.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/doctrine/annotations@1.13.3",
+      "type": "library",
+      "name": "doctrine/annotations",
+      "version": "1.13.3",
+      "purl": "pkg:composer/doctrine/annotations@1.13.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "doctrine/annotations@1.13.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/doctrine/lexer@1.2.3",
+      "type": "library",
+      "name": "doctrine/lexer",
+      "version": "1.2.3",
+      "purl": "pkg:composer/doctrine/lexer@1.2.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "doctrine/lexer@1.2.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/egulias/email-validator@3.2.1",
+      "type": "library",
+      "name": "egulias/email-validator",
+      "version": "3.2.1",
+      "purl": "pkg:composer/egulias/email-validator@3.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "egulias/email-validator@3.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/guzzle@6.5.8",
+      "type": "library",
+      "name": "guzzlehttp/guzzle",
+      "version": "6.5.8",
+      "purl": "pkg:composer/guzzlehttp/guzzle@6.5.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/guzzle@6.5.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/promises@1.5.2",
+      "type": "library",
+      "name": "guzzlehttp/promises",
+      "version": "1.5.2",
+      "purl": "pkg:composer/guzzlehttp/promises@1.5.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/promises@1.5.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/psr7@1.9.0",
+      "type": "library",
+      "name": "guzzlehttp/psr7",
+      "version": "1.9.0",
+      "purl": "pkg:composer/guzzlehttp/psr7@1.9.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/psr7@1.9.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laminas/laminas-diactoros@2.14.0",
+      "type": "library",
+      "name": "laminas/laminas-diactoros",
+      "version": "2.14.0",
+      "purl": "pkg:composer/laminas/laminas-diactoros@2.14.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laminas/laminas-diactoros@2.14.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/pear/archive_tar@1.4.14",
+      "type": "library",
+      "name": "pear/archive_tar",
+      "version": "1.4.14",
+      "purl": "pkg:composer/pear/archive_tar@1.4.14",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "pear/archive_tar@1.4.14"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/log@1.1.4",
+      "type": "library",
+      "name": "psr/log",
+      "version": "1.1.4",
+      "purl": "pkg:composer/psr/log@1.1.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/log@1.1.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/console@4.4.49",
+      "type": "library",
+      "name": "symfony/console",
+      "version": "4.4.49",
+      "purl": "pkg:composer/symfony/console@4.4.49",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/console@4.4.49"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/dependency-injection@4.4.49",
+      "type": "library",
+      "name": "symfony/dependency-injection",
+      "version": "4.4.49",
+      "purl": "pkg:composer/symfony/dependency-injection@4.4.49",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/dependency-injection@4.4.49"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/error-handler@4.4.44",
+      "type": "library",
+      "name": "symfony/error-handler",
+      "version": "4.4.44",
+      "purl": "pkg:composer/symfony/error-handler@4.4.44",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/error-handler@4.4.44"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/event-dispatcher@4.4.44",
+      "type": "library",
+      "name": "symfony/event-dispatcher",
+      "version": "4.4.44",
+      "purl": "pkg:composer/symfony/event-dispatcher@4.4.44",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/event-dispatcher@4.4.44"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-foundation@4.4.49",
+      "type": "library",
+      "name": "symfony/http-foundation",
+      "version": "4.4.49",
+      "purl": "pkg:composer/symfony/http-foundation@4.4.49",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-foundation@4.4.49"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-kernel@4.4.49",
+      "type": "library",
+      "name": "symfony/http-kernel",
+      "version": "4.4.49",
+      "purl": "pkg:composer/symfony/http-kernel@4.4.49",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-kernel@4.4.49"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/mime@5.4.13",
+      "type": "library",
+      "name": "symfony/mime",
+      "version": "5.4.13",
+      "purl": "pkg:composer/symfony/mime@5.4.13",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/mime@5.4.13"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/process@4.4.44",
+      "type": "library",
+      "name": "symfony/process",
+      "version": "4.4.44",
+      "purl": "pkg:composer/symfony/process@4.4.44",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/process@4.4.44"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/routing@4.4.44",
+      "type": "library",
+      "name": "symfony/routing",
+      "version": "4.4.44",
+      "purl": "pkg:composer/symfony/routing@4.4.44",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/routing@4.4.44"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/serializer@4.4.47",
+      "type": "library",
+      "name": "symfony/serializer",
+      "version": "4.4.47",
+      "purl": "pkg:composer/symfony/serializer@4.4.47",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/serializer@4.4.47"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/translation@4.4.47",
+      "type": "library",
+      "name": "symfony/translation",
+      "version": "4.4.47",
+      "purl": "pkg:composer/symfony/translation@4.4.47",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/translation@4.4.47"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/validator@4.4.48",
+      "type": "library",
+      "name": "symfony/validator",
+      "version": "4.4.48",
+      "purl": "pkg:composer/symfony/validator@4.4.48",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/validator@4.4.48"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/var-dumper@5.4.14",
+      "type": "library",
+      "name": "symfony/var-dumper",
+      "version": "5.4.14",
+      "purl": "pkg:composer/symfony/var-dumper@5.4.14",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/var-dumper@5.4.14"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/yaml@4.4.45",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "4.4.45",
+      "purl": "pkg:composer/symfony/yaml@4.4.45",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@4.4.45"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/twig/twig@2.15.3",
+      "type": "library",
+      "name": "twig/twig",
+      "version": "2.15.3",
+      "purl": "pkg:composer/twig/twig@2.15.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "twig/twig@2.15.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/typo3/phar-stream-wrapper@3.1.7",
+      "type": "library",
+      "name": "typo3/phar-stream-wrapper",
+      "version": "3.1.7",
+      "purl": "pkg:composer/typo3/phar-stream-wrapper@3.1.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "typo3/phar-stream-wrapper@3.1.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/laravel/framework@5.5.40",
+      "type": "library",
+      "name": "laravel/framework",
+      "version": "5.5.40",
+      "purl": "pkg:composer/laravel/framework@5.5.40",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "laravel/framework@5.5.40"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-foundation@3.4.20",
+      "type": "library",
+      "name": "symfony/http-foundation",
+      "version": "3.4.20",
+      "purl": "pkg:composer/symfony/http-foundation@3.4.20",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-foundation@3.4.20"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/http-kernel@3.4.20",
+      "type": "library",
+      "name": "symfony/http-kernel",
+      "version": "3.4.20",
+      "purl": "pkg:composer/symfony/http-kernel@3.4.20",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/http-kernel@3.4.20"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/routing@3.4.20",
+      "type": "library",
+      "name": "symfony/routing",
+      "version": "3.4.20",
+      "purl": "pkg:composer/symfony/routing@3.4.20",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/routing@3.4.20"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/process@3.4.20",
+      "type": "library",
+      "name": "symfony/process",
+      "version": "3.4.20",
+      "purl": "pkg:composer/symfony/process@3.4.20",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/process@3.4.20"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/console@3.4.20",
+      "type": "library",
+      "name": "symfony/console",
+      "version": "3.4.20",
+      "purl": "pkg:composer/symfony/console@3.4.20",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/console@3.4.20"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/debug@3.4.20",
+      "type": "library",
+      "name": "symfony/debug",
+      "version": "3.4.20",
+      "purl": "pkg:composer/symfony/debug@3.4.20",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/debug@3.4.20"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/nesbot/carbon@1.39.1",
+      "type": "library",
+      "name": "nesbot/carbon",
+      "version": "1.39.1",
+      "purl": "pkg:composer/nesbot/carbon@1.39.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nesbot/carbon@1.39.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/swiftmailer/swiftmailer@6.1.3",
+      "type": "library",
+      "name": "swiftmailer/swiftmailer",
+      "version": "6.1.3",
+      "purl": "pkg:composer/swiftmailer/swiftmailer@6.1.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "swiftmailer/swiftmailer@6.1.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/monolog/monolog@1.24.0",
+      "type": "library",
+      "name": "monolog/monolog",
+      "version": "1.24.0",
+      "purl": "pkg:composer/monolog/monolog@1.24.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "monolog/monolog@1.24.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/guzzle@6.3.3",
+      "type": "library",
+      "name": "guzzlehttp/guzzle",
+      "version": "6.3.3",
+      "purl": "pkg:composer/guzzlehttp/guzzle@6.3.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/guzzle@6.3.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/guzzlehttp/psr7@1.5.2",
+      "type": "library",
+      "name": "guzzlehttp/psr7",
+      "version": "1.5.2",
+      "purl": "pkg:composer/guzzlehttp/psr7@1.5.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "guzzlehttp/psr7@1.5.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/flysystem@1.0.50",
+      "type": "library",
+      "name": "league/flysystem",
+      "version": "1.0.50",
+      "purl": "pkg:composer/league/flysystem@1.0.50",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem@1.0.50"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/erusev/parsedown@1.7.1",
+      "type": "library",
+      "name": "erusev/parsedown",
+      "version": "1.7.1",
+      "purl": "pkg:composer/erusev/parsedown@1.7.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "erusev/parsedown@1.7.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/psr/log@1.1.0",
+      "type": "library",
+      "name": "psr/log",
+      "version": "1.1.0",
+      "purl": "pkg:composer/psr/log@1.1.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/log@1.1.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/phpmailer/phpmailer@5.2.17",
+      "type": "library",
+      "name": "phpmailer/phpmailer",
+      "version": "5.2.17",
+      "purl": "pkg:composer/phpmailer/phpmailer@5.2.17",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "phpmailer/phpmailer@5.2.17"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/vrana/adminer@4.7.8",
+      "type": "library",
+      "name": "vrana/adminer",
+      "version": "4.7.8",
+      "purl": "pkg:composer/vrana/adminer@4.7.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "vrana/adminer@4.7.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/components/jquery@3.4.1",
+      "type": "library",
+      "name": "components/jquery",
+      "version": "3.4.1",
+      "purl": "pkg:composer/components/jquery@3.4.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "components/jquery@3.4.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "ea38e984-86bd-4f52-a658-93f735c5af63",
+      "dependsOn": [
+        "pkg:composer/craftcms/cms@4.13.1",
+        "pkg:composer/laravel/framework@11.36.1",
+        "pkg:composer/laravel/sanctum@4.0.7",
+        "pkg:composer/laravel/tinker@2.10.0",
+        "pkg:composer/livewire/livewire@3.5.18",
+        "pkg:composer/predis/predis@2.3.0",
+        "pkg:composer/spatie/laravel-permission@6.10.1",
+        "pkg:composer/drupal/core@9.5.0",
+        "pkg:composer/laravel/framework@5.5.40",
+        "pkg:composer/phpmailer/phpmailer@5.2.17",
+        "pkg:composer/vrana/adminer@4.7.8",
+        "pkg:composer/components/jquery@3.4.1",
+        "pkg:composer/guzzlehttp/guzzle@6.3.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/craftcms/cms@4.13.1",
+      "dependsOn": [
+        "pkg:composer/commerceguys/addressing@1.4.2",
+        "pkg:composer/composer/composer@2.8.3",
+        "pkg:composer/craftcms/plugin-installer@1.6.0",
+        "pkg:composer/craftcms/server-check@2.1.2",
+        "pkg:composer/creocoder/yii2-nested-sets@0.9.0",
+        "pkg:composer/elvanto/litemoji@4.3.0",
+        "pkg:composer/enshrined/svg-sanitize@0.19.0",
+        "pkg:composer/guzzlehttp/guzzle@7.9.2",
+        "pkg:composer/illuminate/collections@9.52.16",
+        "pkg:composer/mikehaertl/php-shellcommand@1.7.0",
+        "pkg:composer/moneyphp/money@4.5.0",
+        "pkg:composer/monolog/monolog@2.9.3",
+        "pkg:composer/pixelandtonic/imagine@1.3.3.1",
+        "pkg:composer/samdark/yii2-psr-log-target@1.1.3",
+        "pkg:composer/seld/cli-prompt@1.0.4",
+        "pkg:composer/symfony/http-client@6.4.15",
+        "pkg:composer/symfony/var-dumper@6.4.15",
+        "pkg:composer/symfony/yaml@5.4.45",
+        "pkg:composer/theiconic/name-parser@1.2.11",
+        "pkg:composer/twig/twig@3.14.2",
+        "pkg:composer/voku/stringy@6.5.3",
+        "pkg:composer/webonyx/graphql-php@14.11.10",
+        "pkg:composer/yiisoft/yii2@2.0.51",
+        "pkg:composer/yiisoft/yii2-debug@2.1.25",
+        "pkg:composer/yiisoft/yii2-queue@2.3.7",
+        "pkg:composer/yiisoft/yii2-symfonymailer@2.0.4"
+      ]
+    },
+    {
+      "ref": "pkg:composer/yiisoft/yii2@2.0.51",
+      "dependsOn": [
+        "pkg:composer/yiisoft/yii2-composer@2.0.10",
+        "pkg:composer/ezyang/htmlpurifier@4.17.0",
+        "pkg:composer/cebe/markdown@1.2.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/yiisoft/yii2-symfonymailer@2.0.4",
+      "dependsOn": [
+        "pkg:composer/yiisoft/yii2@2.0.51",
+        "pkg:composer/symfony/mailer@6.4.13"
+      ]
+    },
+    {
+      "ref": "pkg:composer/illuminate/collections@9.52.16",
+      "dependsOn": [
+        "pkg:composer/illuminate/contracts@9.52.16",
+        "pkg:composer/illuminate/macroable@9.52.16"
+      ]
+    },
+    {
+      "ref": "pkg:composer/guzzlehttp/guzzle@7.9.2",
+      "dependsOn": [
+        "pkg:composer/guzzlehttp/promises@2.0.4",
+        "pkg:composer/guzzlehttp/psr7@2.7.0",
+        "pkg:composer/psr/http-client@1.0.3",
+        "pkg:composer/symfony/deprecation-contracts@3.5.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/guzzlehttp/psr7@2.7.0",
+      "dependsOn": [
+        "pkg:composer/psr/http-factory@1.1.0",
+        "pkg:composer/psr/http-message@2.0",
+        "pkg:composer/ralouphie/getallheaders@3.0.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/twig/twig@3.14.2",
+      "dependsOn": [
+        "pkg:composer/symfony/deprecation-contracts@3.5.1",
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0",
+        "pkg:composer/symfony/polyfill-ctype@1.31.0",
+        "pkg:composer/symfony/polyfill-php81@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/http-client@6.4.15",
+      "dependsOn": [
+        "pkg:composer/symfony/http-client-contracts@3.5.0",
+        "pkg:composer/symfony/service-contracts@3.5.1",
+        "pkg:composer/psr/log@3.0.2",
+        "pkg:composer/symfony/deprecation-contracts@3.5.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/composer/composer@2.8.3",
+      "dependsOn": [
+        "pkg:composer/composer/semver@3.4.3",
+        "pkg:composer/composer/ca-bundle@1.5.3",
+        "pkg:composer/composer/pcre@3.3.1",
+        "pkg:composer/justinrainbow/json-schema@5.3.0",
+        "pkg:composer/seld/jsonlint@1.11.0",
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/monolog/monolog@2.9.3",
+      "dependsOn": [
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/mailer@6.4.13",
+      "dependsOn": [
+        "pkg:composer/psr/event-dispatcher@1.0.0",
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/laravel/framework@11.36.1",
+      "dependsOn": [
+        "pkg:composer/brick/math@0.12.1",
+        "pkg:composer/doctrine/inflector@2.0.10",
+        "pkg:composer/dragonmantank/cron-expression@3.4.0",
+        "pkg:composer/egulias/email-validator@4.0.2",
+        "pkg:composer/fruitcake/php-cors@1.3.0",
+        "pkg:composer/guzzlehttp/guzzle@7.9.2",
+        "pkg:composer/guzzlehttp/uri-template@1.0.3",
+        "pkg:composer/laravel/prompts@0.3.2",
+        "pkg:composer/laravel/serializable-closure@2.0.0",
+        "pkg:composer/league/commonmark@2.6.0",
+        "pkg:composer/league/flysystem@3.29.1",
+        "pkg:composer/league/flysystem-local@3.29.0",
+        "pkg:composer/league/uri@7.5.1",
+        "pkg:composer/monolog/monolog@3.8.0",
+        "pkg:composer/nesbot/carbon@3.8.2",
+        "pkg:composer/nunomaduro/termwind@2.3.0",
+        "pkg:composer/psr/container@2.0.2",
+        "pkg:composer/psr/log@3.0.2",
+        "pkg:composer/psr/simple-cache@3.0.0",
+        "pkg:composer/ramsey/uuid@4.7.6",
+        "pkg:composer/symfony/console@7.2.0",
+        "pkg:composer/symfony/error-handler@7.2.0",
+        "pkg:composer/symfony/finder@7.2.0",
+        "pkg:composer/symfony/http-foundation@7.2.0",
+        "pkg:composer/symfony/http-kernel@7.2.0",
+        "pkg:composer/symfony/mailer@7.2.0",
+        "pkg:composer/symfony/mime@7.2.0",
+        "pkg:composer/symfony/polyfill-php83@1.31.0",
+        "pkg:composer/symfony/process@7.2.0",
+        "pkg:composer/symfony/routing@7.2.0",
+        "pkg:composer/symfony/uid@7.2.0",
+        "pkg:composer/symfony/var-dumper@7.2.0",
+        "pkg:composer/tijsverkoyen/css-to-inline-styles@2.2.7",
+        "pkg:composer/vlucas/phpdotenv@5.6.1",
+        "pkg:composer/voku/portable-ascii@2.0.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/livewire/livewire@3.5.18",
+      "dependsOn": [
+        "pkg:composer/laravel/framework@11.36.1",
+        "pkg:composer/league/mime-type-detection@1.16.0",
+        "pkg:composer/symfony/console@7.2.0",
+        "pkg:composer/symfony/http-kernel@7.2.0",
+        "pkg:composer/laravel/prompts@0.3.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/laravel/sanctum@4.0.7",
+      "dependsOn": [
+        "pkg:composer/laravel/framework@11.36.1",
+        "pkg:composer/symfony/console@7.2.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/laravel/tinker@2.10.0",
+      "dependsOn": [
+        "pkg:composer/laravel/framework@11.36.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/spatie/laravel-permission@6.10.1",
+      "dependsOn": [
+        "pkg:composer/laravel/framework@11.36.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/league/commonmark@2.6.0",
+      "dependsOn": [
+        "pkg:composer/league/config@1.2.0",
+        "pkg:composer/psr/event-dispatcher@1.0.0",
+        "pkg:composer/symfony/deprecation-contracts@3.5.1",
+        "pkg:composer/symfony/polyfill-php80@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/league/config@1.2.0",
+      "dependsOn": [
+        "pkg:composer/dflydev/dot-access-data@3.0.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/league/flysystem@3.29.1",
+      "dependsOn": [
+        "pkg:composer/league/flysystem-local@3.29.0",
+        "pkg:composer/league/mime-type-detection@1.16.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/league/flysystem-local@3.29.0",
+      "dependsOn": [
+        "pkg:composer/league/flysystem@3.29.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/league/uri@7.5.1",
+      "dependsOn": [
+        "pkg:composer/league/uri-interfaces@7.5.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/vlucas/phpdotenv@5.6.1",
+      "dependsOn": [
+        "pkg:composer/graham-campbell/result-type@1.1.3",
+        "pkg:composer/phpoption/phpoption@1.9.3",
+        "pkg:composer/symfony/polyfill-ctype@1.31.0",
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/graham-campbell/result-type@1.1.3",
+      "dependsOn": [
+        "pkg:composer/phpoption/phpoption@1.9.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/ramsey/uuid@4.7.6",
+      "dependsOn": [
+        "pkg:composer/brick/math@0.12.1",
+        "pkg:composer/ramsey/collection@2.0.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/nesbot/carbon@3.8.2",
+      "dependsOn": [
+        "pkg:composer/symfony/translation@7.2.0",
+        "pkg:composer/symfony/polyfill-php83@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/translation@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/translation-contracts@3.5.1",
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/console@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/string@7.2.0",
+        "pkg:composer/symfony/service-contracts@3.5.1",
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/string@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/polyfill-ctype@1.31.0",
+        "pkg:composer/symfony/polyfill-intl-normalizer@1.31.0",
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/http-foundation@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0",
+        "pkg:composer/symfony/polyfill-php83@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/http-kernel@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/http-foundation@7.2.0",
+        "pkg:composer/symfony/event-dispatcher@7.2.0",
+        "pkg:composer/symfony/error-handler@7.2.0",
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/error-handler@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/var-dumper@7.2.0",
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/event-dispatcher@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/event-dispatcher-contracts@3.5.1"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/mime@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/polyfill-intl-idn@1.31.0",
+        "pkg:composer/symfony/polyfill-mbstring@1.31.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/mailer@7.2.0",
+      "dependsOn": [
+        "pkg:composer/symfony/mime@7.2.0",
+        "pkg:composer/symfony/event-dispatcher@7.2.0",
+        "pkg:composer/egulias/email-validator@4.0.2",
+        "pkg:composer/psr/event-dispatcher@1.0.0",
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/monolog/monolog@3.8.0",
+      "dependsOn": [
+        "pkg:composer/psr/log@3.0.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/drupal/core@9.5.0",
+      "dependsOn": [
+        "pkg:composer/doctrine/annotations@1.13.3",
+        "pkg:composer/doctrine/lexer@1.2.3",
+        "pkg:composer/egulias/email-validator@3.2.1",
+        "pkg:composer/guzzlehttp/guzzle@6.5.8",
+        "pkg:composer/laminas/laminas-diactoros@2.14.0",
+        "pkg:composer/pear/archive_tar@1.4.14",
+        "pkg:composer/psr/log@1.1.4",
+        "pkg:composer/symfony/console@4.4.49",
+        "pkg:composer/symfony/dependency-injection@4.4.49",
+        "pkg:composer/symfony/error-handler@4.4.44",
+        "pkg:composer/symfony/event-dispatcher@4.4.44",
+        "pkg:composer/symfony/http-foundation@4.4.49",
+        "pkg:composer/symfony/http-kernel@4.4.49",
+        "pkg:composer/symfony/mime@5.4.13",
+        "pkg:composer/symfony/process@4.4.44",
+        "pkg:composer/symfony/routing@4.4.44",
+        "pkg:composer/symfony/serializer@4.4.47",
+        "pkg:composer/symfony/translation@4.4.47",
+        "pkg:composer/symfony/validator@4.4.48",
+        "pkg:composer/symfony/var-dumper@5.4.14",
+        "pkg:composer/symfony/yaml@4.4.45",
+        "pkg:composer/twig/twig@2.15.3",
+        "pkg:composer/typo3/phar-stream-wrapper@3.1.7"
+      ]
+    },
+    {
+      "ref": "pkg:composer/guzzlehttp/guzzle@6.5.8",
+      "dependsOn": [
+        "pkg:composer/guzzlehttp/promises@1.5.2",
+        "pkg:composer/guzzlehttp/psr7@1.9.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/egulias/email-validator@3.2.1",
+      "dependsOn": [
+        "pkg:composer/doctrine/lexer@1.2.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/doctrine/annotations@1.13.3",
+      "dependsOn": [
+        "pkg:composer/doctrine/lexer@1.2.3"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/http-kernel@4.4.49",
+      "dependsOn": [
+        "pkg:composer/symfony/http-foundation@4.4.49",
+        "pkg:composer/symfony/error-handler@4.4.44",
+        "pkg:composer/symfony/event-dispatcher@4.4.44",
+        "pkg:composer/psr/log@1.1.4"
+      ]
+    },
+    {
+      "ref": "pkg:composer/laravel/framework@5.5.40",
+      "dependsOn": [
+        "pkg:composer/symfony/console@3.4.20",
+        "pkg:composer/symfony/debug@3.4.20",
+        "pkg:composer/symfony/http-foundation@3.4.20",
+        "pkg:composer/symfony/http-kernel@3.4.20",
+        "pkg:composer/symfony/routing@3.4.20",
+        "pkg:composer/symfony/process@3.4.20",
+        "pkg:composer/nesbot/carbon@1.39.1",
+        "pkg:composer/swiftmailer/swiftmailer@6.1.3",
+        "pkg:composer/monolog/monolog@1.24.0",
+        "pkg:composer/league/flysystem@1.0.50",
+        "pkg:composer/erusev/parsedown@1.7.1",
+        "pkg:composer/psr/log@1.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/monolog/monolog@1.24.0",
+      "dependsOn": [
+        "pkg:composer/psr/log@1.1.0"
+      ]
+    },
+    {
+      "ref": "pkg:composer/guzzlehttp/guzzle@6.3.3",
+      "dependsOn": [
+        "pkg:composer/guzzlehttp/psr7@1.5.2"
+      ]
+    },
+    {
+      "ref": "pkg:composer/symfony/http-kernel@3.4.20",
+      "dependsOn": [
+        "pkg:composer/symfony/http-foundation@3.4.20",
+        "pkg:composer/symfony/debug@3.4.20"
+      ]
+    }
+  ]
+}

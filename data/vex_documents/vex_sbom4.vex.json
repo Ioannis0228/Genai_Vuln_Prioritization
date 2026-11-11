@@ -1,0 +1,26 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-91d2ba4c18934504a9497059dec34995a9f95626727c9ba9ea7a3c35edae9c0e",
+  "author": "Unknown Author",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "name": "CVE-2025-8110"
+      },
+      "products": [
+        {
+          "@id": "pkg:golang/github.com/meridianretail/secops-hub@v2.3.0",
+          "subcomponents": [
+            {
+              "@id": "pkg:golang/gogs.io/gogs@v0.13.3"
+            }
+          ]
+        }
+      ],
+      "status": "under_investigation",
+      "timestamp": "2025-12-27T22:17:25.413577699Z"
+    }
+  ],
+  "timestamp": "2025-12-27T22:17:25Z"
+}
